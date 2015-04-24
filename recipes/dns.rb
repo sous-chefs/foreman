@@ -1,3 +1,8 @@
-node.default!['bind']['zones']['attribute'] = [ node['foreman']['domain'] ]
+node.override['bind']['zones']['attribute'] = [node['foreman']['domain']]
 
-include_recipe "bind"
+hostsfile_entry '127.0.0.1' do
+  hostname node['foreman']['domain']
+  action :append
+end
+
+include_recipe 'bind'

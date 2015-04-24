@@ -1,0 +1,6 @@
+---
+hostname: 127.0.0.1
+username: vagrant
+ssh_key: "/home/prambaud/projects/chef/foreman/.kitchen/kitchen-vagrant/kitchen-foreman-default-package-ubuntu-1404/.vagrant/machines/default/virtualbox/private_key"
+port: '2208'
+last_action: converge
