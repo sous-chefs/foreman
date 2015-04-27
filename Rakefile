@@ -13,13 +13,27 @@
 # limitations under the License.
 #
 
-def bundle_exec(command)
-  sh "bundle exec #{command}"
+def run_command(command)
+  if File.exist?('Gemfile.lock')
+    sh %(bundle exec #{command})
+  else
+    sh %(chef exec #{command})
+  end
 end
 
 task :vendor do
-  sh 'test -d cookbooks && rm -r cookbooks || exit 0'
-  bundle_exec 'berks vendor cookbooks'
+  sh 'rm -rf cookbooks'
+  run_command 'berks vendor cookbooks'
+end
+
+namespace :example do
+  task :destroy do
+    run_command('chef-client -z example/vagrant_linux.rb example/destroy.rb')
+  end
+
+  task :deploy do
+    run_command('chef-client -z example/vagrant_linux.rb example/deploy.rb')
+  end
 end
 
 namespace :test do
@@ -35,19 +49,19 @@ namespace :test do
   end
 
   task :foodcritic do
-    bundle_exec 'foodcritic -f any .'
+    run_command 'foodcritic -f any .'
   end
 
   task :rubocop do
-    bundle_exec :rubocop
+    run_command :rubocop
   end
 
   task :chefspec do
-    bundle_exec 'rspec spec --color --format documentation'
+    run_command 'rspec spec --color --format documentation'
   end
 
   task :kitchen do
-    bundle_exec 'kitchen test'
+    run_command 'kitchen test'
   end
 end
 
