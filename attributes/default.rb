@@ -14,7 +14,6 @@ default['foreman']['user'] = 'foreman'
 default['foreman']['group'] = 'foreman'
 default['foreman']['manage_home'] = true
 default['foreman']['group_users'] = []
-default['foreman']['password'] = nil
 
 default['foreman']['authentication'] = true
 default['foreman']['passenger']['install'] = true
