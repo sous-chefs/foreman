@@ -1,1 +1,1 @@
-default!['set_fqdn'] = "#{node['hostname']}.#{node['foreman']['domain']}"
+default!['set_fqdn'] = node['foreman']['server_name']

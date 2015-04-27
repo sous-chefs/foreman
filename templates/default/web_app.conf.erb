@@ -1,0 +1,63 @@
+<VirtualHost *:<%= @params[:server_port] || node['apache']['listen_ports'].first %>>
+  ServerName <%= @params[:server_name] %>
+  <% if @params[:server_aliases] -%>
+  ServerAlias <%= @params[:server_aliases].join " " %>
+  <% end -%>
+
+  DocumentRoot <%= @params[:docroot] %>
+
+  RailsBaseURI /
+  RailsEnv <%= node['foreman']['environment'] %>
+
+  <Directory <%= @params[:docroot] %>>
+    Options FollowSymLinks
+    AllowOverride None
+  <% if node['apache']['version'] == '2.4' -%>
+    Require all granted
+  <% else -%>
+    Order allow,deny
+    Allow from all
+  <% end -%>
+  </Directory>
+
+  LogLevel info
+
+  <%- if node['apache']['version'] == '2.4' -%>
+  LogLevel info rewrite:trace1
+  <%- else -%>
+  LogLevel info
+  RewriteLog <%= node['apache']['log_dir'] %>/<%= @application_name %>-rewrite.log
+  RewriteLogLevel 0
+  <%- end -%>
+
+  ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-access.log combined
+
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST}   !^<%= @params[:server_name] %> [NC]
+  RewriteCond %{HTTP_HOST}   !^$
+  RewriteRule ^/(.*)$        http://<%= @params[:server_name] %>/$1 [L,R=301]
+
+  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+  RewriteRule ^.*$ /system/maintenance.html [L]
+
+  <% if node['foreman']['passenger']['path'] -%>
+  PassengerAppRoot <%= node['foreman']['passenger']['path'] %>
+  <% end -%>
+  <% if node['foreman']['environment'] -%>
+  PassengerAppEnv <%= node['foreman']['environment'] %>
+  <% end -%>
+  <% if node['foreman']['passenger']['ruby'] -%>
+  PassengerRuby <%= node['foreman']['passenger']['ruby'] %>
+  <% end -%>
+  <% if @node['foreman']['passenger']['min_instances'] -%>
+  PassengerMinInstances <%= @node['foreman']['passenger']['min_instances'] %>
+  <% end -%>
+  <% if node['foreman']['passenger']['start_timeout'] -%>
+  PassengerStartTimeout <%= node['foreman']['passenger']['start_timeout'] %>
+  <% end -%>
+  <% if node['foreman']['passenger']['pre_start'] -%>
+  PassengerPreStart <%= node['foreman']['passenger']['pre_start'] %>
+  <% end -%>
+</VirtualHost>

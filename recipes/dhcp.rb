@@ -7,7 +7,7 @@ dhcp_subnet 'foreman' do
   broadcast '192.168.1.255'
   routers ['192.168.55.1']
   options [
-    "option domain-name \"#{node['foreman']['domain']}\"",
+    "option domain-name \"#{node['foreman']['server_name']}\"",
     'option domain-name-servers 192.168.55.1, 8.8.8.8'
   ]
 end

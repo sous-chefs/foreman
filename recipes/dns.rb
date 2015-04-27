@@ -1,7 +1,7 @@
-node.override['bind']['zones']['attribute'] = [node['foreman']['domain']]
+node.override['bind']['zones']['attribute'] = [node['foreman']['server_name']]
 
 hostsfile_entry '127.0.0.1' do
-  hostname node['foreman']['domain']
+  hostname node['foreman']['server_name']
   action :append
 end
 

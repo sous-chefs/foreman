@@ -9,6 +9,7 @@
 
 include_recipe 'hostname'
 include_recipe 'foreman::install'
-include_recipe 'foreman::tftp'
-include_recipe 'foreman::dns'
-include_recipe 'foreman::dhcp'
+include_recipe 'foreman::config'
+# include_recipe 'foreman::tftp'
+# include_recipe 'foreman::dns'
+# include_recipe 'foreman::dhcp'

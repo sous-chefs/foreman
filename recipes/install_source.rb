@@ -12,6 +12,3 @@ override['foreman']['current_path'] = ::File.join(node['foreman']['path'],
                                                   'current')
 override['foreman']['config_path'] = ::File.join(node['foreman']['path'],
                                                  'shared')
-
-include_recipe 'foreman::config'
-include_recipe 'foreman::server'

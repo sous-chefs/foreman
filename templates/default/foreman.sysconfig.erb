@@ -4,12 +4,8 @@ START=yes
 # the location where foreman is installed
 FOREMAN_HOME=<%= node['foreman']['path'] %>
 
-# the network interface which foreman web server is running at
-#FOREMAN_IFACE=0.0.0.0
-
 # the port which foreman web server is running at
 # note that if the foreman user is not root, it has to be a > 1024
-# For non-root port 80, consider using Apache+Passenger
 #FOREMAN_PORT=3000
 
 # the user which runs the web interface
@@ -18,5 +14,11 @@ FOREMAN_USER=<%= node['foreman']['user'] %>
 # the rails environment in which foreman runs
 FOREMAN_ENV=<%= node['foreman']['environment'] %>
 
-# the rails environment in which foreman runs
-FOREMAN_ENV=<%= node['foreman']['environment'] %>
+# if we're using passenger or not
+# if set to 1, init script will do a railsrestart on 'restart' and will refuse
+# 'start' and 'stop' completely and remind the operator that passenger is in
+# use.
+FOREMAN_USE_PASSENGER=<%= node['foreman']['passenger']['install'] ? '1' : '0' %>
+
+# set to 1 if you're using thin as a server
+#FOREMAN_USE_THIN=0

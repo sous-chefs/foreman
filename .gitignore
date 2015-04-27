@@ -1,15 +1,17 @@
+Gemfile.lock
+bin/*
+.bundle/*
 .vagrant
 .kitchen
+cookbooks
+example/vms
 Berksfile.lock
+nodes
+clients
+.chef/local-mode-cache
 *~
 *#
 .#*
 \#*#
 .*.sw[a-z]
 *.un~
-/cookbooks
-
-# Bundler
-Gemfile.lock
-bin/*
-.bundle/*
