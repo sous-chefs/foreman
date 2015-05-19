@@ -3,6 +3,7 @@ bin/*
 .bundle/*
 .vagrant
 .kitchen
+.project
 cookbooks
 example/vms
 Berksfile.lock
