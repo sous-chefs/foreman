@@ -14,6 +14,6 @@ group :integration do
 end
 
 group :example do
-  gem 'chef-provisioning', '~> 1.0'
+  gem 'chef-provisioning', github: 'chef/chef-provisioning'
   gem 'chef-provisioning-vagrant', '~> 0.8.1'
 end

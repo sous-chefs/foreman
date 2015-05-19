@@ -22,7 +22,7 @@ def run_command(command)
 end
 
 task :vendor do
-  sh 'rm -rf cookbooks'
+  sh 'rm -rf cookbooks; rm -f Berksfile.lock'
   run_command 'berks vendor cookbooks'
 end
 
