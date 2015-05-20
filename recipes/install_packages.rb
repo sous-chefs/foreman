@@ -9,6 +9,7 @@
 
 include_recipe 'foreman::repo' if node['foreman']['use_repo']
 
-%w(foreman foreman-libvirt foreman-proxy).each do |pack|
+package 'foreman'
+node['foreman']['plugins'].each do |pack|
   package pack
 end

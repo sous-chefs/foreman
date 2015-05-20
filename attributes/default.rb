@@ -4,8 +4,14 @@ default['foreman']['path'] = '/usr/share/foreman'
 default['foreman']['current_path'] = default['foreman']['path']
 default['foreman']['version'] = 'stable'
 default['foreman']['install_method'] = 'packages'
-default['foreman']['use_repo'] = true
 default['foreman']['config_path'] = '/etc/foreman'
+
+default['foreman']['use_repo'] = true
+default['foreman']['repo']['uri'] = 'http://deb.theforeman.org/'
+default['foreman']['repo']['components'] = ['stable']
+default['foreman']['repo']['key'] = 'http://deb.theforeman.org/foreman.asc'
+
+default['foreman']['plugins'] = ['foreman-libvirt']
 
 default['foreman']['server_name'] = 'foreman.example'
 default['foreman']['environment'] = 'production'
@@ -68,6 +74,3 @@ when 'debian'
   default['foreman']['passenger']['ruby'] = '/usr/bin/ruby'
   default['foreman']['passenger']['package'] = 'libapache2-mod-passenger'
 end
-
-default['foreman']['syslinux']['version'] = '6.03'
-default['foreman']['syslinux']['url'] = "https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-#{default['foreman']['syslinux']['version']}.tar.gz"

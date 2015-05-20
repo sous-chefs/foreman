@@ -22,11 +22,6 @@ template ::File.join(node['foreman']['config_path'], 'database.yml') do
   variables real_adapter: node['foreman']['db']['real_adapter']
 end
 
-template ::File.join(node['foreman-proxy']['config_path'], 'settings.yml') do
-  group node['foreman']['group']
-  source 'settings_foreman-proxy.yml.erb'
-end
-
 template node['foreman']['config']['init'] do
   source node['foreman']['config']['init_tpl']
 end

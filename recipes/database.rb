@@ -90,5 +90,6 @@ if db['manage']
   foreman_rake 'db:seed' do
     environment seed_env
   end
+
   foreman_rake 'apipie:cache'
 end
