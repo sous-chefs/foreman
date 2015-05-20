@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'chef', '12.2.1' #TODO wait Chef zero to use 12.3
+gem 'chef', '~>12'
 
 group :integration do
   gem 'berkshelf'
