@@ -6,8 +6,6 @@ default['foreman-proxy']['register'] = true
 default['foreman-proxy']['config_path'] = '/etc/foreman-proxy'
 default['foreman-proxy']['tftproot'] = node['tftp']['directory']
 default['foreman-proxy']['daemon'] = true
-default['foreman-proxy']['http_port'] = 8443
-default['foreman-proxy']['https_port'] = 8443
 default['foreman-proxy']['tftp'] = true
 
 default['foreman-proxy']['dns'] = true
@@ -25,6 +23,7 @@ default['foreman-proxy']['log_level'] = 'ERROR'
 
 default['foreman-proxy']['http'] = false
 default['foreman-proxy']['http_port'] = '8000'
+default['foreman-proxy']['https_port'] = '8443'
 
 default['foreman-proxy']['puppet'] = false
 default['foreman-proxy']['puppet_home'] = '/var/lib/puppet'
