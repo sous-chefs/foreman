@@ -10,6 +10,14 @@ default['foreman']['config_path'] = '/etc/foreman'
 default['foreman']['server_name'] = 'foreman.example'
 default['foreman']['environment'] = 'production'
 
+default['foreman']['admin']['username'] = 'admin'
+default['foreman']['admin']['password'] = 'changeme'
+default['foreman']['admin']['first_name'] = nil
+default['foreman']['admin']['last_name'] = nil
+default['foreman']['admin']['email'] = nil
+default['foreman']['initial_organization'] = nil
+default['foreman']['initial_location'] = nil
+
 default['foreman']['user'] = 'foreman'
 default['foreman']['group'] = 'foreman'
 default['foreman']['manage_home'] = true
@@ -21,7 +29,17 @@ default['foreman']['db']['manage'] = true
 default['foreman']['db']['host'] = nil
 default['foreman']['db']['port'] = nil
 default['foreman']['db']['adapter'] = 'postgresql'
-default['foreman']['db']['database'] = nil
+default['foreman']['db']['real_adapter'] = case node['foreman']['db']['adapter']
+                                           when 'sqlite' then
+                                             'sqlite3'
+                                           when 'mysql' then
+                                             'mysql2'
+                                           else
+                                             node['foreman']['db']['adapter']
+                                           end
+
+default['foreman']['db']['ssl_mode'] = nil
+default['foreman']['db']['database'] = 'foreman'
 default['foreman']['db']['username'] = 'foreman'
 default['foreman']['db']['password'] = 'foreman'
 
@@ -50,7 +68,6 @@ when 'debian'
   default['foreman']['passenger']['ruby'] = '/usr/bin/ruby'
   default['foreman']['passenger']['package'] = 'libapache2-mod-passenger'
 end
-
 
 default['foreman']['syslinux']['version'] = '6.03'
 default['foreman']['syslinux']['url'] = "https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-#{default['foreman']['syslinux']['version']}.tar.gz"

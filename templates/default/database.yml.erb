@@ -14,8 +14,32 @@ test:
   pool: 5
   timeout: 5000
 
+<%
+  type = node['foreman']['db']['adapter']
+  database = (type == 'sqlite') ? 'db/production.sqlite3' : node['foreman']['db']['database']
+-%>
+
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
-  pool: 5
+  adapter: <%= @real_adapter %>
+<% unless (host = node['foreman']['db']['host'].nil?) -%>
+  host: <%= host %>
+<% end -%>
+<% unless (port = node['foreman']['db']['port']).nil? -%>
+  port: <%= port %>
+<% end -%>
+<% unless (ssl_mode = node['foreman']['db']['ssl_mode']).nil? -%>
+  ssl_mode: <%= ssl_mode %>
+<% end -%>
+  database: <%= database %>
+<% unless (username = node['foreman']['db']['username']).nil? -%>
+  username: <%= username %>
+<% end -%>
+<% unless (password = node['foreman']['db']['password']).nil? -%>
+  password: "<%= password %>"
+<% end -%>
+<% unless (pool = node['foreman']['db']['pool']).nil? -%>
+  pool: <%= pool %>
+<% end -%>
+<% if type == 'sqlite' -%>
   timeout: 5000
+<% end -%>

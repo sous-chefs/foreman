@@ -3,7 +3,7 @@ group node['foreman']['group'] do
 end
 
 user node['foreman']['user'] do
-  shell "/bin/bash"
+  shell '/bin/bash'
   group node['foreman']['group']
   supports manage_home: node['foreman']['manage_home']
   home node['foreman']['user_home']
@@ -19,6 +19,7 @@ end
 template ::File.join(node['foreman']['config_path'], 'database.yml') do
   group node['foreman']['group']
   source 'database.yml.erb'
+  variables real_adapter: node['foreman']['db']['real_adapter']
 end
 
 template ::File.join(node['foreman-proxy']['config_path'], 'settings.yml') do
