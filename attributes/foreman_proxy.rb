@@ -6,7 +6,8 @@ default['foreman-proxy']['register'] = true
 default['foreman-proxy']['config_path'] = '/etc/foreman-proxy'
 default['foreman-proxy']['tftproot'] = node['tftp']['directory']
 default['foreman-proxy']['daemon'] = true
-default['foreman-proxy']['port'] = 8443
+default['foreman-proxy']['http_port'] = 8443
+default['foreman-proxy']['https_port'] = 8443
 default['foreman-proxy']['tftp'] = true
 
 default['foreman-proxy']['dns'] = true
@@ -40,6 +41,11 @@ default['foreman-proxy']['ssl_port'] = '8443'
 default['foreman-proxy']['ssl_ca'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/ca.pem"
 default['foreman-proxy']['ssl_cert'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/${::fqdn}.pem"
 default['foreman-proxy']['ssl_key'] = "#{node['foreman-proxy']['puppet_home']}/ssl/private_keys/${::fqdn}.pem"
+
+default['foreman-proxy']['foreman_base_url'] = "https://#{node['foreman']['server_name']}"
+default['foreman-proxy']['foreman_ssl_ca'] = nil
+default['foreman-proxy']['foreman_ssl_cert'] = nil
+default['foreman-proxy']['foreman_ssl_key'] = nil
 
 default['foreman-proxy']['trusted_hosts'] = [node['fqdn']]
 default['foreman-proxy']['api_package'] = case node['platform_family']
