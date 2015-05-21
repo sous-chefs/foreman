@@ -38,6 +38,11 @@ if node['foreman']['passenger']['install']
   end
 
   # @TODO Foreman SSL
+  # if node['foreman']['ssl']
+  #   include_recipe 'apache2::mod_ssl'
+  #   node.set['apache']['listen_ports'] = ['443']
+  # end
+
   web_app 'foreman' do
     server_name node['foreman']['server_name']
     server_aliases ['foreman']

@@ -2,16 +2,20 @@
 # You must restart the Rack server after changing either of these values
 # because they are cached at startup.
 #
-:unattended: true
-:login: true
-:require_ssl: false
-:locations_enabled: false
-:organizations_enabled: false
-#JSONP or "JSON with padding" is a complement to the base JSON data format.
-#It provides a method to request JSON data from a server in a different domain.
-:support_jsonp: false
-#:puppetconfdir: /etc/puppet
-#:puppetvardir: /var/lib/puppet
+:unattended: <%= node['foreman']['unattended'] %>
+:puppetconfdir: /etc/puppet/puppet.conf
+:login: <%= node['foreman']['authentication'] %>
+:require_ssl: <%= node['foreman']['ssl'] %>
+:locations_enabled: <%= node['foreman']['locations_enabled'] %>
+:organizations_enabled: <%= node['foreman']['organizations_enabled'] %>
 
-# Mark translated strings with X characters (for developers)
-:mark_translated: false
+# The following values are used for providing default settings during db migrate
+:oauth_active: <%= node['foreman']['oauth_active'] %>
+:oauth_map_users: <%= node['foreman']['oauth_map_users'] %>
+:oauth_consumer_key: <%= node['foreman']['oauth_consumer_key'] %>
+:oauth_consumer_secret: <%= node['foreman']['oauth_consumer_secret'] %>
+
+# Websockets
+:websockets_encrypt: <%= node['foreman']['websockets_encrypt'] ? 'on' : 'off' %>
+:websockets_ssl_key: <%= node['foreman']['websockets_ssl_key'] %>
+:websockets_ssl_cert: <%= node['foreman']['websockets_ssl_cert'] %>

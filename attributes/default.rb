@@ -74,3 +74,18 @@ when 'debian'
   default['foreman']['passenger']['ruby'] = '/usr/bin/ruby'
   default['foreman']['passenger']['package'] = 'libapache2-mod-passenger'
 end
+
+
+default['foreman']['ssl'] = false
+default['foreman']['unattended'] = true
+default['foreman']['authentication'] = true
+default['foreman']['locations_enabled'] = false
+default['foreman']['organizations_enabled'] = false
+default['foreman']['oauth_active'] = true
+default['foreman']['oauth_map_users'] = false
+default['foreman']['oauth_consumer_key'] = rand(32**length).to_s(32)
+default['foreman']['oauth_consumer_secret'] = rand(32**length).to_s(32)
+
+default['foreman']['websockets_encrypt'] = true
+default['foreman']['websockets_ssl_key'] = "/ssl/certs/#{node['fqdn'].downcase}.pem"
+default['foreman']['websockets_ssl_cert'] = "//ssl/private_keys/#{node['fqdn'].downcase}.pem"

@@ -2,22 +2,18 @@
 
 default['dhcp']['parameters']['omapi-port'] = '7911'
 
+default['foreman-proxy']['version'] = 'stable'
 default['foreman-proxy']['register'] = true
+default['foreman-proxy']['registered_name'] = node['fqdn']
+default['foreman-proxy']['registered_proxy_url'] = "https://#{node['fqdn']}:#{node['foreman-proxy']['ssl_port']}"
 default['foreman-proxy']['config_path'] = '/etc/foreman-proxy'
 default['foreman-proxy']['tftproot'] = node['tftp']['directory']
 default['foreman-proxy']['daemon'] = true
 default['foreman-proxy']['tftp'] = true
 
-default['foreman-proxy']['dns'] = true
-default['foreman-proxy']['dhcp'] = true
-default['foreman-proxy']['dhcp_vendor'] = 'isc'
-default['foreman-proxy']['dhcp_config'] = node['dhcp']['config_file']
-default['foreman-proxy']['dhcp_leases'] = '/var/lib/dhcp3/dhcpd.leases'
-
-default['foreman-proxy']['puppetca'] = false
-
 default['foreman-proxy']['dir'] = '/usr/share/foreman-proxy'
 default['foreman-proxy']['user'] = 'foreman-proxy'
+default['foreman-proxy']['group'] = 'foreman-proxy'
 default['foreman-proxy']['log_path'] = '/var/log/foreman-proxy/proxy.log'
 default['foreman-proxy']['log_level'] = 'ERROR'
 
@@ -25,23 +21,13 @@ default['foreman-proxy']['http'] = false
 default['foreman-proxy']['http_port'] = '8000'
 default['foreman-proxy']['https_port'] = '8443'
 
-default['foreman-proxy']['puppet'] = false
-default['foreman-proxy']['puppet_home'] = '/var/lib/puppet'
-default['foreman-proxy']['puppet_url'] = "https://${::fqdn}:8140"
-default['foreman-proxy']['puppet_use_environment_api'] = nil
-default['foreman-proxy']['puppet_ca'] = true
-default['foreman-proxy']['puppet_ca_listen_on'] = 'https'
-default['foreman-proxy']['puppet_autosign_location'] = '/etc/puppet/autosign.conf'
-default['foreman-proxy']['puppet_group'] = 'puppet'
-default['foreman-proxy']['puppet_ssldir'] = "#{node['foreman-proxy']['puppet_home']}/ssl"
-
-default['foreman-proxy']['ssl'] = true
+default['foreman-proxy']['ssl'] = false
 default['foreman-proxy']['ssl_port'] = '8443'
 default['foreman-proxy']['ssl_ca'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/ca.pem"
-default['foreman-proxy']['ssl_cert'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/${::fqdn}.pem"
-default['foreman-proxy']['ssl_key'] = "#{node['foreman-proxy']['puppet_home']}/ssl/private_keys/${::fqdn}.pem"
+default['foreman-proxy']['ssl_cert'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/#{node['fqdn']}.pem"
+default['foreman-proxy']['ssl_key'] = "#{node['foreman-proxy']['puppet_home']}/ssl/private_keys/#{node['fqdn']}.pem"
 
-default['foreman-proxy']['foreman_base_url'] = "https://#{node['foreman']['server_name']}"
+default['foreman-proxy']['foreman_base_url'] = "http#{'s' if node['foreman']['ssl']}://#{node['foreman']['server_name']}"
 default['foreman-proxy']['foreman_ssl_ca'] = nil
 default['foreman-proxy']['foreman_ssl_cert'] = nil
 default['foreman-proxy']['foreman_ssl_key'] = nil
@@ -53,14 +39,47 @@ default['foreman-proxy']['api_package'] = case node['platform_family']
                                           else
                                             'rubygem-apipie-bindings'
                                           end
+# DNS options
+default['foreman-proxy']['dns'] = false
+default['foreman-proxy']['dns_listen_on'] = 'https'
+default['foreman-proxy']['dns_managed'] = true
+default['foreman-proxy']['dns_provider'] = 'nsupdate'
+default['foreman-proxy']['dns_interface'] = 'eth0'
+default['foreman-proxy']['dns_server'] = '127.0.0.1'
+default['foreman-proxy']['dns_ttl'] = '86400'
+default['foreman-proxy']['dns_tsig_keytab'] = '/etc/foreman-proxy/dns.keytab'
+default['foreman-proxy']['dns_tsig_principal'] = "foremanproxy/#{node['fqdn']}@#{node['foreman-proxy']['dns_realm']}"
+case node['platform_family']
+when 'debian'
+  default['foreman-proxy']['dns_keyfile'] = '/etc/bind/rndc.key'
+  default['foreman-proxy']['dns_nsupdate'] = 'dnsutils'
+else
+  default['foreman-proxy']['dns_keyfile'] = '/etc/rndc.key'
+  default['foreman-proxy']['dns_nsupdate'] = 'bind-utils'
+end
+default['foreman-proxy']['dns_forwarders'] = []
 
+# DHCP options
+default['foreman-proxy']['dhcp'] = true
+default['foreman-proxy']['dhcp_key_name'] = nil
+default['foreman-proxy']['dhcp_key_secret'] = nil
+default['foreman-proxy']['dhcp_vendor'] = 'isc'
+default['foreman-proxy']['dhcp_config'] = node['dhcp']['config_file']
+default['foreman-proxy']['dhcp_leases'] = '/var/lib/dhcp3/dhcpd.leases'
+
+# virsh options
+default['foreman-proxy']['virsh_network'] = 'default'
+
+# BMC options
 default['foreman-proxy']['bmc'] = false
 default['foreman-proxy']['bmc_listen_on'] = 'https'
 default['foreman-proxy']['bmc_default_provider'] = 'ipmitool'
 
+# Syslinuyx options
 default['foreman-proxy']['syslinux']['version'] = '6.03'
 default['foreman-proxy']['syslinux']['url'] = "https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-#{default['foreman-proxy']['syslinux']['version']}.tar.gz"
 
+# TFTP options
 default['foreman-proxy']['tftp'] = true
 default['foreman-proxy']['tftp_listen_on'] = 'https'
 default['foreman-proxy']['tftp_syslinux_root'] = nil
@@ -90,3 +109,36 @@ end
 default['foreman-proxy']['tftp_root'] = node['tftp']['directory']
 default['foreman-proxy']['tftp_dirs'] = ['pxelinux.cfg', 'boot']
 default['foreman-proxy']['tftp_servername'] = nil
+
+# Puppet options
+default['foreman-proxy']['puppetrun'] = false
+default['foreman-proxy']['puppetrun_listen_on'] = 'https'
+
+default['foreman-proxy']['puppetca'] = false
+default['foreman-proxy']['puppetca_listen_on'] = 'https'
+default['foreman-proxy']['puppet'] = false
+default['foreman-proxy']['puppet_home'] = '/var/lib/puppet'
+default['foreman-proxy']['puppet_url'] = "https://#{node['fqdn']}:8140"
+default['foreman-proxy']['puppet_use_environment_api'] = nil
+default['foreman-proxy']['puppet_autosign_location'] = '/etc/puppet/autosign.conf'
+default['foreman-proxy']['puppet_group'] = 'puppet'
+default['foreman-proxy']['puppet_ssldir'] = "#{node['foreman-proxy']['puppet_home']}/ssl"
+
+default['foreman-proxy']['puppetssh_sudo'] = false
+default['foreman-proxy']['puppetssh_command'] = '/usr/bin/puppet agent --onetime --no-usecacheonfailure'
+default['foreman-proxy']['puppetssh_user'] = 'root'
+default['foreman-proxy']['puppetssh_keyfile'] = '/etc/foreman-proxy/id_rsa'
+default['foreman-proxy']['puppetssh_wait'] = false
+
+# Realm management options
+default['foreman-proxy']['realm'] = false
+default['foreman-proxy']['real_listen_on'] = 'https'
+default['foreman-proxy']['real_provider'] = 'freeipa'
+default['foreman-proxy']['real_keytab'] = '/etc/foreman-proxy/freeipa.keytab'
+default['foreman-proxy']['real_principal'] = 'realm-proxy@EXAMPLE.COM'
+default['foreman-proxy']['freeipa_remove_dns'] = true
+
+# Oauth options
+default['foreman-proxy']['oauth_effective_user'] = 'admin'
+default['foreman-proxy']['oauth_consumer_key'] = rand(32**length).to_s(32)
+default['foreman-proxy']['oauth_consumer_secret'] = rand(32**length).to_s(32)
