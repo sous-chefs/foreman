@@ -6,6 +6,7 @@ node['foreman-proxy']['tftp_dirs'].each do |dir|
   end
 end
 
+# rubocop:disable Metrics/LineLength
 ["syslinux-#{node['foreman-proxy']['syslinux']['version']}/bios/core/pxelinux.0",
  "syslinux-#{node['foreman-proxy']['syslinux']['version']}/bios/com32/menu/menu.c32",
  "syslinux-#{node['foreman-proxy']['syslinux']['version']}/bios/com32/chain/chain.c32"

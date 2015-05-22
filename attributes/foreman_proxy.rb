@@ -1,11 +1,12 @@
 # rubocop:disable Metrics/LineLength
+class ::Chef::Node::Attribute
+  include ::Foreman
+end
 
 default['dhcp']['parameters']['omapi-port'] = '7911'
 
 default['foreman-proxy']['version'] = 'stable'
 default['foreman-proxy']['register'] = true
-default['foreman-proxy']['registered_name'] = node['fqdn']
-default['foreman-proxy']['registered_proxy_url'] = "https://#{node['fqdn']}:#{node['foreman-proxy']['ssl_port']}"
 default['foreman-proxy']['config_path'] = '/etc/foreman-proxy'
 default['foreman-proxy']['tftproot'] = node['tftp']['directory']
 default['foreman-proxy']['daemon'] = true
@@ -27,6 +28,9 @@ default['foreman-proxy']['ssl_ca'] = "#{node['foreman-proxy']['puppet_home']}/ss
 default['foreman-proxy']['ssl_cert'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/#{node['fqdn']}.pem"
 default['foreman-proxy']['ssl_key'] = "#{node['foreman-proxy']['puppet_home']}/ssl/private_keys/#{node['fqdn']}.pem"
 
+default['foreman-proxy']['registered_name'] = node['fqdn']
+default['foreman-proxy']['registered_proxy_url'] = "http#{'s' if node['foreman']['ssl']}:#{node['fqdn']}#{':' + node['foreman-proxy']['ssl_port'] if node['foreman']['ssl']}"
+
 default['foreman-proxy']['foreman_base_url'] = "http#{'s' if node['foreman']['ssl']}://#{node['foreman']['server_name']}"
 default['foreman-proxy']['foreman_ssl_ca'] = nil
 default['foreman-proxy']['foreman_ssl_cert'] = nil
@@ -34,7 +38,7 @@ default['foreman-proxy']['foreman_ssl_key'] = nil
 
 default['foreman-proxy']['trusted_hosts'] = [node['fqdn']]
 default['foreman-proxy']['api_package'] = case node['platform_family']
-                                            when 'debian'
+                                          when 'debian'
                                             'ruby-apipie-bindings'
                                           else
                                             'rubygem-apipie-bindings'
@@ -85,8 +89,8 @@ default['foreman-proxy']['tftp_listen_on'] = 'https'
 default['foreman-proxy']['tftp_syslinux_root'] = nil
 case node['platform_family']
 when 'debian'
-  if (node['platform'] == 'Debian' and node['platform_version'].to_f >= '8.0') or
-      (node['platform'] == 'Ubuntu' and node['platform_version'].to_f >= '14.10')
+  if (node['platform'] == 'Debian' && node['platform_version'].to_f >= '8.0') ||
+     (node['platform'] == 'Ubuntu' && node['platform_version'].to_f >= '14.10')
     default['foreman-proxy']['tftp_syslinux_filenames'] = ['/usr/lib/PXELINUX/pxelinux.0',
                                                            '/usr/lib/syslinux/memdisk',
                                                            '/usr/lib/syslinux/modules/bios/chain.c32',
@@ -140,5 +144,5 @@ default['foreman-proxy']['freeipa_remove_dns'] = true
 
 # Oauth options
 default['foreman-proxy']['oauth_effective_user'] = 'admin'
-default['foreman-proxy']['oauth_consumer_key'] = rand(32**length).to_s(32)
-default['foreman-proxy']['oauth_consumer_secret'] = rand(32**length).to_s(32)
+default['foreman-proxy']['oauth_consumer_key'] = cache_data('oauth_consumer_key', random_password)
+default['foreman-proxy']['oauth_consumer_secret'] = cache_data('oauth_consumer_secret', random_password)

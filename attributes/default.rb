@@ -1,4 +1,7 @@
 # rubocop:disable Metrics/LineLength
+class ::Chef::Node::Attribute
+  include ::Foreman
+end
 
 default['foreman']['path'] = '/usr/share/foreman'
 default['foreman']['current_path'] = default['foreman']['path']
@@ -75,7 +78,6 @@ when 'debian'
   default['foreman']['passenger']['package'] = 'libapache2-mod-passenger'
 end
 
-
 default['foreman']['ssl'] = false
 default['foreman']['unattended'] = true
 default['foreman']['authentication'] = true
@@ -83,8 +85,8 @@ default['foreman']['locations_enabled'] = false
 default['foreman']['organizations_enabled'] = false
 default['foreman']['oauth_active'] = true
 default['foreman']['oauth_map_users'] = false
-default['foreman']['oauth_consumer_key'] = rand(32**length).to_s(32)
-default['foreman']['oauth_consumer_secret'] = rand(32**length).to_s(32)
+default['foreman']['oauth_consumer_key'] = cache_data('oauth_consumer_key', random_password)
+default['foreman']['oauth_consumer_secret'] = cache_data('oauth_consumer_secret', random_password)
 
 default['foreman']['websockets_encrypt'] = true
 default['foreman']['websockets_ssl_key'] = "/ssl/certs/#{node['fqdn'].downcase}.pem"

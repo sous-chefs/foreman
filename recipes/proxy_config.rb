@@ -1,10 +1,11 @@
 # include_recipe 'foreman::proxy_puppetca' if node['foreman-proxy']['puppetca']
 include_recipe 'foreman::proxy_tftp' if node['foreman-proxy']['tftp']
-include_recipe 'foreman::proxy_dhcp' if node['foreman-proxy']['dhcp'] and node['foreman-proxy']['dhcp_managed']
+include_recipe 'foreman::proxy_dhcp' if node['foreman-proxy']['dhcp'] &&
+                                        node['foreman-proxy']['dhcp_managed']
 
-if node['foreman-proxy']['dns'] and node['foreman-proxy']['dns_managed']
-  include_recipe 'foreman-proxy::proxy_dns'
-  groups = node['foreman-proxy']['group_users'] << node['bind']['group']
+if node['foreman-proxy']['dns'] && node['foreman-proxy']['dns_managed']
+  include_recipe 'foreman::proxy_dns'
+  groups = node.default['foreman-proxy']['group_users'] << node['bind']['group']
 else
   groups = node['foreman-proxy']['group_users']
 end

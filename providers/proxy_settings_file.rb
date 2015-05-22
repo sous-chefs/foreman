@@ -6,25 +6,37 @@ require 'shellwords'
 
 action :enable do
   listen_on = case new_resource.listen_on
-                when 'both'
+              when 'both'
                 true
-                when 'https'
+              when 'https'
                 'https'
-                when 'http'
+              when 'http'
                 'http'
-                else
+              else
                 false
               end
   edit_file(listen_on)
+
+  new_resource.updated_by_last_action(true)
 end
 
 action :disable do
   edit_file(false)
+
+  new_resource.updated_by_last_action(true)
 end
 
 def edit_file(module_enabled)
-  path = new_resource.path.nil? ? "/etc/foreman-proxy/settings.d/#{new_resource.module}.yml" : new_resource.path
-  template_path = new_resource.template_path.nil? ? "proxy/#{new_resource.module}.yml.erb" : new_resource.template_path
+  path = if new_resource.path.nil?
+           "/etc/foreman-proxy/settings.d/#{new_resource.module}.yml"
+         else
+           new_resource.path
+         end
+  template_path = if new_resource.template_path.nil?
+                    "proxy/#{new_resource.module}.yml.erb"
+                  else
+                    new_resource.template_path
+                  end
 
   template path do
     source template_path
@@ -34,6 +46,4 @@ def edit_file(module_enabled)
     cookbook new_resource.cookbook unless new_resource.cookbook.nil?
     variables module_enabled: module_enabled
   end
-
-  new_resource.updated_by_last_action(true)
 end
