@@ -18,7 +18,7 @@ end
 
 template ::File.join(node['foreman']['config_path'], 'database.yml') do
   group node['foreman']['group']
-  source 'database.yml.erb'
+  source 'database_foreman.yml.erb'
   variables real_adapter: node['foreman']['db']['real_adapter']
 end
 

@@ -13,10 +13,14 @@ AllCops:
   Exclude:
     - cookbooks/**/*
     - vendor/**/*
+
 NumericLiterals:
   Enabled: false
 Metrics/MethodLength:
   Enabled: false
+Metrics/LineLength:
+  Exclude:
+    - spec/**/*
 Style/ClassAndModuleChildren:
   Enabled: false
 Style/Documentation:
