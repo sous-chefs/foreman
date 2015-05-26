@@ -15,21 +15,20 @@ default['foreman-proxy']['tftp'] = true
 default['foreman-proxy']['dir'] = '/usr/share/foreman-proxy'
 default['foreman-proxy']['user'] = 'foreman-proxy'
 default['foreman-proxy']['group'] = 'foreman-proxy'
-default['foreman-proxy']['log_path'] = '/var/log/foreman-proxy/proxy.log'
+default['foreman-proxy']['log_file'] = '/var/log/foreman-proxy/proxy.log'
 default['foreman-proxy']['log_level'] = 'ERROR'
 
-default['foreman-proxy']['http'] = false
+default['foreman-proxy']['http'] = true
 default['foreman-proxy']['http_port'] = '8000'
-default['foreman-proxy']['https_port'] = '8443'
 
 default['foreman-proxy']['ssl'] = false
-default['foreman-proxy']['ssl_port'] = '8443'
+default['foreman-proxy']['https_port'] = '8443'
 default['foreman-proxy']['ssl_ca'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/ca.pem"
 default['foreman-proxy']['ssl_cert'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/#{node['fqdn']}.pem"
 default['foreman-proxy']['ssl_key'] = "#{node['foreman-proxy']['puppet_home']}/ssl/private_keys/#{node['fqdn']}.pem"
 
 default['foreman-proxy']['registered_name'] = node['fqdn']
-default['foreman-proxy']['registered_proxy_url'] = "http#{'s' if node['foreman']['ssl']}:#{node['fqdn']}#{':' + node['foreman-proxy']['ssl_port'] if node['foreman']['ssl']}"
+default['foreman-proxy']['registered_proxy_url'] = "http#{'s' if node['foreman-proxy']['ssl']}://#{node['foreman-proxy']['registered_name']}:#{if node['foreman-proxy']['http'] then node['foreman-proxy']['http_port'] elsif node['foreman-proxy']['ssl'] then node['foreman-proxy']['https_port'] end}"
 
 default['foreman-proxy']['foreman_base_url'] = "http#{'s' if node['foreman']['ssl']}://#{node['foreman']['server_name']}"
 default['foreman-proxy']['foreman_ssl_ca'] = nil

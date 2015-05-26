@@ -5,11 +5,16 @@
 #
 
 action :create do
-  api.call(:create,
-           smart_proxy: {
-             'name' => new_resource.smartproxy_name,
-             'url' => new_resource.url
-           })
+  if id.nil?
+    api.call(:create,
+             smart_proxy: {
+               'name' => new_resource.smartproxy_name,
+               'url' => new_resource.url
+             })
+  else
+    api.call(:update, id: id, smart_proxy: { url: new_resource.url })
+  end
+
   new_resource.updated_by_last_action(true)
 end
 

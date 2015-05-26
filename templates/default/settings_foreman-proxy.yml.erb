@@ -80,7 +80,7 @@
 
 # Where our proxy log files are stored
 # filename or STDOUT
-:log_file: <%= node['foreman-proxy']['log'] %>
+:log_file: <%= node['foreman-proxy']['log_file'] %>
 # valid options are
 # WARN, DEBUG, Error, Fatal, INFO, UNKNOWN
 :log_level: <%= node['foreman-proxy']['log_level'] %>
