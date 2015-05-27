@@ -1,4 +1,4 @@
-include_recipe 'foreman::repo' if node['foreman-proxy']['use_repo']
+include_recipe 'foreman::repo' if node['foreman']['use_repo']
 package 'foreman-proxy' do
   version node['foreman-proxy']['version'] unless
     node['foreman-proxy']['version'] == 'stable'

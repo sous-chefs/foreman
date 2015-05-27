@@ -21,6 +21,7 @@ Metrics/MethodLength:
 Metrics/LineLength:
   Exclude:
     - spec/**/*
+    - libraries/matchers.rb
 Style/ClassAndModuleChildren:
   Enabled: false
 Style/Documentation:

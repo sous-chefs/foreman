@@ -9,7 +9,10 @@ user node['foreman']['user'] do
   home node['foreman']['user_home']
 end
 
-directory node['foreman']['config_path']
+directory node['foreman']['config_path'] do
+  owner 'root'
+  group 'root'
+end
 
 template ::File.join(node['foreman']['config_path'], 'settings.yaml') do
   group node['foreman']['group']

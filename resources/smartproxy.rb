@@ -2,7 +2,7 @@
 # Cookbook Name:: foreman
 # Resource:: smartproxy
 #
-actions :create, :destroy
+actions :create, :remove
 default_action :create
 
 attribute :smartproxy_name, kind_of: String, name_attribute: true

@@ -6,7 +6,6 @@ end
 default['foreman']['path'] = '/usr/share/foreman'
 default['foreman']['current_path'] = default['foreman']['path']
 default['foreman']['version'] = 'stable'
-default['foreman']['install_method'] = 'packages'
 default['foreman']['config_path'] = '/etc/foreman'
 
 default['foreman']['use_repo'] = true

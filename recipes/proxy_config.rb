@@ -3,11 +3,10 @@ include_recipe 'foreman::proxy_tftp' if node['foreman-proxy']['tftp']
 include_recipe 'foreman::proxy_dhcp' if node['foreman-proxy']['dhcp'] &&
                                         node['foreman-proxy']['dhcp_managed']
 
+groups = node['foreman-proxy']['group_users'].dup
 if node['foreman-proxy']['dns'] && node['foreman-proxy']['dns_managed']
   include_recipe 'foreman::proxy_dns'
-  groups = node.default['foreman-proxy']['group_users'] << node['bind']['group']
-else
-  groups = node['foreman-proxy']['group_users']
+  groups << node['bind']['user']
 end
 
 group node['foreman-proxy']['group'] do

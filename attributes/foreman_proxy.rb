@@ -5,6 +5,7 @@ end
 
 default['dhcp']['parameters']['omapi-port'] = '7911'
 
+# Default config
 default['foreman-proxy']['version'] = 'stable'
 default['foreman-proxy']['register'] = true
 default['foreman-proxy']['config_path'] = '/etc/foreman-proxy'
@@ -14,6 +15,11 @@ default['foreman-proxy']['tftp'] = true
 
 default['foreman-proxy']['user'] = 'foreman-proxy'
 default['foreman-proxy']['group'] = 'foreman-proxy'
+default['foreman-proxy']['manage_home'] = true
+default['foreman-proxy']['user_home'] = "/home/#{node['foreman-proxy']['user']}"
+default['foreman-proxy']['group_users'] = []
+
+# Log config
 default['foreman-proxy']['log_file'] = '/var/log/foreman-proxy/proxy.log'
 default['foreman-proxy']['log_level'] = 'ERROR'
 
@@ -68,7 +74,7 @@ default['foreman-proxy']['api_package'] = case node['platform_family']
                                             'rubygem-apipie-bindings'
                                           end
 # DNS options
-default['foreman-proxy']['dns'] = false
+default['foreman-proxy']['dns'] = true
 default['foreman-proxy']['dns_listen_on'] = 'https'
 default['foreman-proxy']['dns_managed'] = true
 default['foreman-proxy']['dns_provider'] = 'nsupdate'
@@ -89,6 +95,7 @@ default['foreman-proxy']['dns_forwarders'] = []
 
 # DHCP options
 default['foreman-proxy']['dhcp'] = true
+default['foreman-proxy']['dhcp_managed'] = true
 default['foreman-proxy']['dhcp_key_name'] = nil
 default['foreman-proxy']['dhcp_key_secret'] = nil
 default['foreman-proxy']['dhcp_vendor'] = 'isc'
@@ -150,3 +157,7 @@ default['foreman-proxy']['freeipa_remove_dns'] = true
 default['foreman-proxy']['oauth_effective_user'] = 'admin'
 default['foreman-proxy']['oauth_consumer_key'] = cache_data('oauth_consumer_key', random_password)
 default['foreman-proxy']['oauth_consumer_secret'] = cache_data('oauth_consumer_secret', random_password)
+
+# Templates options
+default['foreman-proxy']['templates'] = false
+default['foreman-proxy']['templates_listen_on'] = 'both'

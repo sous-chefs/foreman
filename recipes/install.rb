@@ -1,4 +1,13 @@
-include_recipe "foreman::install_#{node['foreman']['install_method']}"
+include_recipe 'foreman::repo' if node['foreman']['use_repo']
+
+package 'foreman' do
+  version node['foreman']['version'] unless
+    node['foreman']['version'] == 'stable'
+end
+
+node['foreman']['plugins'].each do |pack|
+  package pack
+end
 
 case node['foreman']['db']['adapter']
 when 'sqlite'

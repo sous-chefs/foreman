@@ -19,6 +19,12 @@ describe 'foreman::config' do
               home: '/home/foreman')
     end
 
+    it 'should create directoy' do
+      expect(subject).to create_directory('/etc/foreman')
+        .with(owner: 'root',
+              group: 'root')
+    end
+
     it 'should creates templates' do
       expect(subject).to create_template('/etc/foreman/settings.yaml')
         .with(group: 'foreman',
@@ -27,6 +33,18 @@ describe 'foreman::config' do
         .with(group: 'foreman',
               source: 'database_foreman.yml.erb',
               variables: { real_adapter: 'postgresql' })
+      expect(subject).to create_template('/etc/default/foreman')
+        .with(source: 'foreman.default.erb')
+    end
+
+    it 'should configure mod passenger' do
+      expect(subject).to create_directory('/etc/apache2/05-foreman.d')
+        .with(owner: 'root',
+              group: 'root',
+              mode: '0644')
+
+      expect(subject).to create_template('/etc/apache2/mods-available/passenger_extra.conf')
+        .with(source: 'passenger.conf.erb')
     end
   end
 end

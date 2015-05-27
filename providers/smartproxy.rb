@@ -18,7 +18,7 @@ action :create do
   new_resource.updated_by_last_action(true)
 end
 
-action :destroy do
+action :remove do
   api.call(:destroy, id: id)
   @proxy = nil
   new_resource.updated_by_last_action(true)

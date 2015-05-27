@@ -11,10 +11,4 @@ suites:
     run_list:
       - recipe[apt]
       - recipe[foreman]
-
-  - name: default-source
-    run_list:
-      - recipe[apt]
-      - recipe[foreman]
-    attributes:
-      install_method: source
+      - recipe[foreman::proxy]
