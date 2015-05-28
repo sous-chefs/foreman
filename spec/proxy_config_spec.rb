@@ -21,9 +21,7 @@ describe 'foreman::proxy_config' do
         .with(members: ['bind'])
       expect(subject).to create_user('foreman-proxy')
         .with(shell: '/bin/bash',
-              group: 'foreman-proxy',
-              supports: { manage_home: true },
-              home: '/home/foreman-proxy')
+              group: 'foreman-proxy')
     end
 
     it 'should disable proxy settings file' do

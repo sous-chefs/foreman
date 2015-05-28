@@ -32,6 +32,7 @@ namespace :example do
   end
 
   task :deploy do
+    Rake::Task['vendor'].invoke
     run_command('chef-client -z example/vagrant_linux.rb example/deploy.rb')
   end
 end

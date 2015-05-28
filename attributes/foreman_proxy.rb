@@ -15,8 +15,6 @@ default['foreman-proxy']['tftp'] = true
 
 default['foreman-proxy']['user'] = 'foreman-proxy'
 default['foreman-proxy']['group'] = 'foreman-proxy'
-default['foreman-proxy']['manage_home'] = true
-default['foreman-proxy']['user_home'] = "/home/#{node['foreman-proxy']['user']}"
 default['foreman-proxy']['group_users'] = []
 
 # Log config
@@ -101,6 +99,14 @@ default['foreman-proxy']['dhcp_key_secret'] = nil
 default['foreman-proxy']['dhcp_vendor'] = 'isc'
 default['foreman-proxy']['dhcp_config'] = node['dhcp']['config_file']
 default['foreman-proxy']['dhcp_leases'] = '/var/lib/dhcp3/dhcpd.leases'
+default['foreman-proxy']['dhcp_interface'] = 'eth0'
+default['foreman-proxy']['dhcp_subnet'] = '10.0.2.0'
+default['foreman-proxy']['dhcp_netmask'] = '255.255.255.0'
+default['foreman-proxy']['dhcp_range'] = []
+default['foreman-proxy']['dhcp_broadcast'] = '10.0.2.255'
+default['foreman-proxy']['dhcp_routers'] = ['10.0.2.15']
+default['foreman-proxy']['dhcp_options'] = ["domain-name \"#{node['foreman']['server_name']}\"",
+                                            'domain-name-servers 127.0.0.1, 8.8.8.8']
 
 # virsh options
 default['foreman-proxy']['virsh_network'] = 'default'

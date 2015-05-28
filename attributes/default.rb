@@ -28,8 +28,6 @@ default['foreman']['initial_location'] = nil
 
 default['foreman']['user'] = 'foreman'
 default['foreman']['group'] = 'foreman'
-default['foreman']['manage_home'] = true
-default['foreman']['user_home'] = "/home/#{node['foreman']['user']}"
 default['foreman']['group_users'] = []
 
 default['foreman']['authentication'] = true

@@ -14,9 +14,7 @@ describe 'foreman::config' do
       expect(subject).to create_group('foreman')
       expect(subject).to create_user('foreman')
         .with(shell: '/bin/bash',
-              group: 'foreman',
-              supports: { manage_home: true },
-              home: '/home/foreman')
+              group: 'foreman')
     end
 
     it 'should create directoy' do

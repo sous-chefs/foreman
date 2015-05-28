@@ -25,6 +25,10 @@ end
 package pkg
 
 include_recipe 'apache2'
+# @TODO remove when apache2 will works fine
+execute 'remove-other-vhost' do
+  command 'a2disconf other-vhosts-access-log && sleep 2'
+end
 
 package node['foreman']['passenger']['package'] do
   action :install

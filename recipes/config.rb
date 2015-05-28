@@ -5,8 +5,6 @@ end
 user node['foreman']['user'] do
   shell '/bin/bash'
   group node['foreman']['group']
-  supports manage_home: node['foreman']['manage_home']
-  home node['foreman']['user_home']
 end
 
 directory node['foreman']['config_path'] do

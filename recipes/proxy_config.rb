@@ -16,8 +16,6 @@ end
 user node['foreman-proxy']['user'] do
   shell '/bin/bash'
   group node['foreman-proxy']['group']
-  supports manage_home: node['foreman-proxy']['manage_home']
-  home node['foreman-proxy']['user_home']
 end
 
 foreman_proxy_settings_file 'bmc' do
