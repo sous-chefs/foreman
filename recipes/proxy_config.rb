@@ -62,3 +62,48 @@ template ::File.join(node['foreman-proxy']['config_path'], 'settings.yml') do
   group node['foreman-proxy']['group']
   source 'settings_foreman-proxy.yml.erb'
 end
+
+if node['foreman-proxy']['ssl']
+  directory node['foreman-proxy']['ssl_dir'] do
+    recursive true
+    action :create
+  end
+
+  items = begin
+            data_bag_item('foreman-proxy', node.chef_environment)
+          rescue Net::HTTPServerException, Chef::Exceptions::InvalidDataBagPath
+            {}
+          end
+  if items.key?('ssl_cert_key_file') && items.key?('ssl_cert_file') &&
+      items.key?('ssl_ca_file')
+    file node['foreman-proxy']['ssl_cert_key_file'] do
+      content items['ssl_cert_key_file']
+    end
+
+    file node['foreman-proxy']['ssl_cert_file'] do
+      content items['ssl_cert_file']
+    end
+
+    file node['foreman-proxy']['ssl_ca_file'] do
+      content items['ssl_cert_file']
+    end
+  else
+    ssl_certificate 'ca-foreman-proxy' do
+      common_name 'ca.example.org'
+      source 'self-signed'
+      item 'ca_cert'
+    end
+
+    ssl_certificate 'foreman-proxy' do
+      owner node['foreman-proxy']['user']
+      group node['foreman-proxy']['group']
+      source 'with_ca'
+      ca_cert_path node['foreman-proxy']['ssl_ca_file']
+      common_name node['foreman-proxy']['server_name']
+      key_source 'self-signed'
+      key_path node['foreman-proxy']['ssl_cert_key_file']
+      cert_source 'self-signed'
+      cert_path node['foreman-proxy']['ssl_cert_file']
+    end
+  end
+end

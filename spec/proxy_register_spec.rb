@@ -12,9 +12,9 @@ describe 'foreman::proxy_register' do
 
     it 'should register smartproxy' do
       expect(subject).to create_foreman_smartproxy('fauxhai.local')
-        .with(base_url: 'http://foreman.example',
+        .with(base_url: 'https://foreman.example',
               effective_user: 'admin',
-              url: 'http://fauxhai.local:8000')
+              url: 'https://fauxhai.local:8443')
     end
   end
 end

@@ -4,6 +4,14 @@
   ServerAlias <%= @params[:server_aliases].join " " %>
   <% end -%>
 
+  <% if node['foreman']['ssl'] -%>
+  <IfModule mod_ssl.c>
+    SSLEngine on
+    SSLCertificateFile <%= node['foreman']['ssl_cert_file'] %>
+    SSLCertificateKeyFile <%= node['foreman']['ssl_cert_key_file'] %>
+  </IfModule>
+  <% end -%>
+
   DocumentRoot <%= @params[:docroot] %>
 
   RailsBaseURI /

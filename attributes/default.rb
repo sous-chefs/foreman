@@ -76,7 +76,10 @@ when 'debian'
   default['foreman']['passenger']['package'] = 'libapache2-mod-passenger'
 end
 
-default['foreman']['ssl'] = false
+default['foreman']['ssl'] = true
+default['foreman']['ssl_dir'] = "#{node['foreman']['config_path']}/certs"
+default['foreman']['ssl_cert_file'] = "#{node['foreman']['ssl_dir']}/server.crt"
+default['foreman']['ssl_cert_key_file'] = "#{node['foreman']['ssl_dir']}/server.key"
 default['foreman']['unattended'] = true
 default['foreman']['authentication'] = true
 default['foreman']['locations_enabled'] = false
@@ -87,5 +90,5 @@ default['foreman']['oauth_consumer_key'] = cache_data('oauth_consumer_key', rand
 default['foreman']['oauth_consumer_secret'] = cache_data('oauth_consumer_secret', random_password)
 
 default['foreman']['websockets_encrypt'] = true
-default['foreman']['websockets_ssl_key'] = "/ssl/certs/#{node['fqdn'].downcase}.pem"
-default['foreman']['websockets_ssl_cert'] = "//ssl/private_keys/#{node['fqdn'].downcase}.pem"
+default['foreman']['websockets_ssl_key'] = "/etc/ssl/certs/#{node['fqdn'].downcase}.pem"
+default['foreman']['websockets_ssl_cert'] = "/etc/ssl/private_keys/#{node['fqdn'].downcase}.pem"

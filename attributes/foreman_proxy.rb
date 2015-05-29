@@ -42,14 +42,15 @@ default['foreman-proxy']['puppetssh_keyfile'] = '/etc/foreman-proxy/id_rsa'
 default['foreman-proxy']['puppetssh_wait'] = false
 
 # Http(s) configuration
-default['foreman-proxy']['http'] = true
+default['foreman-proxy']['http'] = false
 default['foreman-proxy']['http_port'] = '8000'
 
-default['foreman-proxy']['ssl'] = false
+default['foreman-proxy']['ssl'] = true
 default['foreman-proxy']['https_port'] = '8443'
-default['foreman-proxy']['ssl_ca'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/ca.pem"
-default['foreman-proxy']['ssl_cert'] = "#{node['foreman-proxy']['puppet_home']}/ssl/certs/#{node['fqdn']}.pem"
-default['foreman-proxy']['ssl_key'] = "#{node['foreman-proxy']['puppet_home']}/ssl/private_keys/#{node['fqdn']}.pem"
+default['foreman-proxy']['ssl_dir'] = "#{node['foreman-proxy']['config_path']}/certs"
+default['foreman-proxy']['ssl_cert_file'] = "#{node['foreman-proxy']['ssl_dir']}/server.crt"
+default['foreman-proxy']['ssl_cert_key_file'] = "#{node['foreman-proxy']['ssl_dir']}/server.key"
+default['foreman-proxy']['ssl_ca_file'] = "#{node['foreman-proxy']['puppet_home']}/ca.pem"
 
 default['foreman-proxy']['registered_name'] = node['fqdn']
 if node['foreman-proxy']['http']

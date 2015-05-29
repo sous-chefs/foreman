@@ -8,20 +8,20 @@
 # if enabled, all communication would be verfied via SSL
 # NOTE that both certificates need to be signed by the same CA in order for this to work
 # see http://theforeman.org/projects/smart-proxy/wiki/SSL for more information
-<% if ssl && node['foreman-proxy']['ssl_ca'] -%>
-:ssl_ca_file: <%= node['foreman-proxy']['ssl_ca'] %>
+<% if ssl && node['foreman-proxy']['ssl_ca_file'] -%>
+:ssl_ca_file: <%= node['foreman-proxy']['ssl_ca_file'] %>
 <% else -%>
 #:ssl_ca_file: ssl/certs/ca.pem
 <% end -%>
 
-<% if ssl && node['foreman-proxy']['ssl_cert'] -%>
-:ssl_certificate: <%= node['foreman-proxy']['ssl_cert'] %>
+<% if ssl && node['foreman-proxy']['ssl_cert_file'] -%>
+:ssl_certificate: <%= node['foreman-proxy']['ssl_cert_file'] %>
 <% else -%>
 #:ssl_certificate: ssl/certs/fqdn.pem
 <% end -%>
 
-<% if ssl && node['foreman-proxy']['ssl_key'] -%>
-:ssl_private_key: <%= node['foreman-proxy']['ssl_key'] %>
+<% if ssl && node['foreman-proxy']['ssl_cert_key_file'] -%>
+:ssl_private_key: <%= node['foreman-proxy']['ssl_cert_key_file'] %>
 <% else -%>
 #:ssl_private_key: ssl/private_keys/fqdn.key
 <% end -%>
