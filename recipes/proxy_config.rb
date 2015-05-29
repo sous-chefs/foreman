@@ -71,21 +71,16 @@ if node['foreman-proxy']['ssl']
 
   items = begin
             data_bag_item('foreman-proxy', node.chef_environment)
-          rescue Net::HTTPServerException, Chef::Exceptions::InvalidDataBagPath
+          rescue Net::HTTPServerException,
+                 Chef::Exceptions::InvalidDataBagPath
             {}
           end
   if items.key?('ssl_cert_key_file') && items.key?('ssl_cert_file') &&
-      items.key?('ssl_ca_file')
-    file node['foreman-proxy']['ssl_cert_key_file'] do
-      content items['ssl_cert_key_file']
-    end
-
-    file node['foreman-proxy']['ssl_cert_file'] do
-      content items['ssl_cert_file']
-    end
-
-    file node['foreman-proxy']['ssl_ca_file'] do
-      content items['ssl_cert_file']
+     items.key?('ssl_ca_file')
+    %w(ssl_cert_key_file ssl_cert_file ssl_ca_file).each do |ssl_name|
+      file node['foreman-proxy'][ssl_name] do
+        content items[ssl_name]
+      end
     end
   else
     ssl_certificate 'ca-foreman-proxy' do

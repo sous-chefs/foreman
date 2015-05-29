@@ -51,7 +51,8 @@ if node['foreman']['passenger']['install']
 
     items = begin
               data_bag_item('foreman', node.chef_environment)
-            rescue Net::HTTPServerException, Chef::Exceptions::InvalidDataBagPath
+            rescue Net::HTTPServerException,
+                   Chef::Exceptions::InvalidDataBagPath
               {}
             end
     if items.key?('ssl_cert_key_file') && items.key?('ssl_cert_file')
