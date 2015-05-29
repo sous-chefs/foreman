@@ -18,4 +18,13 @@ if defined?(ChefSpec)
   def remove_foreman_smartproxy(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:foreman_smartproxy, :remove, resource_name)
   end
+
+  # Missing matchers in dependencies
+  def cherry_pick_ark(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:ark, :cherry_pick, resource_name)
+  end
+
+  def add_dhcp_subnet(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:dhcp_subnet, :add, resource_name)
+  end
 end

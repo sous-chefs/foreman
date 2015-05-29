@@ -45,5 +45,11 @@ describe 'foreman::proxy_config' do
       expect(subject).to enable_foreman_proxy_settings_file('tftp')
         .with(listen_on: 'https')
     end
+
+    it 'should create settings file' do
+      expect(subject).to create_template('/etc/foreman-proxy/settings.yml')
+        .with(group: 'foreman-proxy',
+              source: 'settings_foreman-proxy.yml.erb')
+    end
   end
 end
