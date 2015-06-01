@@ -78,6 +78,8 @@ end
 
 default['foreman']['ssl'] = true
 default['foreman']['ssl_dir'] = "#{node['foreman']['config_path']}/certs"
+default['foreman']['ssl_ca_file'] = "#{node['foreman']['ssl_dir']}/ca.pem"
+default['foreman']['ssl_ca_key_file'] = "#{node['foreman']['ssl_dir']}/ca.key"
 default['foreman']['ssl_cert_file'] = "#{node['foreman']['ssl_dir']}/server.crt"
 default['foreman']['ssl_cert_key_file'] = "#{node['foreman']['ssl_dir']}/server.key"
 default['foreman']['unattended'] = true

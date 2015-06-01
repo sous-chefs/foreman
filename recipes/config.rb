@@ -64,14 +64,35 @@ if node['foreman']['passenger']['install']
         content items['ssl_cert_file']
       end
     else
+      execute 'create-ca-key' do
+        command "openssl genrsa -out #{node['foreman']['ssl_ca_key_file']} 4096"
+        not_if { File.exist?(node['foreman']['ssl_ca_key_file']) }
+      end
+
+      execute 'create-ca-crt' do
+        command "openssl req -new -x509 -days 1826 -key #{node['foreman']['ssl_ca_key_file']} -out #{node['foreman']['ssl_ca_file']} -subj '/CN=#{node['foreman']['server_name']}'"
+        not_if { File.exist?(node['foreman']['ssl_ca_file']) }
+      end
+
+      file node['foreman']['ssl_ca_file'] do
+        owner node['foreman']['user']
+        group node['foreman']['group']
+      end
+
       ssl_certificate 'foreman' do
         owner node['foreman']['user']
         group node['foreman']['group']
+        source 'with_ca'
+        ca_cert_path node['foreman']['ssl_ca_file']
         common_name node['foreman']['server_name']
         key_source 'self-signed'
         key_path node['foreman']['ssl_cert_key_file']
         cert_source 'self-signed'
         cert_path node['foreman']['ssl_cert_file']
+      end
+
+      file node['foreman']['ssl_cert_key_file'] do
+        mode '0644'
       end
     end
   end

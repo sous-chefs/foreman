@@ -47,10 +47,9 @@ default['foreman-proxy']['http_port'] = '8000'
 
 default['foreman-proxy']['ssl'] = true
 default['foreman-proxy']['https_port'] = '8443'
-default['foreman-proxy']['ssl_dir'] = "#{node['foreman-proxy']['config_path']}/certs"
-default['foreman-proxy']['ssl_cert_file'] = "#{node['foreman-proxy']['ssl_dir']}/server.crt"
-default['foreman-proxy']['ssl_cert_key_file'] = "#{node['foreman-proxy']['ssl_dir']}/server.key"
-default['foreman-proxy']['ssl_ca_file'] = "#{node['foreman-proxy']['puppet_home']}/ca.pem"
+default['foreman-proxy']['ssl_ca_file'] = node['foreman']['ssl_ca_file']
+default['foreman-proxy']['ssl_cert_file'] = node['foreman']['ssl_cert_file']
+default['foreman-proxy']['ssl_cert_key_file'] = node['foreman']['ssl_cert_key_file']
 
 default['foreman-proxy']['registered_name'] = node['fqdn']
 if node['foreman-proxy']['http']
@@ -65,7 +64,7 @@ default['foreman-proxy']['foreman_ssl_ca'] = nil
 default['foreman-proxy']['foreman_ssl_cert'] = nil
 default['foreman-proxy']['foreman_ssl_key'] = nil
 
-default['foreman-proxy']['trusted_hosts'] = [node['fqdn']]
+default['foreman-proxy']['trusted_hosts'] = [node['foreman']['server_name']]
 default['foreman-proxy']['api_package'] = case node['platform_family']
                                           when 'debian'
                                             'ruby-apipie-bindings'

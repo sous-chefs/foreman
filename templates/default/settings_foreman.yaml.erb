@@ -19,3 +19,7 @@
 :websockets_encrypt: <%= node['foreman']['websockets_encrypt'] ? 'on' : 'off' %>
 :websockets_ssl_key: <%= node['foreman']['websockets_ssl_key'] %>
 :websockets_ssl_cert: <%= node['foreman']['websockets_ssl_cert'] %>
+
+:ssl_ca_file: <%= node['foreman']['ssl_ca_file'] %>
+:ssl_certificate: <%= node['foreman']['ssl_cert_file'] %>
+:ssl_priv_key: <%= node['foreman']['ssl_cert_key_file'] %>

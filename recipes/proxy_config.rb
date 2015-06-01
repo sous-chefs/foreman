@@ -64,11 +64,6 @@ template ::File.join(node['foreman-proxy']['config_path'], 'settings.yml') do
 end
 
 if node['foreman-proxy']['ssl']
-  directory node['foreman-proxy']['ssl_dir'] do
-    recursive true
-    action :create
-  end
-
   items = begin
             data_bag_item('foreman-proxy', node.chef_environment)
           rescue Net::HTTPServerException,
@@ -81,24 +76,6 @@ if node['foreman-proxy']['ssl']
       file node['foreman-proxy'][ssl_name] do
         content items[ssl_name]
       end
-    end
-  else
-    ssl_certificate 'ca-foreman-proxy' do
-      common_name 'ca.example.org'
-      source 'self-signed'
-      item 'ca_cert'
-    end
-
-    ssl_certificate 'foreman-proxy' do
-      owner node['foreman-proxy']['user']
-      group node['foreman-proxy']['group']
-      source 'with_ca'
-      ca_cert_path node['foreman-proxy']['ssl_ca_file']
-      common_name node['foreman-proxy']['server_name']
-      key_source 'self-signed'
-      key_path node['foreman-proxy']['ssl_cert_key_file']
-      cert_source 'self-signed'
-      cert_path node['foreman-proxy']['ssl_cert_file']
     end
   end
 end
