@@ -13,13 +13,11 @@
 <% else -%>
 #:ssl_ca_file: ssl/certs/ca.pem
 <% end -%>
-
 <% if ssl && node['foreman-proxy']['ssl_cert_file'] -%>
 :ssl_certificate: <%= node['foreman-proxy']['ssl_cert_file'] %>
 <% else -%>
 #:ssl_certificate: ssl/certs/fqdn.pem
 <% end -%>
-
 <% if ssl && node['foreman-proxy']['ssl_cert_key_file'] -%>
 :ssl_private_key: <%= node['foreman-proxy']['ssl_cert_key_file'] %>
 <% else -%>

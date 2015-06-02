@@ -70,29 +70,23 @@ if node['foreman']['passenger']['install']
       end
 
       execute 'create-ca-crt' do
-        command "openssl req -new -x509 -days 1826 -key #{node['foreman']['ssl_ca_key_file']} -out #{node['foreman']['ssl_ca_file']} -subj '/CN=#{node['foreman']['server_name']}'"
+        command "openssl req -new -x509 -nodes -days 1826 -key #{node['foreman']['ssl_ca_key_file']} -out #{node['foreman']['ssl_ca_file']} -subj '/C=US/ST=Denial/L=Springfield/O=Dis/CN=#{node['foreman']['server_name']}'"
         not_if { File.exist?(node['foreman']['ssl_ca_file']) }
       end
 
-      file node['foreman']['ssl_ca_file'] do
-        owner node['foreman']['user']
-        group node['foreman']['group']
+      execute 'create-server-key' do
+        command "openssl genrsa -out #{node['foreman']['ssl_cert_key_file']} 2048"
+        not_if { File.exist?(node['foreman']['ssl_cert_key_file']) }
       end
 
-      ssl_certificate 'foreman' do
-        owner node['foreman']['user']
-        group node['foreman']['group']
-        source 'with_ca'
-        ca_cert_path node['foreman']['ssl_ca_file']
-        common_name node['foreman']['server_name']
-        key_source 'self-signed'
-        key_path node['foreman']['ssl_cert_key_file']
-        cert_source 'self-signed'
-        cert_path node['foreman']['ssl_cert_file']
+      execute 'create-server-csr' do
+        command "openssl req -new -key #{node['foreman']['ssl_cert_key_file']} -out #{node['foreman']['ssl_cert_csr_file']} -subj '/CN=#{node['foreman']['server_name']}'"
+        not_if { File.exist?(node['foreman']['ssl_cert_csr_file']) }
       end
 
-      file node['foreman']['ssl_cert_key_file'] do
-        mode '0644'
+      execute 'create-server-crt' do
+        command "openssl x509 -req -in #{node['foreman']['ssl_cert_csr_file']} -CA #{node['foreman']['ssl_ca_file']} -CAkey #{node['foreman']['ssl_ca_key_file']} -CAcreateserial -out #{node['foreman']['ssl_cert_file']} -days 1826"
+        not_if { File.exist?(node['foreman']['ssl_cert_file']) }
       end
     end
   end

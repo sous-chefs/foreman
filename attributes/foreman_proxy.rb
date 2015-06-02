@@ -29,7 +29,7 @@ default['foreman-proxy']['puppetca'] = false
 default['foreman-proxy']['puppetca_listen_on'] = 'https'
 default['foreman-proxy']['puppet'] = false
 default['foreman-proxy']['puppet_home'] = '/var/lib/puppet'
-default['foreman-proxy']['puppet_url'] = "https://#{node['fqdn']}:8140"
+default['foreman-proxy']['puppet_url'] = "https://#{node['foreman']['server_name']}:8140"
 default['foreman-proxy']['puppet_use_environment_api'] = nil
 default['foreman-proxy']['puppet_autosign_location'] = '/etc/puppet/autosign.conf'
 default['foreman-proxy']['puppet_group'] = 'puppet'
@@ -60,9 +60,9 @@ end
 default['foreman-proxy']['registered_proxy_url'] = "http#{'s' if node['foreman-proxy']['ssl']}://#{node['foreman-proxy']['registered_name']}:#{registered_port}"
 
 default['foreman-proxy']['foreman_base_url'] = "http#{'s' if node['foreman']['ssl']}://#{node['foreman']['server_name']}"
-default['foreman-proxy']['foreman_ssl_ca'] = nil
-default['foreman-proxy']['foreman_ssl_cert'] = nil
-default['foreman-proxy']['foreman_ssl_key'] = nil
+default['foreman-proxy']['foreman_ssl_ca'] = node['foreman']['ssl_ca_file']
+default['foreman-proxy']['foreman_ssl_cert'] = node['foreman']['ssl_cert_file']
+default['foreman-proxy']['foreman_ssl_key'] = node['foreman']['ssl_cert_key_file']
 
 default['foreman-proxy']['trusted_hosts'] = [node['foreman']['server_name']]
 default['foreman-proxy']['api_package'] = case node['platform_family']

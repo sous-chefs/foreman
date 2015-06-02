@@ -4,6 +4,10 @@
 #
 
 include_recipe 'hostname'
+ohai 'reload' do
+  action :reload
+end
+
 include_recipe 'foreman::install'
 include_recipe 'foreman::config'
 include_recipe 'foreman::database'
