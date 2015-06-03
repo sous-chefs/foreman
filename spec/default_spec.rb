@@ -17,5 +17,9 @@ describe 'foreman::default' do
       expect(subject).to include_recipe('foreman::database')
       expect(subject).to include_recipe('foreman::service')
     end
+
+    it 'should reload ohai' do
+      expect(subject).to reload_ohai('reload')
+    end
   end
 end

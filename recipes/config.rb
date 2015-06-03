@@ -64,6 +64,7 @@ if node['foreman']['passenger']['install']
         content items['ssl_cert_file']
       end
     else
+      # rubocop:disable Metrics/LineLength
       execute 'create-ca-key' do
         command "openssl genrsa -out #{node['foreman']['ssl_ca_key_file']} 4096"
         not_if { File.exist?(node['foreman']['ssl_ca_key_file']) }
@@ -88,6 +89,14 @@ if node['foreman']['passenger']['install']
         command "openssl x509 -req -in #{node['foreman']['ssl_cert_csr_file']} -CA #{node['foreman']['ssl_ca_file']} -CAkey #{node['foreman']['ssl_ca_key_file']} -CAcreateserial -out #{node['foreman']['ssl_cert_file']} -days 1826"
         not_if { File.exist?(node['foreman']['ssl_cert_file']) }
       end
+
+      execute 'update-ca-certificates' do
+        command "cp #{node['foreman']['ssl_ca_file']} /usr/share/ca-certificates/#{node['foreman']['server_name']}.crt ; " \
+        "echo '#{node['foreman']['server_name']}.crt' >> /etc/ca-certificates.conf ; " \
+        'update-ca-certificates -f'
+        not_if { File.exist?("/usr/share/ca-certificates/#{node['foreman']['server_name']}.crt") }
+      end
+      # rubocop:enable Metrics/LineLength
     end
   end
 

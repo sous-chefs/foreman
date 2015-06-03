@@ -28,17 +28,25 @@ def api
   chef_gem 'apipie-bindings'
   require 'apipie-bindings'
 
+  settings = {
+    uri: new_resource.base_url,
+    api_version: 2,
+    oauth: {
+      consumer_key: new_resource.consumer_key,
+      consumer_secret: new_resource.consumer_secret
+    },
+    timeout: new_resource.timeout,
+    headers: {
+      foreman_user: new_resource.effective_user
+    },
+    apidoc_cache_base_dir: ::File.join(Chef::Config[:file_cache_path],
+                                       'apipie_bindings')
+  }
+
+  options = { verify_ssl: ::OpenSSL::SSL::VERIFY_NONE }
   @api ||= ApipieBindings::API
-           .new(uri: new_resource.base_url,
-                api_version: 2,
-                oauth: {
-                  consumer_key: new_resource.consumer_key,
-                  consumer_secret: new_resource.consumer_secret
-                },
-                timeout: new_resource.timeout,
-                headers: {
-                  foreman_user: new_resource.effective_user
-                }).resource(:smart_proxies)
+           .new(settings, options)
+           .resource(:smart_proxies)
 end
 
 def proxy

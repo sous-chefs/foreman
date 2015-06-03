@@ -44,5 +44,24 @@ describe 'foreman::config' do
       expect(subject).to create_template('/etc/apache2/mods-available/passenger_extra.conf')
         .with(source: 'passenger.conf.erb')
     end
+
+    it 'should configure ssl' do
+      expect(subject).to create_directory('/etc/foreman/certs')
+        .with(owner: 'www-data',
+              group: 'www-data')
+
+      expect(subject).to run_execute('create-ca-key')
+        .with(command: 'openssl genrsa -out /etc/foreman/certs/ca.key 4096')
+      expect(subject).to run_execute('create-ca-crt')
+        .with(command: "openssl req -new -x509 -nodes -days 1826 -key /etc/foreman/certs/ca.key -out /etc/foreman/certs/ca.crt -subj '/C=US/ST=Denial/L=Springfield/O=Dis/CN=foreman.example'")
+      expect(subject).to run_execute('create-server-key')
+        .with(command: 'openssl genrsa -out /etc/foreman/certs/server.key 2048')
+      expect(subject).to run_execute('create-server-csr')
+        .with(command: "openssl req -new -key /etc/foreman/certs/server.key -out /etc/foreman/certs/server.csr -subj '/CN=foreman.example'")
+      expect(subject).to run_execute('create-server-crt')
+        .with(command: 'openssl x509 -req -in /etc/foreman/certs/server.csr -CA /etc/foreman/certs/ca.crt -CAkey /etc/foreman/certs/ca.key -CAcreateserial -out /etc/foreman/certs/server.crt -days 1826')
+      expect(subject).to run_execute('update-ca-certificates')
+        .with(command: "cp /etc/foreman/certs/ca.crt /usr/share/ca-certificates/foreman.example.crt ; echo 'foreman.example.crt' >> /etc/ca-certificates.conf ; update-ca-certificates -f")
+    end
   end
 end

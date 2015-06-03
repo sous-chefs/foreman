@@ -11,4 +11,4 @@ attribute :effective_user, kind_of: String
 attribute :consumer_key, kind_of: String
 attribute :consumer_secret, kind_of: String
 attribute :url, required: true, kind_of: String
-attribute :timeout, kind_of: [Integer, String], default: 500
+attribute :timeout, kind_of: [Integer, String], default: 5000

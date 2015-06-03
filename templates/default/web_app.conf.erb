@@ -7,6 +7,7 @@
   <% if node['foreman']['ssl'] -%>
   <IfModule mod_ssl.c>
     SSLEngine on
+    SSLCACertificateFile <%= node['foreman']['ssl_ca_file'] %>
     SSLCertificateFile <%= node['foreman']['ssl_cert_file'] %>
     SSLCertificateKeyFile <%= node['foreman']['ssl_cert_key_file'] %>
   </IfModule>
