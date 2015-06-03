@@ -7,8 +7,12 @@ platforms:
   - name: ubuntu-14.04
 
 suites:
-  - name: default-package
+  - name: default
     run_list:
       - recipe[apt]
       - recipe[foreman]
       - recipe[foreman::proxy]
+    attributes:
+      postgresql:
+        password:
+          postgres: toor
