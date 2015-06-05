@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+#
+# Cookbook Name:: foreman
+# Recipe:: config
+#
 group node['foreman']['group'] do
   members node['foreman']['group_users'] if node['foreman']['group_users']
 end

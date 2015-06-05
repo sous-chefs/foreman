@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 #
 # Cookbook Name:: foreman
-# Resource:: rake
+# Resource:: proxy_settings_file
 #
 actions :enable, :disable
 default_action :enable

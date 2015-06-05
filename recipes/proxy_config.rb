@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+#
+# Cookbook Name:: foreman
+# Recipe:: proxy_config
+#
 # include_recipe 'foreman::proxy_puppetca' if node['foreman-proxy']['puppetca']
 include_recipe 'foreman::proxy_tftp' if node['foreman-proxy']['tftp']
 include_recipe 'foreman::proxy_dhcp' if node['foreman-proxy']['dhcp'] &&

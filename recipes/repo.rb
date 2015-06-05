@@ -1,8 +1,8 @@
+# -*- coding: utf-8 -*-
 #
 # Cookbook Name:: foreman
-# Recipe:: repo_apt
+# Recipe:: repo
 #
-
 include_recipe 'apt'
 
 apt_repository 'foreman' do

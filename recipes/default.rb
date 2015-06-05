@@ -1,8 +1,8 @@
+# -*- coding: utf-8 -*-
 #
 # Cookbook Name:: foreman
 # Recipe:: default
 #
-
 include_recipe 'hostname'
 ohai 'reload' do
   action :reload

@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 #
 # Cookbook Name:: foreman
-# Provider:: rake
+# Provider:: proxy_settings_file
 #
 require 'shellwords'
 

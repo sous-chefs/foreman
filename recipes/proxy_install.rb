@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+#
+# Cookbook Name:: foreman
+# Recipe:: proxy_install
+#
 include_recipe 'foreman::repo' if node['foreman']['use_repo']
 package 'foreman-proxy' do
   version node['foreman-proxy']['version'] unless

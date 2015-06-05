@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+#
+# Cookbook Name:: foreman
+# Recipe:: install
+#
 include_recipe 'foreman::repo' if node['foreman']['use_repo']
 
 package 'foreman' do

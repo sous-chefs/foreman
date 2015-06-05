@@ -16,7 +16,7 @@ end
 
 describe file('/etc/foreman-proxy/settings.yml') do
   it { should be_grouped_into 'foreman-proxy' }
-  its(:content) { should match(%r{^:https_port: 8443$}) }
+  its(:content) { should match(/^:https_port: 8443$/) }
   its(:content) { should match(%r{^:ssl_ca_file: /etc/foreman/certs/ca.crt$}) }
   its(:content) { should match(%r{^:ssl_certificate: /etc/foreman/certs/server.crt$}) }
   its(:content) { should match(%r{^:ssl_private_key: /etc/foreman/certs/server.key$}) }

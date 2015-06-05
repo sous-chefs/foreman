@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+#
+# Cookbook Name:: foreman
+# Recipe:: proxy_tftp
+#
 include_recipe 'tftp'
 
 node['foreman-proxy']['tftp_dirs'].each do |dir|

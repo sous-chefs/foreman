@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+#
+# Cookbook Name:: foreman
+# Recipe:: proxy_dhcp
+#
 include_recipe 'dhcp::server'
 
 dhcp_subnet 'foreman' do
