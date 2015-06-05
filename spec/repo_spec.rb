@@ -14,10 +14,15 @@ describe 'foreman::repo' do
       expect(subject).to include_recipe('apt')
     end
 
-    it 'should add repository' do
+    it 'should add repositories' do
       expect(subject).to add_apt_repository('foreman')
         .with(uri: 'http://deb.theforeman.org/',
               distribution: 'trusty',
+              componenets: nil,
+              key: 'http://deb.theforeman.org/foreman.asc')
+      expect(subject).to add_apt_repository('foreman_plugins')
+        .with(uri: 'http://deb.theforeman.org/',
+              distribution: 'plugins',
               componenets: nil,
               key: 'http://deb.theforeman.org/foreman.asc')
     end
