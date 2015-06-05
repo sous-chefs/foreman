@@ -112,10 +112,10 @@ include_recipe 'foreman::proxy'
     <td><tt>http://deb.theforeman.org/foreman.asc</tt></td>
   </tr>
   <tr>
-    <td><tt>['foreman']['compute_plugins']</tt></td>
+    <td><tt>['foreman']['plugins']</tt></td>
     <td>Array</td>
-    <td>Compute plugins</td>
-    <td><tt>[foreman-libvirt]</tt></td>
+    <td>Plugins installed via the package manager</td>
+    <td><tt>[foreman-libvirt, ruby-foreman-chef]</tt></td>
   </tr>
   <tr>
     <td><tt>['foreman']['server_name']</tt></td>
@@ -486,6 +486,12 @@ include_recipe 'foreman::proxy'
     <td>Array</td>
     <td>System groups for foreman-proxy user</td>
     <td><tt>[]</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['foreman-proxy']['plugins']</tt></td>
+    <td>Array</td>
+    <td>Plugins installed via the package manager for the smartproxy</td>
+    <td><tt>[ruby-smart-proxy-chef]</tt></td>
   </tr>
   <tr>
     <td><tt>['foreman-proxy']['log_file']</tt></td>

@@ -15,6 +15,8 @@ default['foreman-proxy']['user'] = 'foreman-proxy'
 default['foreman-proxy']['group'] = 'foreman-proxy'
 default['foreman-proxy']['group_users'] = []
 
+default['foreman-proxy']['plugins'] = ['ruby-smart-proxy-chef']
+
 # Log config
 default['foreman-proxy']['log_file'] = '/var/log/foreman-proxy/proxy.log'
 default['foreman-proxy']['log_level'] = 'ERROR'

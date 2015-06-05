@@ -9,6 +9,10 @@ package 'foreman-proxy' do
     node['foreman-proxy']['version'] == 'stable'
 end
 
+node['foreman-proxy']['plugins'].each do |pack|
+  package pack
+end
+
 package node['foreman-proxy']['api_package'] if
   node['foreman-proxy']['register']
 

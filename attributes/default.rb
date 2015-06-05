@@ -12,7 +12,7 @@ default['foreman']['repo']['uri'] = 'http://deb.theforeman.org/'
 default['foreman']['repo']['components'] = ['stable']
 default['foreman']['repo']['key'] = 'http://deb.theforeman.org/foreman.asc'
 
-default['foreman']['compute_plugins'] = ['foreman-libvirt']
+default['foreman']['plugins'] = ['foreman-libvirt', 'ruby-foreman-chef']
 
 default['foreman']['server_name'] = 'foreman.example'
 default['foreman']['environment'] = 'production'

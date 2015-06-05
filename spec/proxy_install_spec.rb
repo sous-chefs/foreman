@@ -17,6 +17,7 @@ describe 'foreman::proxy_install' do
     it 'should install packages' do
       expect(subject).to install_package('foreman-proxy')
       expect(subject).to install_package('ruby-apipie-bindings')
+      expect(subject).to install_package('ruby-smart-proxy-chef')
       expect(subject).to_not install_package('ipmitool')
     end
   end
