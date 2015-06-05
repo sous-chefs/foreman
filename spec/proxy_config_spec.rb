@@ -32,7 +32,7 @@ describe 'foreman::proxy_config' do
       expect(subject).to disable_foreman_proxy_settings_file('puppetca')
         .with(listen_on: 'https')
       expect(subject).to disable_foreman_proxy_settings_file('templates')
-        .with(listen_on: 'both')
+        .with(listen_on: 'https')
       expect(subject).to disable_foreman_proxy_settings_file('realm')
         .with(listen_on: 'https')
     end

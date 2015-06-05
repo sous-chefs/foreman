@@ -4,7 +4,6 @@ class ::Chef::Node::Attribute
 end
 
 default['foreman']['path'] = '/usr/share/foreman'
-default['foreman']['current_path'] = default['foreman']['path']
 default['foreman']['version'] = 'stable'
 default['foreman']['config_path'] = '/etc/foreman'
 
@@ -13,7 +12,7 @@ default['foreman']['repo']['uri'] = 'http://deb.theforeman.org/'
 default['foreman']['repo']['components'] = ['stable']
 default['foreman']['repo']['key'] = 'http://deb.theforeman.org/foreman.asc'
 
-default['foreman']['plugins'] = ['foreman-libvirt']
+default['foreman']['compute_plugins'] = ['foreman-libvirt']
 
 default['foreman']['server_name'] = 'foreman.example'
 default['foreman']['environment'] = 'production'
@@ -30,8 +29,6 @@ default['foreman']['user'] = 'foreman'
 default['foreman']['group'] = 'foreman'
 default['foreman']['group_users'] = []
 
-default['foreman']['authentication'] = true
-default['foreman']['passenger']['install'] = true
 default['foreman']['db']['manage'] = true
 default['foreman']['db']['host'] = nil
 default['foreman']['db']['port'] = nil
@@ -50,6 +47,7 @@ default['foreman']['db']['database'] = 'foreman'
 default['foreman']['db']['username'] = 'foreman'
 default['foreman']['db']['password'] = 'foreman'
 
+default['foreman']['passenger']['install'] = true
 default['foreman']['passenger']['high_performance'] = true
 default['foreman']['passenger']['rack_autodetect'] = false
 default['foreman']['passenger']['rails_autodetect'] = false
@@ -83,6 +81,7 @@ default['foreman']['ssl_ca_key_file'] = "#{node['foreman']['ssl_dir']}/ca.key"
 default['foreman']['ssl_cert_file'] = "#{node['foreman']['ssl_dir']}/server.crt"
 default['foreman']['ssl_cert_key_file'] = "#{node['foreman']['ssl_dir']}/server.key"
 default['foreman']['ssl_cert_csr_file'] = "#{node['foreman']['ssl_dir']}/server.csr"
+
 default['foreman']['unattended'] = true
 default['foreman']['authentication'] = true
 default['foreman']['locations_enabled'] = false

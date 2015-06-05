@@ -9,9 +9,7 @@ default['dhcp']['parameters']['omapi-port'] = '7911'
 default['foreman-proxy']['version'] = 'stable'
 default['foreman-proxy']['register'] = true
 default['foreman-proxy']['config_path'] = '/etc/foreman-proxy'
-default['foreman-proxy']['tftproot'] = node['tftp']['directory']
 default['foreman-proxy']['daemon'] = true
-default['foreman-proxy']['tftp'] = true
 
 default['foreman-proxy']['user'] = 'foreman-proxy'
 default['foreman-proxy']['group'] = 'foreman-proxy'
@@ -79,6 +77,7 @@ default['foreman-proxy']['dns_provider'] = 'nsupdate'
 default['foreman-proxy']['dns_interface'] = 'eth0'
 default['foreman-proxy']['dns_server'] = '127.0.0.1'
 default['foreman-proxy']['dns_ttl'] = '86400'
+default['foreman-proxy']['dns_realm'] = node['fqdn'].upcase
 default['foreman-proxy']['dns_tsig_keytab'] = '/etc/foreman-proxy/dns.keytab'
 default['foreman-proxy']['dns_tsig_principal'] = "foremanproxy/#{node['fqdn']}@#{node['foreman-proxy']['dns_realm']}"
 case node['platform_family']
@@ -89,7 +88,6 @@ else
   default['foreman-proxy']['dns_keyfile'] = '/etc/rndc.key'
   default['foreman-proxy']['dns_nsupdate'] = 'bind-utils'
 end
-default['foreman-proxy']['dns_forwarders'] = []
 
 # DHCP options
 default['foreman-proxy']['dhcp'] = true
@@ -160,10 +158,10 @@ default['foreman-proxy']['real_principal'] = 'realm-proxy@EXAMPLE.COM'
 default['foreman-proxy']['freeipa_remove_dns'] = true
 
 # Oauth options
-default['foreman-proxy']['oauth_effective_user'] = 'admin'
+default['foreman-proxy']['oauth_effective_user'] = node['foreman']['admin']['username']
 default['foreman-proxy']['oauth_consumer_key'] = cache_data('oauth_consumer_key', random_password)
 default['foreman-proxy']['oauth_consumer_secret'] = cache_data('oauth_consumer_secret', random_password)
 
 # Templates options
 default['foreman-proxy']['templates'] = false
-default['foreman-proxy']['templates_listen_on'] = 'both'
+default['foreman-proxy']['templates_listen_on'] = 'https'

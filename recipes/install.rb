@@ -10,7 +10,7 @@ package 'foreman' do
     node['foreman']['version'] == 'stable'
 end
 
-node['foreman']['plugins'].each do |pack|
+node['foreman']['compute_plugins'].each do |pack|
   package pack
 end
 
