@@ -816,19 +816,19 @@ include_recipe 'foreman::proxy'
     <td><tt>['foreman-proxy']['dhcp_subnet']</tt></td>
     <td>String</td>
     <td>Dhcp subnet</td>
-    <td><tt>10.0.2.0</tt></td>
+    <td><tt>Ohai subnet</tt></td>
   </tr>
   <tr>
     <td><tt>['foreman-proxy']['dhcp_netmask']</tt></td>
     <td>String</td>
     <td>Dhcp netmask</td>
-    <td><tt>255.255.255.0</tt></td>
+    <td><tt>Ohai netmask</tt></td>
   </tr>
   <tr>
     <td><tt>['foreman-proxy']['dhcp_broadcast']</tt></td>
     <td>String</td>
     <td>Dhcp broadcast</td>
-    <td><tt>10.0.2.255</tt></td>
+    <td><tt>Ohai broadcast</tt></td>
   </tr>
   <tr>
     <td><tt>['foreman-proxy']['dhcp_range']</tt></td>
@@ -840,7 +840,7 @@ include_recipe 'foreman::proxy'
     <td><tt>['foreman-proxy']['dhcp_routers']</tt></td>
     <td>Array</td>
     <td>Dhcp routers</td>
-    <td><tt>[10.0.2.15]</tt></td>
+    <td><tt>[Ohai router]</tt></td>
   </tr>
   <tr>
     <td><tt>['foreman-proxy']['dhcp_options']</tt></td>

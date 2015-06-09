@@ -15,6 +15,10 @@ UBUNTU_OPTS = {
   log_level: :fatal
 }
 
+RSpec.configure do |config|
+  config.path = 'spec/ohai.json'
+end
+
 shared_context 'foreman_stubs' do
   before do
     stub_command('/usr/sbin/apache2 -t').and_return(true)

@@ -100,11 +100,13 @@ default['foreman-proxy']['dhcp_vendor'] = 'isc'
 default['foreman-proxy']['dhcp_config'] = node['dhcp']['config_file']
 default['foreman-proxy']['dhcp_leases'] = '/var/lib/dhcp/dhcpd.leases'
 default['foreman-proxy']['dhcp_interface'] = 'eth0'
-default['foreman-proxy']['dhcp_subnet'] = '10.0.2.0'
-default['foreman-proxy']['dhcp_netmask'] = '255.255.255.0'
+net = node['network']['interfaces'][node['foreman-proxy']['dhcp_interface']]
+route = net['routes'].find { |ip| ip.key?('src') && ip['src'] == node['ipaddress'] }.dup
+default['foreman-proxy']['dhcp_subnet'] = route['destination'].split('/')[0]
+default['foreman-proxy']['dhcp_netmask'] = net['addresses'][node['ipaddress']]['netmask']
 default['foreman-proxy']['dhcp_range'] = []
-default['foreman-proxy']['dhcp_broadcast'] = '10.0.2.255'
-default['foreman-proxy']['dhcp_routers'] = ['10.0.2.15']
+default['foreman-proxy']['dhcp_broadcast'] = net['addresses'][node['ipaddress']]['broadcast']
+default['foreman-proxy']['dhcp_routers'] = [route['src']]
 default['foreman-proxy']['dhcp_options'] = ["domain-name \"#{node['foreman']['server_name']}\"",
                                             'domain-name-servers 127.0.0.1, 8.8.8.8']
 
