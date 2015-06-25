@@ -1052,6 +1052,7 @@ This LWRP enable or disable proxy settings files.
 - `mode`: File mode
 - `template_path`: Template file path
 
-## Author
+## Authors
 
 - [Pierre Rambaud](https://github.com/PierreRambaud)
+- [Guilhem Lettron](https://github.com/guilhem)
