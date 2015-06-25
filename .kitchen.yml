@@ -1,0 +1,18 @@
+---
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
+
+platforms:
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[apt]
+      - recipe[foreman]
+      - recipe[foreman::proxy]
+    attributes:
+      postgresql:
+        password:
+          postgres: toor

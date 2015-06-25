@@ -1,0 +1,31 @@
+AllCops:
+  Include:
+    - metadata.rb
+    - '**/Gemfile'
+    - attributes/**/*.rb
+    - definitions/**/*.rb
+    - libraries/**/*.rb
+    - providers/**/*.rb
+    - recipes/**/*.rb
+    - resources/**/*.rb
+    - spec/**/*.rb
+    - test/**/*.rb
+  Exclude:
+    - cookbooks/**/*
+    - vendor/**/*
+
+NumericLiterals:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/LineLength:
+  Exclude:
+    - spec/**/*
+    - test/**/*
+    - libraries/matchers.rb
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false

@@ -1,0 +1,53 @@
+<IfModule mod_passenger.c>
+  <%- if node['foreman']['passenger']['path'] -%>
+  PassengerRoot "<%= node['foreman']['passenger']['path'] %>"
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['ruby'] -%>
+  PassengerRuby "<%= node['foreman']['passenger']['ruby'] %>"
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['default_ruby'] -%>
+  PassengerDefaultRuby "<%= node['foreman']['passenger']['default_ruby'] %>"
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['high_performance'] -%>
+  PassengerHighPerformance <%= node['foreman']['passenger']['high_performance'] ? 'on' : 'off' %>
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['max_pool_size'] -%>
+  PassengerMaxPoolSize <%= node['foreman']['passenger']['max_pool_size'] %>
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['min_instances'] -%>
+  PassengerMinInstances <%= node['foreman']['passenger']['min_instances'] %>
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['pool_idle_time'] -%>
+  PassengerPoolIdleTime <%= node['foreman']['passenger']['pool_idle_time'] %>
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['max_requests'] -%>
+  PassengerMaxRequests <%= node['foreman']['passenger']['max_requests'] %>
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['stat_throttle_rate'] -%>
+  PassengerStatThrottleRate <%= node['foreman']['passenger']['stat_throttle_rate'] %>
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['rack_autodetect'] -%>
+  RackAutoDetect <%= node['foreman']['passenger']['rack_autodetect'] ? 'on' : 'off' %>
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['rails_autodetect'] -%>
+  RailsAutoDetect <%= node['foreman']['passenger']['rails_autodetect'] ? 'on' : 'off' %>
+  <%- end -%>
+
+  <%- if node['foreman']['passenger']['use_global_queue'] -%>
+  PassengerUseGlobalQueue <%= node['foreman']['passenger']['use_global_queue'] %>
+  <%- end -%>
+
+  <%- if node['foreman']['environment'] -%>
+  PassengerAppEnv <%= node['foreman']['environment'] %>
+  <%- end -%>
+</IfModule>
