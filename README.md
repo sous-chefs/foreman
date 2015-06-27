@@ -1,5 +1,7 @@
 # Foreman cookbook
 
+[![Build Status](https://travis-ci.org/redguide/foreman.png?branch=master)](https://travis-ci.org/redguide/foreman)
+
 Trying to reproduce [puppet-foreman_proxy](https://github.com/theforeman/puppet-foreman_proxy) and [puppet-foreman](https://github.com/theforeman/puppet-foreman) with Chef cookbooks.
 
 Installs and configures Foreman and Foreman-smartproxy.
@@ -49,7 +51,8 @@ include_recipe 'foreman::proxy'
 ```
 
 ## Attributes
-#### foreman::default
+
+#### `foreman::default`
 <table>
   <tr>
     <th>Key</th>
@@ -437,7 +440,7 @@ include_recipe 'foreman::proxy'
   </tr>
 </table>
 
-#### foreman::foreman_proxy
+#### `foreman::foreman_proxy`
 <table>
   <tr>
     <th>Key</th>
@@ -994,8 +997,62 @@ include_recipe 'foreman::proxy'
   </tr>
 </table>
 
-## Recipes
+## Resrouces/Providers
 
-## Author
+### `foreman_smartproxy`
+
+This LWRP provides and easy way to register or unregister a smartproxy into foreman.
+
+#### Actions
+
+- `:create`, register the smartproxy
+- `:remove`, unregister the smartproxy
+
+#### Parameters
+
+- `smartproxy_name`: Name of the smartproxy
+- `base_url`: Base url of foreman web api
+- `effective_user`: Foreman user
+- `consumer_key`: Oauth key
+- `consumer_secret`: Oauth secret
+- `url`: Url of the smartproxy
+- `timeout`: Request timeout
+
+### `foreman_rake`
+
+This LWRP reproduces the `foreman-rake` cli command.
+
+#### Actions
+
+- `:run`, run foreman-rake command
+
+#### Parameters
+
+- `rake_task`: Rake task name
+- `environement`: Environement variables
+- `timeout`: Request timeout
+
+### `foreman_proxy_settings_file`
+
+This LWRP enable or disable proxy settings files.
+
+#### Actions
+
+- `:enable`, enable setting file
+- `:disable`, disable setting file
+
+#### Parameters
+
+- `module`: Module name
+- `listen_on`: Module listen on which protocol
+- `cookbook`: Cookbook where is stored the template file
+- `path`: Path where the file will be created
+- `owner`: File owner
+- `group`: File group
+- `mode`: File mode
+- `template_path`: Template file path
+
+## Authors
 
 - [Pierre Rambaud](https://github.com/PierreRambaud)
+- [Guilhem Lettron](https://github.com/guilhem)
