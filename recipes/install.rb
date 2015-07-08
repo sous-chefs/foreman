@@ -10,10 +10,6 @@ package 'foreman' do
     node['foreman']['version'] == 'stable'
 end
 
-node['foreman']['plugins'].each do |pack|
-  package pack
-end
-
 case node['foreman']['db']['adapter']
 when 'sqlite'
   if node['platform_family'] == 'debian'

@@ -6,9 +6,14 @@
 db = node['foreman']['db']
 if db['manage']
   if db['adapter'] == 'mysql'
+    mysql2_chef_gem 'default' do
+      action :install
+    end
+
     mysql_client 'default' do
       action :create
     end
+
     mysql_service 'default' do
       initial_root_password db['password']
       action [:create, :start]
@@ -20,17 +25,18 @@ if db['manage']
       password: db['password'],
       socket: '/var/run/mysql-default/mysqld.sock'
     }
-    mysql_database db['database'] do
-      connection connection_info
-      action :create
-    end
 
     mysql_database_user 'create-foremanuser' do
       username db['username']
       password db['password']
       host db['host']
-      database_name db['database']
       connection connection_info
+      action :create
+    end
+
+    mysql_database db['database'] do
+      connection connection_info
+      owner db['username']
       action :create
     end
 
@@ -52,17 +58,17 @@ if db['manage']
       password: node['postgresql']['password']['postgres']
     }
 
-    postgresql_database db['database'] do
-      connection connection_info
-      action :create
-    end
-
     postgresql_database_user 'create-foremanuser' do
       username db['username']
       password db['password']
       host db['host']
-      database_name db['database']
       connection connection_info
+      action :create
+    end
+
+    postgresql_database db['database'] do
+      connection connection_info
+      owner db['username']
       action :create
     end
 

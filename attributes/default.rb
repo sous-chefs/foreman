@@ -30,7 +30,7 @@ default['foreman']['group'] = 'foreman'
 default['foreman']['group_users'] = []
 
 default['foreman']['db']['manage'] = true
-default['foreman']['db']['host'] = nil
+default['foreman']['db']['host'] = '127.0.0.1'
 default['foreman']['db']['port'] = nil
 default['foreman']['db']['adapter'] = 'postgresql'
 default['foreman']['db']['real_adapter'] = case node['foreman']['db']['adapter']

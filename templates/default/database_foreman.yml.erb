@@ -21,7 +21,7 @@ test:
 
 production:
   adapter: <%= @real_adapter %>
-<% unless (host = node['foreman']['db']['host'].nil?) -%>
+<% unless (host = node['foreman']['db']['host']).nil? -%>
   host: <%= host %>
 <% end -%>
 <% unless (port = node['foreman']['db']['port']).nil? -%>

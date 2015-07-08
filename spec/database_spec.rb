@@ -21,11 +21,11 @@ describe 'foreman::database' do
 
     it 'should configure postgresql' do
       expect(subject).to create_postgresql_database('foreman')
+        .with(owner: 'foreman')
       expect(subject).to create_postgresql_database_user('create-foremanuser')
         .with(username: 'foreman',
               password: 'foreman',
-              host: 'localhost',
-              database_name: 'foreman')
+              host: '127.0.0.1')
       expect(subject).to grant_postgresql_database_user('grant-foremanuser')
         .with(username: 'foreman',
               password: 'foreman',

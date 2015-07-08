@@ -30,7 +30,6 @@ end
 
 foreman_proxy_settings_file 'dhcp' do
   action node['foreman-proxy']['dhcp'] ? :enable : :disable
-  listen_on node['foreman-proxy']['dhcp_listen_on']
 end
 
 foreman_proxy_settings_file 'dns' do
@@ -60,6 +59,11 @@ end
 
 foreman_proxy_settings_file 'templates' do
   action node['foreman-proxy']['templates'] ? :enable : :disable
+  listen_on node['foreman-proxy']['templates_listen_on']
+end
+
+foreman_proxy_settings_file 'chef' do
+  action node['foreman-proxy']['chef'] ? :enable : :disable
   listen_on node['foreman-proxy']['templates_listen_on']
 end
 

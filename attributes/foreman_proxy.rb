@@ -169,3 +169,12 @@ default['foreman-proxy']['oauth_consumer_secret'] = cache_data('oauth_consumer_s
 # Templates options
 default['foreman-proxy']['templates'] = false
 default['foreman-proxy']['templates_listen_on'] = 'https'
+
+# Chef
+default['foreman-proxy']['chef'] = true
+default['foreman-proxy']['chef_authenticate_nodes'] = true
+default['foreman-proxy']['chef_server_url'] = 'https://chef.example.net'
+default['foreman-proxy']['chef_smartproxy_clientname'] = 'host.example.net'
+default['foreman-proxy']['chef_smartproxy_privatekey'] = '/etc/chef/client.pem'
+default['foreman-proxy']['chef_ssl_verify'] = true
+default['foreman-proxy']['chef_ssl_pem_file'] = '/etc/chef/chef.example.com.pem'

@@ -44,6 +44,7 @@ describe 'foreman::proxy_config' do
         .with(listen_on: 'https')
       expect(subject).to enable_foreman_proxy_settings_file('tftp')
         .with(listen_on: 'https')
+      expect(subject).to enable_foreman_proxy_settings_file('chef')
     end
 
     it 'should create settings file' do
