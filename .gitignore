@@ -3,6 +3,7 @@ bin/*
 .bundle/*
 .vagrant
 .kitchen
+.kitchen.local.yml
 .project
 cookbooks
 example/vms
