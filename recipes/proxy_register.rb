@@ -10,5 +10,7 @@ foreman_smartproxy node['foreman-proxy']['registered_name'] do
   effective_user node['foreman-proxy']['oauth_effective_user']
   url node['foreman-proxy']['registered_proxy_url']
   only_if { node['foreman-proxy']['register'] }
+  retries 3
+  retry_delay 5
   action :create
 end

@@ -92,5 +92,5 @@ default['foreman']['oauth_consumer_key'] = cache_data('oauth_consumer_key', rand
 default['foreman']['oauth_consumer_secret'] = cache_data('oauth_consumer_secret', random_password)
 
 default['foreman']['websockets_encrypt'] = true
-default['foreman']['websockets_ssl_key'] = "/etc/ssl/certs/#{node['fqdn'].downcase}.pem"
-default['foreman']['websockets_ssl_cert'] = "/etc/ssl/private_keys/#{node['fqdn'].downcase}.pem"
+default['foreman']['websockets_ssl_key'] = "/etc/ssl/certs/#{node['foreman']['server_name']}.pem"
+default['foreman']['websockets_ssl_cert'] = "/etc/ssl/private_keys/#{node['foreman']['server_name']}.pem"

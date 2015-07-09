@@ -4,5 +4,6 @@
 # Recipe:: proxy_service
 #
 service 'foreman-proxy' do
+  notifies :restart, 'service[apache2]', :immediately
   action :restart
 end
