@@ -30,7 +30,7 @@ default['foreman']['group'] = 'foreman'
 default['foreman']['group_users'] = []
 
 default['foreman']['db']['manage'] = true
-default['foreman']['db']['host'] = nil
+default['foreman']['db']['host'] = '127.0.0.1'
 default['foreman']['db']['port'] = nil
 default['foreman']['db']['adapter'] = 'postgresql'
 default['foreman']['db']['real_adapter'] = case node['foreman']['db']['adapter']
@@ -92,5 +92,5 @@ default['foreman']['oauth_consumer_key'] = cache_data('oauth_consumer_key', rand
 default['foreman']['oauth_consumer_secret'] = cache_data('oauth_consumer_secret', random_password)
 
 default['foreman']['websockets_encrypt'] = true
-default['foreman']['websockets_ssl_key'] = "/etc/ssl/certs/#{node['fqdn'].downcase}.pem"
-default['foreman']['websockets_ssl_cert'] = "/etc/ssl/private_keys/#{node['fqdn'].downcase}.pem"
+default['foreman']['websockets_ssl_key'] = "/etc/ssl/certs/#{node['foreman']['server_name']}.pem"
+default['foreman']['websockets_ssl_cert'] = "/etc/ssl/private_keys/#{node['foreman']['server_name']}.pem"

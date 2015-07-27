@@ -1,0 +1,46 @@
+---
+:enabled: <%= @module_enabled %>
+<% unless node['foreman-proxy']['chef_authenticate_nodes'].nil? -%>
+:chef_authenticate_nodes: <%= node['foreman-proxy']['chef_authenticate_nodes'] %>
+<% else -%>
+# :chef_authenticate_nodes: true
+<% end -%>
+<% unless node['foreman-proxy']['chef_server_url'].nil? -%>
+:chef_server_url: "<%= node['foreman-proxy']['chef_server_url'] %>"
+<% else -%>
+# :chef_server_url: "https://chef.example.net"
+<% end -%>
+
+# smart-proxy client node needs to have admin rights on chef-server
+# in order to retrive all nodes public keys
+<% unless node['foreman-proxy']['chef_smartproxy_clientname'].nil? -%>
+:chef_smartproxy_clientname: '<%= node['foreman-proxy']['chef_smartproxy_clientname'] %>'
+<% else -%>
+# :chef_smartproxy_clientname: 'host.example.net'
+<% end -%>
+<% unless node['foreman-proxy']['chef_smartproxy_privatekey'].nil? -%>
+:chef_smartproxy_privatekey: '<%= node['foreman-proxy']['chef_smartproxy_privatekey'] %>'
+<% else -%>
+# :chef_smartproxy_privatekey: '/etc/chef/client.pem'
+<% end -%>
+
+# by default ssl verification of request to your chef server is enabled,
+# you're supposed to install CA certificate yourself
+# this usually consist of two steps
+#   download the CA cert to /etc/pki/tls/certs/, e.g. ca-cert-root.pem
+#   ln -s ca-cert-root.pem $( openssl x509 -hash -noout -in ca-cert-root.pem )".0"
+# you can use self-signed certificate (see below) or disable verification
+# which is definitely not recommended for production
+<% unless node['foreman-proxy']['chef_ssl_verify'].nil? -%>
+:chef_ssl_verify: <%= node['foreman-proxy']['chef_ssl_verify'] %>
+<% else -%>
+# :chef_ssl_verify: true
+<% end -%>
+
+# if you're using self-signed certificate for you chef server, you can specify
+# the certificate file here or leave it empty (default)
+<% unless node['foreman-proxy']['chef_ssl_pem_file'].nil? -%>
+:chef_ssl_pem_file: '<%= node['foreman-proxy']['chef_ssl_pem_file'] %>'
+<% else -%>
+# :chef_ssl_pem_file: '/etc/chef/chef.example.com.pem'
+<% end -%>

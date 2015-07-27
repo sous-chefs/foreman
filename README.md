@@ -995,6 +995,48 @@ include_recipe 'foreman::proxy'
     <td>Templates listen on</td>
     <td><tt>https</tt></td>
   </tr>
+  <tr>
+    <td><tt>['foreman-proxy']['chef']</tt></td>
+    <td>Boolean</td>
+    <td>As Chef</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['foreman-proxy']['chef_authenticate_nodes']</tt></td>
+    <td>Boolean</td>
+    <td>Use Chef authenticate nodes</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['foreman-proxy']['chef_server_url']</tt></td>
+    <td>String</td>
+    <td>Chef server url</td>
+    <td><tt>https://chef.example.net</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['foreman-proxy']['chef_smartproxy_clientname']</tt></td>
+    <td>String</td>
+    <td>Chef client name</td>
+    <td><tt>host.example.net</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['foreman-proxy']['chef_smartproxy_privatekey']</tt></td>
+    <td>String</td>
+    <td>Chef client private key</td>
+    <td><tt>/etc/chef/client.pem</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['foreman-proxy']['chef_ssl_verify']</tt></td>
+    <td>Boolean</td>
+    <td>Verify chef ssl connection</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['foreman-proxy']['chef_ssl_pem_file']</tt></td>
+    <td>String</td>
+    <td>Chef ssl pem file</td>
+    <td><tt>/etc/chef/chef.example.com.pem</tt></td>
+  </tr>
 </table>
 
 ## Resrouces/Providers
