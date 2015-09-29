@@ -76,6 +76,7 @@ if node['foreman-proxy']['ssl']
   items = begin
             data_bag_item('foreman-proxy', node.chef_environment)
           rescue Net::HTTPServerException,
+                 Chef::Exceptions::ValidationFailed,
                  Chef::Exceptions::InvalidDataBagPath
             {}
           end
