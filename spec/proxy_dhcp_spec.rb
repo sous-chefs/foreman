@@ -17,7 +17,6 @@ describe 'foreman::proxy_dhcp' do
     it 'should create subnet' do
       expect(subject).to add_dhcp_subnet('foreman')
         .with(subnet: '10.0.2.0',
-              range: [],
               netmask: '255.255.255.0',
               broadcast: '10.0.2.255',
               routers: ['10.0.2.15'],
