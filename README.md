@@ -195,6 +195,12 @@ include_recipe 'foreman::proxy'
   <tr>
     <td><tt>['foreman']['db']['manage']</tt></td>
     <td>Boolean</td>
+    <td>Manage the database</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['foreman']['db']['install']</tt></td>
+    <td>Boolean</td>
     <td>Install the database</td>
     <td><tt>true</tt></td>
   </tr>

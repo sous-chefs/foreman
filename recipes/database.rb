@@ -10,75 +10,79 @@ if db['manage']
       action :install
     end
 
-    mysql_client 'default' do
-      action :create
-    end
+    if db['install']
+      mysql_client 'default' do
+        action :create
+      end
 
-    mysql_service 'default' do
-      initial_root_password db['password']
-      action [:create, :start]
-    end
+      mysql_service 'default' do
+        initial_root_password db['password']
+        action [:create, :start]
+      end
 
-    connection_info = {
-      host: '127.0.0.1',
-      username: 'root',
-      password: db['password'],
-      socket: '/var/run/mysql-default/mysqld.sock'
-    }
+      connection_info = {
+        host: '127.0.0.1',
+        username: 'root',
+        password: db['password'],
+        socket: '/var/run/mysql-default/mysqld.sock'
+      }
 
-    mysql_database_user 'create-foremanuser' do
-      username db['username']
-      password db['password']
-      host db['host']
-      connection connection_info
-      action :create
-    end
+      mysql_database_user 'create-foremanuser' do
+        username db['username']
+        password db['password']
+        host db['host']
+        connection connection_info
+        action :create
+      end
 
-    mysql_database db['database'] do
-      connection connection_info
-      owner db['username']
-      action :create
-    end
+      mysql_database db['database'] do
+        connection connection_info
+        owner db['username']
+        action :create
+      end
 
-    mysql_database_user 'grant-foremanuser' do
-      username db['username']
-      password db['password']
-      database_name db['database']
-      privileges [:all]
-      connection connection_info
-      action :grant
+      mysql_database_user 'grant-foremanuser' do
+        username db['username']
+        password db['password']
+        database_name db['database']
+        privileges [:all]
+        connection connection_info
+        action :grant
+      end
     end
   elsif db['adapter'] == 'postgresql'
-    include_recipe 'database::postgresql'
-    include_recipe 'postgresql::server'
-    connection_info = {
-      host: '127.0.0.1',
-      port: 5432,
-      username: 'postgres',
-      password: node['postgresql']['password']['postgres']
-    }
+    if db['install']
+      include_recipe 'database::postgresql'
+      include_recipe 'postgresql::server'
+      connection_info = {
+        host: '127.0.0.1',
+        port: 5432,
+        username: 'postgres',
+        password: node['postgresql']['password']['postgres']
+      }
 
-    postgresql_database_user 'create-foremanuser' do
-      username db['username']
-      password db['password']
-      host db['host']
-      connection connection_info
-      action :create
-    end
+      postgresql_database_user 'create-foremanuser' do
+        username db['username']
+        password db['password']
+        host db['host']
+        connection connection_info
+        action :create
+      end
 
-    postgresql_database db['database'] do
-      connection connection_info
-      owner db['username']
-      action :create
-    end
+      postgresql_database db['database'] do
+        connection connection_info
+        owner db['username']
+        action :create
+      end
 
-    postgresql_database_user 'grant-foremanuser' do
-      username db['username']
-      password db['password']
-      database_name db['database']
-      privileges [:all]
-      connection connection_info
-      action :grant
+      postgresql_database_user 'grant-foremanuser' do
+        username db['username']
+        password db['password']
+        database_name db['database']
+        privileges [:all]
+        connection connection_info
+        action :grant
+      end
     end
   end
 
