@@ -79,7 +79,7 @@ default['foreman-proxy']['dns_provider'] = 'nsupdate'
 default['foreman-proxy']['dns_interface'] = 'eth0'
 default['foreman-proxy']['dns_server'] = '127.0.0.1'
 default['foreman-proxy']['dns_ttl'] = '86400'
-default['foreman-proxy']['dns_realm'] = node['fqdn'].upcase
+default['foreman-proxy']['dns_realm'] = node['fqdn'].nil? ? '' : node['fqdn'].upcase
 default['foreman-proxy']['dns_tsig_keytab'] = '/etc/foreman-proxy/dns.keytab'
 default['foreman-proxy']['dns_tsig_principal'] = "foremanproxy/#{node['fqdn']}@#{node['foreman-proxy']['dns_realm']}"
 case node['platform_family']
