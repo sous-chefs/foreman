@@ -10,7 +10,7 @@ platforms:
   - name: ubuntu-14.04
     driver:
        customize:
-         memory: 1024
+         memory: 2048
 
 suites:
   - name: default
@@ -21,8 +21,10 @@ suites:
     run_list:
       - recipe[apt]
       - recipe[foreman]
-      - recipe[foreman::proxy]
+        #- recipe[foreman::proxy]
     attributes:
       postgresql:
         password:
           postgres: toor
+      foreman-proxy:
+        dhcp_range: '172.16.0.10 172.16.0.20'
