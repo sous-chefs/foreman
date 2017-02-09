@@ -109,6 +109,11 @@ if node['foreman']['passenger']['install']
   web_app 'foreman' do
     server_name node['foreman']['server_name']
     server_aliases ['foreman']
+    if node['foreman']['ssl']
+      server_port '443'
+    else
+      server_port '80'
+    end
     docroot "#{node['foreman']['path']}/public"
     directory_options %w(SymLinksIfOwnerMatch)
     cookbook 'foreman'
