@@ -102,8 +102,10 @@ default['foreman-proxy']['dhcp_leases'] = '/var/lib/dhcp/dhcpd.leases'
 default['foreman-proxy']['dhcp_interface'] = 'eth0'
 net = node['network']['interfaces'][node['foreman-proxy']['dhcp_interface']]
 route = net['routes'].find { |ip| ip.key?('src') && ip['src'] == node['ipaddress'] }.dup
+route = node['network']['interfaces']['eth0']['routes'].find { |ip| ip['src'] && ip['src'] == node['ipaddress'] }.dup
 default['foreman-proxy']['dhcp_subnet'] = route['destination'].split('/')[0]
 default['foreman-proxy']['dhcp_netmask'] = net['addresses'][node['ipaddress']]['netmask']
+# TODO: WARNING if range is empty! Cause this lets 'isc-dhcp' fail to start.
 default['foreman-proxy']['dhcp_range'] = []
 default['foreman-proxy']['dhcp_broadcast'] = net['addresses'][node['ipaddress']]['broadcast']
 default['foreman-proxy']['dhcp_routers'] = [route['src']]
