@@ -45,7 +45,7 @@ if node['foreman']['passenger']['install']
 
   if node['foreman']['ssl']
     include_recipe 'apache2::mod_ssl'
-    node.set['apache']['listen_ports'] = ['443']
+    node.set['apache']['listen'] = ['*:443']
 
     directory node['foreman']['ssl_dir'] do
       owner node['apache']['user']
