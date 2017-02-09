@@ -12,8 +12,8 @@ package 'ruby2.0'
 # Setting 'ruby2.0' as alternative Ruby version is broken in Trusty.
 # https://bugs.launchpad.net/ubuntu/+source/ruby2.0/+bug/1310292
 # So we have to adjust the symlinks on our own.
-# TODO Move these commands in to Chef ressources.
-bash 'Handle to broken Ruby 2.0 in Trusty.' do
+# TODO Move these commands into Chef ressources.
+bash 'Handle broken Ruby 2.0 in Trusty.' do
   code <<-EOH
   rm /usr/bin/ruby /usr/bin/gem /usr/bin/irb /usr/bin/rdoc /usr/bin/erb
   ln -s /usr/bin/ruby2.0 /usr/bin/ruby
