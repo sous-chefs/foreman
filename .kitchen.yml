@@ -8,6 +8,9 @@ provisioner:
 
 platforms:
   - name: ubuntu-14.04
+    driver:
+       customize:
+         memory: 1024
 
 suites:
   - name: default
