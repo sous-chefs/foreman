@@ -9,8 +9,8 @@ provisioner:
 platforms:
   - name: ubuntu-14.04
     driver:
-       customize:
-         memory: 2048
+      customize:
+        memory: 2048
 
 suites:
   - name: default
@@ -21,10 +21,19 @@ suites:
     run_list:
       - recipe[apt]
       - recipe[foreman]
-        #- recipe[foreman::proxy]
+      - recipe[foreman::proxy]
     attributes:
       postgresql:
         password:
           postgres: toor
+      # FIXME: Using a different NIC than 'eth0'
+      # for DNS and DHCP fails.
+      # So switching both off for now.
+      dhcp:
+        #interfaces: 'eth1'
       foreman-proxy:
-        dhcp_range: '172.16.0.10 172.16.0.20'
+        dhcp: false
+        dns: false
+        #dns_interface: eth1
+        #dhcp_interface: eth1
+        #dhcp_range: 172.16.0.10 172.16.0.20
