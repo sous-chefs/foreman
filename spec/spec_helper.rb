@@ -9,14 +9,11 @@ ChefSpec::Coverage.start! { add_filter 'foreman' }
 
 require 'chef/application'
 
-UBUNTU_OPTS = {
-  platform: 'ubuntu',
-  version: '14.04',
-  log_level: :fatal
-}.freeze
-
 RSpec.configure do |config|
   config.path = 'spec/ohai.json'
+  config.platform = 'ubuntu'
+  config.version = '14.04'
+  config.log_level = :fatal
 end
 
 shared_context 'foreman_stubs' do
