@@ -7,7 +7,7 @@ describe 'foreman::repo' do
 
   describe 'ubuntu' do
     cached(:subject) do
-      ChefSpec::ServerRunner.new().converge(described_recipe)
+      ChefSpec::ServerRunner.new.converge(described_recipe)
     end
 
     it 'should include recipes' do

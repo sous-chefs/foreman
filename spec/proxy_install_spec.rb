@@ -7,7 +7,7 @@ describe 'foreman::proxy_install' do
 
   describe 'ubuntu' do
     cached(:subject) do
-      ChefSpec::ServerRunner.new().converge(described_recipe)
+      ChefSpec::ServerRunner.new.converge(described_recipe)
     end
 
     it 'should includes recipes' do
