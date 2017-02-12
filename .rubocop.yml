@@ -29,3 +29,5 @@ Style/Documentation:
   Enabled: false
 Metrics/AbcSize:
   Enabled: false
+Metrics/BlockLength:
+  Max: 70
