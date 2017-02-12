@@ -32,6 +32,8 @@ suites:
       dhcp:
         #interfaces: 'eth1'
       foreman-proxy:
+        # Registering of the Smart-Proxy by this cookbook is currently broken.
+        register: false
         dhcp: false
         dns: false
         #dns_interface: eth1
