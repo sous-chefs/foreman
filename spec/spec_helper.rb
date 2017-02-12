@@ -23,5 +23,7 @@ shared_context 'foreman_stubs' do
     stub_command('ls /var/lib/postgresql/9.3/main/recovery.conf')
       .and_return(true)
     stub_command('ls /var/lib/pgsql/data/recovery.conf').and_return(true)
+    stub_command("ruby -v | grep -q ruby\\ 1.9").and_return(true)
+
   end
 end
