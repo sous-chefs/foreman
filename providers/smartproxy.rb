@@ -3,6 +3,7 @@
 # Cookbook Name:: foreman
 # Provider:: smartproxy
 #
+use_inline_resources
 
 action :create do
   if id.nil?

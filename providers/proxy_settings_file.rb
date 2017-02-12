@@ -4,6 +4,7 @@
 # Provider:: proxy_settings_file
 #
 require 'shellwords'
+use_inline_resources
 
 action :enable do
   listen_on = case new_resource.listen_on
