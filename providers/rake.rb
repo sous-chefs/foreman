@@ -11,9 +11,9 @@ action :run do
   unless new_resource.environment.nil?
     rake_command += ' '
     rake_command += new_resource.environment
-                    .reject { |_k, v| v.nil? }.map do |k, v|
-                      "#{k}=#{Shellwords.escape(v)}"
-                    end.join(' ')
+                                .reject { |_k, v| v.nil? }.map do |k, v|
+      "#{k}=#{Shellwords.escape(v)}"
+    end.join(' ')
   end
 
   execute "foreman-rake-#{new_resource.rake_task}" do

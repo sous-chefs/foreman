@@ -13,7 +13,7 @@ UBUNTU_OPTS = {
   platform: 'ubuntu',
   version: '14.04',
   log_level: :fatal
-}
+}.freeze
 
 RSpec.configure do |config|
   config.path = 'spec/ohai.json'

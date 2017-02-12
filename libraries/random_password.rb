@@ -5,7 +5,7 @@ module Foreman
       characters.delete ambiguous_character
     end if non_ambiguous
 
-    size.times.collect do
+    Array.new(size) do
       characters[rand(characters.size)]
     end.join
   end

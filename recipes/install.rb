@@ -32,11 +32,11 @@ end
 
 case node['foreman']['db']['adapter']
 when 'sqlite'
-  if node['platform_family'] == 'debian'
-    pkg = 'foreman-sqlite3'
-  else
-    pkg = 'foreman-sqlite'
-  end
+  pkg = if node['platform_family'] == 'debian'
+          'foreman-sqlite3'
+        else
+          'foreman-sqlite'
+        end
 when 'postgresql'
   pkg = 'foreman-postgresql'
 when 'mysql'
