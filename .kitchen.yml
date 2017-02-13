@@ -26,16 +26,14 @@ suites:
       postgresql:
         password:
           postgres: toor
-      # FIXME: Using a different NIC than 'eth0'
-      # for DNS and DHCP fails.
-      # So switching both off for now.
       dhcp:
-        #interfaces: 'eth1'
+        interfaces:
+          - eth1
       foreman-proxy:
-        # Registering of the Smart-Proxy by this cookbook is currently broken.
+        # FIXME: Register the Smart-Proxy is failing.
         register: false
-        dhcp: false
         dns: false
         #dns_interface: eth1
-        #dhcp_interface: eth1
-        #dhcp_range: 172.16.0.10 172.16.0.20
+        dhcp:  true
+        dhcp_interface: eth1
+        dhcp_range: 172.16.0.10 172.16.0.20
