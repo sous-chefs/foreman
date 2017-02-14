@@ -101,11 +101,13 @@ default['foreman-proxy']['dhcp_config'] = node['dhcp']['config_file']
 default['foreman-proxy']['dhcp_leases'] = '/var/lib/dhcp/dhcpd.leases'
 default['foreman-proxy']['dhcp_interface'] = 'eth0'
 net = node['network']['interfaces'][node['foreman-proxy']['dhcp_interface']]
-route = net['routes'].find { |ip| ip.key?('src') && ip['src'] == node['ipaddress'] }.dup
+ip_addr = net['addresses'].keys.select { |a| a[/\A\d+\.\d+\.\d+\.\d+\Z/] }.first
+route = net['routes'].find { |ip| ip.key?('src') && ip['src'] == ip_addr }.dup
 default['foreman-proxy']['dhcp_subnet'] = route['destination'].split('/')[0]
-default['foreman-proxy']['dhcp_netmask'] = net['addresses'][node['ipaddress']]['netmask']
+default['foreman-proxy']['dhcp_netmask'] = net['addresses'][ip_addr]['netmask']
+# TODO: WARNING if range is empty! Cause this lets 'isc-dhcp' fail to start.
 default['foreman-proxy']['dhcp_range'] = []
-default['foreman-proxy']['dhcp_broadcast'] = net['addresses'][node['ipaddress']]['broadcast']
+default['foreman-proxy']['dhcp_broadcast'] = net['addresses'][ip_addr]['broadcast']
 default['foreman-proxy']['dhcp_routers'] = [route['src']]
 default['foreman-proxy']['dhcp_options'] = ["domain-name \"#{node['foreman']['server_name']}\"",
                                             'domain-name-servers 127.0.0.1, 8.8.8.8']

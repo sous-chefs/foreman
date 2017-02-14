@@ -7,7 +7,7 @@ describe 'foreman::proxy_service' do
 
   describe 'ubuntu' do
     cached(:subject) do
-      ChefSpec::ServerRunner.new(UBUNTU_OPTS).converge(described_recipe)
+      ChefSpec::ServerRunner.new.converge(described_recipe)
     end
 
     it 'should restart services' do

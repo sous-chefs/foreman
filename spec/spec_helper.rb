@@ -9,14 +9,11 @@ ChefSpec::Coverage.start! { add_filter 'foreman' }
 
 require 'chef/application'
 
-UBUNTU_OPTS = {
-  platform: 'ubuntu',
-  version: '14.04',
-  log_level: :fatal
-}
-
 RSpec.configure do |config|
   config.path = 'spec/ohai.json'
+  config.platform = 'ubuntu'
+  config.version = '14.04'
+  config.log_level = :fatal
 end
 
 shared_context 'foreman_stubs' do
@@ -26,5 +23,6 @@ shared_context 'foreman_stubs' do
     stub_command('ls /var/lib/postgresql/9.3/main/recovery.conf')
       .and_return(true)
     stub_command('ls /var/lib/pgsql/data/recovery.conf').and_return(true)
+    stub_command('ruby -v | grep -q ruby\\ 1.9').and_return(true)
   end
 end

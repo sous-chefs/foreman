@@ -4,13 +4,13 @@ gem 'chef', '~>12'
 
 group :integration do
   gem 'berkshelf'
-  gem 'rubocop'
-  gem 'rake'
-  gem 'test-kitchen'
-  gem 'kitchen-vagrant'
-  gem 'serverspec'
   gem 'chefspec'
   gem 'foodcritic'
+  gem 'kitchen-vagrant'
+  gem 'rake'
+  gem 'rubocop'
+  gem 'serverspec'
+  gem 'test-kitchen'
 end
 
 group :example do

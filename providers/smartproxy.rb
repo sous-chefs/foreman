@@ -3,6 +3,7 @@
 # Cookbook Name:: foreman
 # Provider:: smartproxy
 #
+use_inline_resources
 
 action :create do
   if id.nil?
@@ -54,8 +55,8 @@ def proxy
     @proxy
   else
     @proxy = api.call(:index,
-                      search: "name=#{new_resource.smartproxy_name}"
-                     )['results'][0]
+                      # rubocop:disable LineLength
+                      search: "name=#{new_resource.smartproxy_name}")['results'][0]
   end
 end
 
