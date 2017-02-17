@@ -19,19 +19,18 @@ describe 'foreman::proxy_tftp' do
       expect(subject).to create_directory('/var/lib/tftpboot/boot')
     end
 
-    it 'should retrieve bios components' do
-      expect(subject).to cherry_pick_ark('pxelinux.0')
-        .with(url: 'https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.gz',
-              path: '/var/lib/tftpboot',
-              creates: 'syslinux-6.03/bios/core/pxelinux.0')
-      expect(subject).to cherry_pick_ark('menu.c32')
-        .with(url: 'https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.gz',
-              path: '/var/lib/tftpboot',
-              creates: 'syslinux-6.03/bios/com32/menu/menu.c32')
-      expect(subject).to cherry_pick_ark('chain.c32')
-        .with(url: 'https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.gz',
-              path: '/var/lib/tftpboot',
-              creates: 'syslinux-6.03/bios/com32/chain/chain.c32')
+    it 'should retrieve Syslinux components' do
+      expect(subject).to create_remote_file('/var/lib/tftpboot/pxelinux.0')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
+      expect(subject).to create_remote_file('/var/lib/tftpboot/menu.c32')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
+      expect(subject).to create_remote_file('/var/lib/tftpboot/chain.c32')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
     end
   end
 end
