@@ -11,7 +11,6 @@ version '0.0.1'
 
 depends 'apt'
 depends 'apache2'
-depends 'ark'
 depends 'bind'
 depends 'database'
 depends 'dhcp'
