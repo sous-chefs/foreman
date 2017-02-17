@@ -15,8 +15,17 @@ describe 'foreman::proxy_tftp' do
     end
 
     it 'should create directories' do
+      expect(subject).to create_directory('/var/lib/tftpboot')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
       expect(subject).to create_directory('/var/lib/tftpboot/pxelinux.cfg')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
       expect(subject).to create_directory('/var/lib/tftpboot/boot')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
     end
 
     it 'should retrieve Syslinux components' do
