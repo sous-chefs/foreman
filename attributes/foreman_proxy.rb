@@ -3,7 +3,6 @@ class ::Chef::Node::Attribute
   include ::Foreman
 end
 
-
 # Default config
 default['foreman-proxy']['version'] = 'stable'
 default['foreman-proxy']['register'] = true
@@ -114,7 +113,7 @@ default['foreman-proxy']['dhcp_options'] = ["domain-name \"#{node['foreman']['se
 
 # global DHCP server config
 default['dhcp']['parameters']['omapi-port'] = '7911'
-default['dhcp']['parameters']['next-server'] = "#{node['foreman-proxy']['ip']}"
+default['dhcp']['parameters']['next-server'] = (node['foreman-proxy']['ip']).to_s
 
 # virsh options
 default['foreman-proxy']['virsh_network'] = 'default'
@@ -136,13 +135,12 @@ default['foreman-proxy']['tftp_syslinux_root'] = nil
 # https://theforeman.org/manuals/1.14/index.html#4.3.9TFTP
 case node['platform_family']
 when 'debian'
-    default['foreman-proxy']['tftp_syslinux_filenames'] = ['/usr/lib/syslinux/pxelinux.0',
-                                                           '/usr/lib/syslinux/memdisk',
-                                                           '/usr/lib/syslinux/chain.c32',
-                                                           '/usr/lib/syslinux/menu.c32',
-                                                           #'/usr/lib/syslinux/modules/bios/ldlinux.c32',
-                                                           #'/usr/lib/syslinux/modules/bios/libutil.c32']
-    ]
+  default['foreman-proxy']['tftp_syslinux_filenames'] = ['/usr/lib/syslinux/pxelinux.0',
+                                                         '/usr/lib/syslinux/memdisk',
+                                                         '/usr/lib/syslinux/chain.c32',
+                                                         '/usr/lib/syslinux/menu.c32']
+  # '/usr/lib/syslinux/modules/bios/ldlinux.c32',
+  # '/usr/lib/syslinux/modules/bios/libutil.c32']
 end
 
 default['foreman-proxy']['tftp_root'] = node['tftp']['directory']
