@@ -5,20 +5,44 @@
 #
 include_recipe 'tftp'
 
+directory node['foreman-proxy']['tftp_root'] do
+  owner 'foreman-proxy'
+  group 'foreman-proxy'
+end
+
 node['foreman-proxy']['tftp_dirs'].each do |dir|
   directory ::File.join(node['foreman-proxy']['tftp_root'], dir) do
-    mode 0o755
+    mode 0775
+    owner 'foreman-proxy'
+    group 'foreman-proxy'
   end
 end
 
-# rubocop:disable Metrics/LineLength
-["syslinux-#{node['foreman-proxy']['syslinux']['version']}/bios/core/pxelinux.0",
- "syslinux-#{node['foreman-proxy']['syslinux']['version']}/bios/com32/menu/menu.c32",
- "syslinux-#{node['foreman-proxy']['syslinux']['version']}/bios/com32/chain/chain.c32"].each do |file|
-  ark ::File.basename(file) do
-    url node['foreman-proxy']['syslinux']['url']
-    path node['tftp']['directory']
-    creates file
-    action :cherry_pick
+package 'syslinux-common'
+
+node['foreman-proxy']['tftp_syslinux_filenames'].each do |file|
+  remote_file "#{node['foreman-proxy']['tftp_root']}" + '/' + "#{::File.basename(file)}" do
+    source lazy { 'file://' + "#{file}" }
+    owner 'foreman-proxy'
+    group 'foreman-proxy'
   end
+end
+
+# Argh. This is not working. Archive is not extracted.
+# TODO: Add a issue/bug report upstream!
+#poise_archive 'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar' do
+#  destination '/var/lib/tftpboot/boot'
+#  keep_existing false
+#  action :unpack
+#end
+
+# FIXME: Don't call 'wget' via 'execute'. Use a built-in or provider for that.
+# TODO: Add Guard.
+execute 'Download and extract Discovery Image' do
+  command 'wget -qO- \'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar\' | tar -x -C /var/lib/tftpboot/boot/'
+end
+
+# TODO: Add Guard.
+execute 'Correct ownershipt of extracted Discovery Image' do
+  command 'chown -R foreman-proxy:foreman-proxy /var/lib/tftpboot/boot/'
 end
