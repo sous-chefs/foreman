@@ -21,7 +21,7 @@ describe 'foreman::proxy_dhcp' do
               broadcast: '10.0.2.255',
               routers: ['10.0.2.15'],
               options: ['domain-name "foreman.example"',
-                        'domain-name-servers 127.0.0.1, 8.8.8.8'])
+                        'domain-name-servers 10.0.2.15, 8.8.8.8'])
     end
   end
 end
