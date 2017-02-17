@@ -43,6 +43,6 @@ execute 'Download and extract Discovery Image' do
 end
 
 # TODO: Add Guard.
-execute 'Correct ownershipt of extracted Discovery Image' do
+execute 'Correct ownership of extracted Discovery Image' do
   command 'chown -R foreman-proxy:foreman-proxy /var/lib/tftpboot/boot/'
 end
