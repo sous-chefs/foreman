@@ -12,6 +12,7 @@ dhcp_subnet 'foreman' do
   end
   netmask node['foreman-proxy']['dhcp_netmask']
   broadcast node['foreman-proxy']['dhcp_broadcast']
+  next_server node['foreman-proxy']['ip']
   routers node['foreman-proxy']['dhcp_routers']
   options node['foreman-proxy']['dhcp_options']
 end
