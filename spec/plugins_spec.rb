@@ -13,6 +13,7 @@ describe 'foreman::plugins' do
     it 'should install packages' do
       expect(subject).to install_package('foreman-libvirt')
       expect(subject).to install_package('ruby-foreman-chef')
+      expect(subject).to install_package('ruby-foreman-discovery')
     end
   end
 end
