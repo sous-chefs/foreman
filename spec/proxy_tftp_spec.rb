@@ -28,6 +28,10 @@ describe 'foreman::proxy_tftp' do
               group: 'foreman-proxy')
     end
 
+    it 'should install the package syslinux-common' do
+      expect(subject).to install_package('syslinux-common')
+    end
+
     it 'should retrieve Syslinux components' do
       expect(subject).to create_remote_file('/var/lib/tftpboot/pxelinux.0')
         .with(owner: 'foreman-proxy',
@@ -38,6 +42,10 @@ describe 'foreman::proxy_tftp' do
               group: 'foreman-proxy')
 
       expect(subject).to create_remote_file('/var/lib/tftpboot/chain.c32')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
+      expect(subject).to create_remote_file('/var/lib/tftpboot/memdisk')
         .with(owner: 'foreman-proxy',
               group: 'foreman-proxy')
     end
