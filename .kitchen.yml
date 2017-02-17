@@ -23,6 +23,13 @@ suites:
       - recipe[foreman]
       - recipe[foreman::proxy]
     attributes:
+      bind:
+        masters:
+          - 172.16.0.2
+        zones:
+          nsmaster: foreman.example
+          nsmaster_ip: 172.16.0.2
+          email: root.foreman.example
       postgresql:
         password:
           postgres: toor
@@ -32,8 +39,8 @@ suites:
       foreman-proxy:
         # FIXME: Register the Smart-Proxy is failing.
         register: false
-        dns: false
-        #dns_interface: eth1
+        dns: true
+        dns_interface: eth1
         dhcp:  true
         dhcp_interface: eth1
         dhcp_range: 172.16.0.10 172.16.0.20
