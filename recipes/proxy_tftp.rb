@@ -12,7 +12,7 @@ end
 
 node['foreman-proxy']['tftp_dirs'].each do |dir|
   directory ::File.join(node['foreman-proxy']['tftp_root'], dir) do
-    mode 0o775
+    mode 0775
     owner 'foreman-proxy'
     group 'foreman-proxy'
   end
