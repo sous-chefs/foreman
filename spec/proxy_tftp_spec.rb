@@ -49,5 +49,13 @@ describe 'foreman::proxy_tftp' do
         .with(owner: 'foreman-proxy',
               group: 'foreman-proxy')
     end
+
+    it 'should download the tar archive of the Foreman Discovery Image' do
+      expect(subject).to run_execute('wget -qO- \'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar\' | tar -x -C /var/lib/tftpboot/boot/')
+    end
+
+    it 'should correct the ownership of the extracted Discovery Image' do
+      expect(subject).to run_execute('chown -R foreman-proxy:foreman-proxy /var/lib/tftpboot/boot/')
+    end
   end
 end
