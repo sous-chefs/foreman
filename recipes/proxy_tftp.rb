@@ -12,7 +12,7 @@ end
 
 node['foreman-proxy']['tftp_dirs'].each do |dir|
   directory ::File.join(node['foreman-proxy']['tftp_root'], dir) do
-    mode 0775
+    mode 0o775
     owner 'foreman-proxy'
     group 'foreman-proxy'
   end
@@ -21,7 +21,7 @@ end
 package 'syslinux-common'
 
 node['foreman-proxy']['tftp_syslinux_filenames'].each do |file|
-  remote_file node['foreman-proxy']['tftp_root'] + '/' + ::File.basename(file).to_s do
+  remote_file node['foreman-proxy']['tftp_root'] + '/' + File.basename(file) do
     source lazy { 'file://' + file.to_s }
     owner 'foreman-proxy'
     group 'foreman-proxy'
@@ -30,6 +30,7 @@ end
 
 # Argh. This is not working. Archive is not extracted.
 # TODO: Add a issue/bug report upstream!
+# rubocop:disable LineLength
 # poise_archive 'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar' do
 #  destination '/var/lib/tftpboot/boot'
 #  keep_existing false
