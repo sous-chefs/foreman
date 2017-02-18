@@ -38,7 +38,7 @@ end
 
 # FIXME: Don't call 'wget' via 'execute'. Use a built-in or provider for that.
 # TODO: Add Guard.
-execute 'Download and extract Discovery Image' do
+execute 'Download and extract Discovery Image' do # ~FC041
   command 'wget -qO- \'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar\' | tar -x -C /var/lib/tftpboot/boot/'
 end
 
