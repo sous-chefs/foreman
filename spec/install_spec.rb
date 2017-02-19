@@ -16,6 +16,7 @@ describe 'foreman::install' do
     end
 
     it 'should install packages' do
+      expect(subject).to install_package('ruby2.0')
       expect(subject).to install_package('foreman')
       expect(subject).to install_package('foreman-postgresql')
       expect(subject).to install_package('libapache2-mod-passenger')

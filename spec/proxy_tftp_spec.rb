@@ -15,23 +15,47 @@ describe 'foreman::proxy_tftp' do
     end
 
     it 'should create directories' do
+      expect(subject).to create_directory('/var/lib/tftpboot')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
       expect(subject).to create_directory('/var/lib/tftpboot/pxelinux.cfg')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
       expect(subject).to create_directory('/var/lib/tftpboot/boot')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
     end
 
-    it 'should retrieve bios components' do
-      expect(subject).to cherry_pick_ark('pxelinux.0')
-        .with(url: 'https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.gz',
-              path: '/var/lib/tftpboot',
-              creates: 'syslinux-6.03/bios/core/pxelinux.0')
-      expect(subject).to cherry_pick_ark('menu.c32')
-        .with(url: 'https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.gz',
-              path: '/var/lib/tftpboot',
-              creates: 'syslinux-6.03/bios/com32/menu/menu.c32')
-      expect(subject).to cherry_pick_ark('chain.c32')
-        .with(url: 'https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.gz',
-              path: '/var/lib/tftpboot',
-              creates: 'syslinux-6.03/bios/com32/chain/chain.c32')
+    it 'should install the package syslinux-common' do
+      expect(subject).to install_package('syslinux-common')
+    end
+
+    it 'should retrieve Syslinux components' do
+      expect(subject).to create_remote_file('/var/lib/tftpboot/pxelinux.0')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
+      expect(subject).to create_remote_file('/var/lib/tftpboot/menu.c32')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
+      expect(subject).to create_remote_file('/var/lib/tftpboot/chain.c32')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+
+      expect(subject).to create_remote_file('/var/lib/tftpboot/memdisk')
+        .with(owner: 'foreman-proxy',
+              group: 'foreman-proxy')
+    end
+
+    it 'should download the tar archive of the Foreman Discovery Image' do
+      expect(subject).to run_execute('wget -qO- \'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar\' | tar -x -C /var/lib/tftpboot/boot/')
+    end
+
+    it 'should correct the ownership of the extracted Discovery Image' do
+      expect(subject).to run_execute('chown -R foreman-proxy:foreman-proxy /var/lib/tftpboot/boot/')
     end
   end
 end

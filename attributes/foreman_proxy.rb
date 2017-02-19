@@ -3,8 +3,6 @@ class ::Chef::Node::Attribute
   include ::Foreman
 end
 
-default['dhcp']['parameters']['omapi-port'] = '7911'
-
 # Default config
 default['foreman-proxy']['version'] = 'stable'
 default['foreman-proxy']['register'] = true
@@ -15,7 +13,7 @@ default['foreman-proxy']['user'] = 'foreman-proxy'
 default['foreman-proxy']['group'] = 'foreman-proxy'
 default['foreman-proxy']['group_users'] = []
 
-default['foreman-proxy']['plugins'] = ['ruby-smart-proxy-chef']
+default['foreman-proxy']['plugins'] = ['ruby-smart-proxy-chef', 'ruby-smart-proxy-discovery']
 
 # Log config
 default['foreman-proxy']['log_file'] = '/var/log/foreman-proxy/proxy.log'
@@ -91,7 +89,7 @@ else
   default['foreman-proxy']['dns_nsupdate'] = 'bind-utils'
 end
 
-# DHCP options
+# DHCP proxy (subnet) options
 default['foreman-proxy']['dhcp'] = true
 default['foreman-proxy']['dhcp_managed'] = true
 default['foreman-proxy']['dhcp_key_name'] = nil
@@ -102,6 +100,7 @@ default['foreman-proxy']['dhcp_leases'] = '/var/lib/dhcp/dhcpd.leases'
 default['foreman-proxy']['dhcp_interface'] = 'eth0'
 net = node['network']['interfaces'][node['foreman-proxy']['dhcp_interface']]
 ip_addr = net['addresses'].keys.select { |a| a[/\A\d+\.\d+\.\d+\.\d+\Z/] }.first
+default['foreman-proxy']['ip'] = ip_addr
 route = net['routes'].find { |ip| ip.key?('src') && ip['src'] == ip_addr }.dup
 default['foreman-proxy']['dhcp_subnet'] = route['destination'].split('/')[0]
 default['foreman-proxy']['dhcp_netmask'] = net['addresses'][ip_addr]['netmask']
@@ -110,7 +109,11 @@ default['foreman-proxy']['dhcp_range'] = []
 default['foreman-proxy']['dhcp_broadcast'] = net['addresses'][ip_addr]['broadcast']
 default['foreman-proxy']['dhcp_routers'] = [route['src']]
 default['foreman-proxy']['dhcp_options'] = ["domain-name \"#{node['foreman']['server_name']}\"",
-                                            'domain-name-servers 127.0.0.1, 8.8.8.8']
+                                            "domain-name-servers #{ip_addr}, 8.8.8.8"]
+
+# global DHCP server config
+default['dhcp']['parameters']['omapi-port'] = '7911'
+default['dhcp']['parameters']['next-server'] = (node['foreman-proxy']['ip']).to_s
 
 # virsh options
 default['foreman-proxy']['virsh_network'] = 'default'
@@ -128,27 +131,16 @@ default['foreman-proxy']['syslinux']['url'] = "https://www.kernel.org/pub/linux/
 default['foreman-proxy']['tftp'] = true
 default['foreman-proxy']['tftp_listen_on'] = 'https'
 default['foreman-proxy']['tftp_syslinux_root'] = nil
+# FIXME: Add exception handling for no syslinux files source at all.
+# https://theforeman.org/manuals/1.14/index.html#4.3.9TFTP
 case node['platform_family']
 when 'debian'
-  if (node['platform'] == 'Debian' && node['platform_version'].to_f >= '8.0') ||
-     (node['platform'] == 'Ubuntu' && node['platform_version'].to_f >= '14.10')
-    default['foreman-proxy']['tftp_syslinux_filenames'] = ['/usr/lib/PXELINUX/pxelinux.0',
-                                                           '/usr/lib/syslinux/memdisk',
-                                                           '/usr/lib/syslinux/modules/bios/chain.c32',
-                                                           '/usr/lib/syslinux/modules/bios/ldlinux.c32',
-                                                           '/usr/lib/syslinux/modules/bios/libutil.c32',
-                                                           '/usr/lib/syslinux/modules/bios/menu.c32']
-  else
-    default['foreman-proxy']['tftp_syslinux_filenames'] = ['/usr/lib/syslinux/chain.c32',
-                                                           '/usr/lib/syslinux/menu.c32',
-                                                           '/usr/lib/syslinux/memdisk',
-                                                           '/usr/lib/syslinux/pxelinux.0']
-  end
-else
-  default['foreman-proxy']['tftp_syslinux_filenames'] = ['/usr/share/syslinux/chain.c32',
-                                                         '/usr/share/syslinux/menu.c32',
-                                                         '/usr/share/syslinux/memdisk',
-                                                         '/usr/share/syslinux/pxelinux.0']
+  default['foreman-proxy']['tftp_syslinux_filenames'] = ['/usr/lib/syslinux/pxelinux.0',
+                                                         '/usr/lib/syslinux/memdisk',
+                                                         '/usr/lib/syslinux/chain.c32',
+                                                         '/usr/lib/syslinux/menu.c32']
+  # '/usr/lib/syslinux/modules/bios/ldlinux.c32',
+  # '/usr/lib/syslinux/modules/bios/libutil.c32']
 end
 
 default['foreman-proxy']['tftp_root'] = node['tftp']['directory']
