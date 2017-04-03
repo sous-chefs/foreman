@@ -10,9 +10,26 @@ describe 'foreman::install' do
       ChefSpec::ServerRunner.new.converge(described_recipe)
     end
 
+    let(:fix_ruby_trusty_bash_code) do
+      %(
+       rm /usr/bin/ruby /usr/bin/gem /usr/bin/irb /usr/bin/rdoc /usr/bin/erb
+        ln -s /usr/bin/ruby2.0 /usr/bin/ruby
+        ln -s /usr/bin/gem2.0 /usr/bin/gem
+        ln -s /usr/bin/irb2.0 /usr/bin/irb
+        ln -s /usr/bin/rdoc2.0 /usr/bin/rdoc
+        ln -s /usr/bin/erb2.0 /usr/bin/erb
+      ).gsub(/^\s{6}/, '')
+    end
+
     it 'should include recipes' do
       expect(subject).to include_recipe('foreman::repo')
       expect(subject).to include_recipe('apache2')
+    end
+
+    it 'should fix Ruby on Trusty if running Ruby 1.9' do
+      expect(subject).to run_bash('Handle broken Ruby 2.0 in Trusty.').with(
+        code: fix_ruby_trusty_bash_code
+      )
     end
 
     it 'should install packages' do
