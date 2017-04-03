@@ -27,7 +27,7 @@ suites:
         masters:
           - 172.16.0.2
         zones:
-          nsmaster: foreman.example
+          nsmaster: ns.foreman.example
           nsmaster_ip: 172.16.0.2
           email: root.foreman.example
       postgresql:
