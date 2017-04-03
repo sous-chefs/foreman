@@ -1,22 +1,26 @@
 AllCops:
+  DisplayCopNames: true
   Exclude:
     - cookbooks/**/*
     - vendor/**/*
 
-NumericLiterals:
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - recipes/proxy_tftp.rb
+Metrics/AbcSize:
   Enabled: false
-Metrics/MethodLength:
-  Enabled: false
+Metrics/BlockLength:
+  Max: 70
 Metrics/LineLength:
   Exclude:
     - spec/**/*
     - test/**/*
     - libraries/matchers.rb
+Metrics/MethodLength:
+  Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: false
 Style/Documentation:
   Enabled: false
-Metrics/AbcSize:
+Style/SymbolArray:
   Enabled: false
-Metrics/BlockLength:
-  Max: 70
