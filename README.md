@@ -1,6 +1,6 @@
 # Foreman cookbook
 
-[![Build Status](https://travis-ci.org/redguide/foreman.png?branch=master)](https://travis-ci.org/redguide/foreman)
+[![Build Status](https://travis-ci.org/redguide/foreman.svg?branch=master)](https://travis-ci.org/redguide/foreman)
 
 Trying to reproduce [puppet-foreman_proxy](https://github.com/theforeman/puppet-foreman_proxy) and [puppet-foreman](https://github.com/theforeman/puppet-foreman) with Chef cookbooks.
 
