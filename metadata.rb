@@ -21,3 +21,11 @@ depends 'mysql'
 depends 'mysql2_chef_gem'
 depends 'postgresql'
 depends 'tftp'
+
+chef_version '>= 12.1'
+
+%w(
+  ubuntu
+).each do |os|
+  supports os
+end

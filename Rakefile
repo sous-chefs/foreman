@@ -58,7 +58,7 @@ namespace :test do
   end
 
   task :chefspec do
-    run_command 'rspec spec --color --format documentation'
+    run_command 'rspec spec'
   end
 
   task :kitchen do
