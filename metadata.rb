@@ -1,7 +1,7 @@
 name 'foreman'
 maintainer 'Guilhem Lettron'
 maintainer_email 'guilhem.lettron@optiflows.com'
-license 'Apache v2'
+license 'Apache-2.0'
 description 'Installs/Configures foreman'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 source_url 'https://github.com/redguide/foreman' if respond_to?(:source_url)
@@ -24,8 +24,4 @@ depends 'tftp'
 
 chef_version '>= 12.1'
 
-%w(
-  ubuntu
-).each do |os|
-  supports os
-end
+supports 'ubuntu'

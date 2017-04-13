@@ -26,14 +26,14 @@ describe file('/etc/foreman-proxy/settings.yml') do
   its(:content) { should match(%r{^:foreman_ssl_key: /etc/foreman/certs/server.key$}) }
 end
 
-%w(bmc puppetca puppet realm templates).each do |type|
+%w[bmc puppetca puppet realm templates].each do |type|
   describe file("/etc/foreman-proxy/settings.d/#{type}.yml") do
     it { should be_grouped_into 'foreman-proxy' }
     its(:content) { should match(/^:enabled: false$/) }
   end
 end
 
-%w(dhcp dns tftp).each do |type|
+%w[dhcp dns tftp].each do |type|
   describe file("/etc/foreman-proxy/settings.d/#{type}.yml") do
     it { should be_grouped_into 'foreman-proxy' }
     its(:content) { should match(/^:enabled: https$/) }

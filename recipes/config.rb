@@ -115,7 +115,7 @@ if node['foreman']['passenger']['install']
       server_port '80'
     end
     docroot "#{node['foreman']['path']}/public"
-    directory_options %w(SymLinksIfOwnerMatch)
+    directory_options %w[SymLinksIfOwnerMatch]
     cookbook 'foreman'
     notifies 'service[apache2]', :restart, :immediately
   end
