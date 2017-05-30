@@ -5,12 +5,20 @@ driver_config:
 
 provisioner:
   name: chef_zero
+  require_chef_omnibus: 12
 
 platforms:
   - name: ubuntu-14.04
     driver:
       customize:
         memory: 2048
+  - name: centos-73
+    driver:
+      customize:
+        memory: 2048
+      box: centos73
+      box_url: http://jaxf-vgrt001.fanatics.corp/box/virtualbox/centos73.box
+      provider: virtualbox
 
 suites:
   - name: default
