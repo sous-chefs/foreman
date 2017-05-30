@@ -12,13 +12,10 @@ platforms:
     driver:
       customize:
         memory: 2048
-  - name: centos-73
+  - name: centos-7.3
     driver:
       customize:
         memory: 2048
-      box: centos73
-      box_url: http://jaxf-vgrt001.fanatics.corp/box/virtualbox/centos73.box
-      provider: virtualbox
 
 suites:
   - name: default
