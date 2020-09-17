@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Recipe:: proxy_dns
 #
 node.override['bind']['zones']['attribute'] = [node['foreman']['server_name']]

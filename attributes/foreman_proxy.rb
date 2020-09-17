@@ -13,7 +13,7 @@ default['foreman-proxy']['user'] = 'foreman-proxy'
 default['foreman-proxy']['group'] = 'foreman-proxy'
 default['foreman-proxy']['group_users'] = []
 
-default['foreman-proxy']['plugins'] = ['ruby-smart-proxy-chef', 'ruby-smart-proxy-discovery']
+default['foreman-proxy']['plugins'] = %w(ruby-smart-proxy-chef ruby-smart-proxy-discovery)
 
 # Log config
 default['foreman-proxy']['log_file'] = '/var/log/foreman-proxy/proxy.log'
@@ -63,8 +63,7 @@ default['foreman-proxy']['foreman_ssl_cert'] = node['foreman']['ssl_cert_file']
 default['foreman-proxy']['foreman_ssl_key'] = node['foreman']['ssl_cert_key_file']
 
 default['foreman-proxy']['trusted_hosts'] = [node['foreman']['server_name']]
-default['foreman-proxy']['api_package'] = case node['platform_family']
-                                          when 'debian'
+default['foreman-proxy']['api_package'] = if platform_family?('debian')
                                             'ruby-apipie-bindings'
                                           else
                                             'rubygem-apipie-bindings'
@@ -80,8 +79,7 @@ default['foreman-proxy']['dns_ttl'] = '86400'
 default['foreman-proxy']['dns_realm'] = node['fqdn'].nil? ? '' : node['fqdn'].upcase
 default['foreman-proxy']['dns_tsig_keytab'] = '/etc/foreman-proxy/dns.keytab'
 default['foreman-proxy']['dns_tsig_principal'] = "foremanproxy/#{node['fqdn']}@#{node['foreman-proxy']['dns_realm']}"
-case node['platform_family']
-when 'debian'
+if platform_family?('debian')
   default['foreman-proxy']['dns_keyfile'] = '/etc/bind/rndc.key'
   default['foreman-proxy']['dns_nsupdate'] = 'dnsutils'
 else
@@ -133,8 +131,7 @@ default['foreman-proxy']['tftp_listen_on'] = 'https'
 default['foreman-proxy']['tftp_syslinux_root'] = nil
 # FIXME: Add exception handling for no syslinux files source at all.
 # https://theforeman.org/manuals/1.14/index.html#4.3.9TFTP
-case node['platform_family']
-when 'debian'
+if platform_family?('debian')
   default['foreman-proxy']['tftp_syslinux_filenames'] = ['/usr/lib/syslinux/pxelinux.0',
                                                          '/usr/lib/syslinux/memdisk',
                                                          '/usr/lib/syslinux/chain.c32',

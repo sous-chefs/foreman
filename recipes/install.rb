@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Recipe:: install
 #
 include_recipe 'foreman::repo' if node['foreman']['use_repo']
@@ -32,7 +32,7 @@ end
 
 case node['foreman']['db']['adapter']
 when 'sqlite'
-  pkg = if node['platform_family'] == 'debian'
+  pkg = if platform_family?('debian')
           'foreman-sqlite3'
         else
           'foreman-sqlite'
