@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Recipe:: proxy_install
 #
 include_recipe 'foreman::repo' if node['foreman']['use_repo']

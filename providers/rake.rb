@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Provider:: rake
 #
 require 'shellwords'
-use_inline_resources
 
 action :run do
   rake_command = "/usr/sbin/foreman-rake #{new_resource.rake_task}"

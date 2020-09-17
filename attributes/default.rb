@@ -12,7 +12,7 @@ default['foreman']['repo']['uri'] = 'http://deb.theforeman.org/'
 default['foreman']['repo']['components'] = ['stable']
 default['foreman']['repo']['key'] = 'http://deb.theforeman.org/foreman.asc'
 
-default['foreman']['plugins'] = ['foreman-libvirt', 'ruby-foreman-chef', 'ruby-foreman-discovery']
+default['foreman']['plugins'] = %w(foreman-libvirt ruby-foreman-chef ruby-foreman-discovery)
 
 default['foreman']['server_name'] = 'foreman.example'
 default['foreman']['environment'] = 'production'
@@ -35,9 +35,9 @@ default['foreman']['db']['host'] = '127.0.0.1'
 default['foreman']['db']['port'] = nil
 default['foreman']['db']['adapter'] = 'postgresql'
 default['foreman']['db']['real_adapter'] = case node['foreman']['db']['adapter']
-                                           when 'sqlite' then
+                                           when 'sqlite'
                                              'sqlite3'
-                                           when 'mysql' then
+                                           when 'mysql'
                                              'mysql2'
                                            else
                                              node['foreman']['db']['adapter']

@@ -1,16 +1,14 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Provider:: smartproxy
 #
-use_inline_resources
 
 action :create do
   if id.nil?
     api.call(:create,
              smart_proxy: {
                'name' => new_resource.smartproxy_name,
-               'url' => new_resource.url
+               'url' => new_resource.url,
              })
   else
     api.call(:update, id: id, smart_proxy: { url: new_resource.url })
@@ -34,14 +32,14 @@ def api
     api_version: 2,
     oauth: {
       consumer_key: new_resource.consumer_key,
-      consumer_secret: new_resource.consumer_secret
+      consumer_secret: new_resource.consumer_secret,
     },
     timeout: new_resource.timeout,
     headers: {
-      foreman_user: new_resource.effective_user
+      foreman_user: new_resource.effective_user,
     },
     apidoc_cache_base_dir: ::File.join(Chef::Config[:file_cache_path],
-                                       'apipie_bindings')
+                                       'apipie_bindings'),
   }
 
   options = { verify_ssl: ::OpenSSL::SSL::VERIFY_NONE }
@@ -55,7 +53,7 @@ def proxy
     @proxy
   else
     @proxy = api.call(:index,
-                      # rubocop:disable LineLength
+                      # rubocop:disable Layout/LineLength
                       search: "name=#{new_resource.smartproxy_name}")['results'][0]
   end
 end

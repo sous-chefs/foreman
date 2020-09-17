@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Recipe:: proxy_config
 #
 # include_recipe 'foreman::proxy_puppetca' if node['foreman-proxy']['puppetca']
@@ -82,7 +81,7 @@ if node['foreman-proxy']['ssl']
           end
   if items.key?('ssl_cert_key_file') && items.key?('ssl_cert_file') &&
      items.key?('ssl_ca_file')
-    %w[ssl_cert_key_file ssl_cert_file ssl_ca_file].each do |ssl_name|
+    %w(ssl_cert_key_file ssl_cert_file ssl_ca_file).each do |ssl_name|
       file node['foreman-proxy'][ssl_name] do
         content items[ssl_name]
       end
