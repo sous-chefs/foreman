@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Recipe:: service
 #
 service 'foreman' do

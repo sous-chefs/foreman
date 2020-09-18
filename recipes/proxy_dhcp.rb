@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Recipe:: proxy_dhcp
 #
 include_recipe 'dhcp::server'
