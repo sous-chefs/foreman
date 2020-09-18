@@ -7,29 +7,29 @@ Trying to reproduce [puppet-foreman_proxy](https://github.com/theforeman/puppet-
 Installs and configures Foreman and Foreman-smartproxy.
 
 It can:
- - Install and configure Foreman Web ui
- - Install and configure a Foreman Smartproxy with dhcp, bmc, tftp, ...
- - Register smartproxies
+- Install and configure Foreman Web ui
+- Install and configure a Foreman Smartproxy with dhcp, bmc, tftp, ...
+- Register smartproxies
 
 ## Requirements
 
 This cookbook depends on theses external cookbooks:
- - apt
- - apache2
- - ark
- - bind
- - database
- - dhcp
- - git
- - hostname
- - hostsfile
- - mysql
- - postgresql
- - tftp
+- apt
+- apache2
+- ark
+- bind
+- database
+- dhcp
+- git
+- hostname
+- hostsfile
+- mysql
+- postgresql
+- tftp
 
 and requires:
- - Chef > 12
- - Ruby > 1.9
+- Chef > 12
+- Ruby > 1.9
 
 ### Platform
 
