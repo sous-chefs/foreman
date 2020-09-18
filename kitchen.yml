@@ -45,6 +45,6 @@ suites:
         register: false
         dns: true
         dns_interface: eth1
-        dhcp:  true
+        dhcp: true
         dhcp_interface: eth1
         dhcp_range: 172.16.0.10 172.16.0.20
