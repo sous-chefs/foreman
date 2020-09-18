@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Recipe:: database
 #
 db = node['foreman']['db']
@@ -24,7 +23,7 @@ if db['manage']
         host: '127.0.0.1',
         username: 'root',
         password: db['password'],
-        socket: '/var/run/mysql-default/mysqld.sock'
+        socket: '/var/run/mysql-default/mysqld.sock',
       }
 
       mysql_database_user 'create-foremanuser' do
@@ -58,7 +57,7 @@ if db['manage']
         host: '127.0.0.1',
         port: 5432,
         username: 'postgres',
-        password: node['postgresql']['password']['postgres']
+        password: node['postgresql']['password']['postgres'],
       }
 
       postgresql_database_user 'create-foremanuser' do
@@ -95,7 +94,7 @@ if db['manage']
     'SEED_ADMIN_LAST_NAME' => node['foreman']['admin']['last_name'],
     'SEED_ADMIN_EMAIL' => node['foreman']['admin']['email'],
     'SEED_ORGANIZATION' => node['foreman']['initial_organization'],
-    'SEED_LOCATION' => node['foreman']['initial_location']
+    'SEED_LOCATION' => node['foreman']['initial_location'],
   }
 
   foreman_rake 'db:seed' do

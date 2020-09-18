@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Resource:: smartproxy
 #
 actions :create, :remove

@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 #
-# Cookbook Name:: foreman
+# Cookbook:: foreman
 # Recipe:: proxy_register
 #
 foreman_smartproxy node['foreman-proxy']['registered_name'] do

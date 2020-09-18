@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 require_relative 'spec_helper'
 
 describe 'foreman::database' do
@@ -43,7 +41,7 @@ describe 'foreman::database' do
                 'SEED_ADMIN_LAST_NAME' => nil,
                 'SEED_ADMIN_EMAIL' => nil,
                 'SEED_ORGANIZATION' => nil,
-                'SEED_LOCATION' => nil
+                'SEED_LOCATION' => nil,
               })
       expect(subject).to run_foreman_rake('apipie:cache')
     end

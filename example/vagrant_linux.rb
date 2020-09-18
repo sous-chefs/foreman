@@ -7,5 +7,5 @@ end
 with_driver "vagrant:#{File.dirname(__FILE__)}/vms"
 
 with_machine_options vagrant_options: {
-  'vm.box' => 'ubuntu14'
+  'vm.box' => 'ubuntu14',
 }
