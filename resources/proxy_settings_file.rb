@@ -11,5 +11,5 @@ attribute :cookbook, kind_of: String, default: nil
 attribute :path, kind_of: String, default: nil
 attribute :owner, kind_of: String, default: 'root'
 attribute :group, kind_of: String, default: node['foreman-proxy']['group']
-attribute :mode, default: '0640'
+attribute :mode, kind_of: [String, Integer], default: '0640'
 attribute :template_path, kind_of: String, default: nil

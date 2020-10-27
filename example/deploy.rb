@@ -12,7 +12,6 @@ ENDCONFIG
 
 machine 'foreman' do
   add_machine_options vagrant_config: controller_config
-  recipe 'apt'
   recipe 'foreman'
   recipe 'foreman::proxy'
   chef_environment '_default'

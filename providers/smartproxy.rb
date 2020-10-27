@@ -53,7 +53,6 @@ def proxy
     @proxy
   else
     @proxy = api.call(:index,
-                      # rubocop:disable Layout/LineLength
                       search: "name=#{new_resource.smartproxy_name}")['results'][0]
   end
 end

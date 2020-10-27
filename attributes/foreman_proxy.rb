@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/LineLength
 class ::Chef::Node::Attribute
   include ::Foreman
 end

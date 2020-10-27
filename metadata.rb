@@ -10,12 +10,10 @@ version           '0.0.1'
 
 supports 'ubuntu'
 
-depends 'apt'
 depends 'apache2'
 depends 'bind'
 depends 'database'
 depends 'dhcp'
-depends 'git'
 depends 'hostname'
 depends 'hostsfile'
 depends 'mysql'

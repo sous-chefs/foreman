@@ -8,10 +8,6 @@ describe 'foreman::repo' do
       ChefSpec::ServerRunner.new.converge(described_recipe)
     end
 
-    it 'should include recipes' do
-      expect(subject).to include_recipe('apt')
-    end
-
     it 'should add repositories' do
       expect(subject).to add_apt_repository('foreman')
         .with(uri: 'http://deb.theforeman.org/',

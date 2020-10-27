@@ -44,7 +44,7 @@ if node['foreman']['passenger']['install']
 
   if node['foreman']['ssl']
     include_recipe 'apache2::mod_ssl'
-    node.normal['apache']['listen'] = ['*:443']
+    node.default['apache']['listen'] = ['*:443']
 
     directory node['foreman']['ssl_dir'] do
       owner node['apache']['user']
@@ -69,7 +69,6 @@ if node['foreman']['passenger']['install']
         content items['ssl_cert_file']
       end
     else
-      # rubocop:disable Metrics/LineLength
       execute 'create-ca-key' do
         command "openssl genrsa -out #{node['foreman']['ssl_ca_key_file']} 4096"
         not_if { ::File.exist?(node['foreman']['ssl_ca_key_file']) }
@@ -101,7 +100,6 @@ if node['foreman']['passenger']['install']
         'update-ca-certificates -f'
         not_if { ::File.exist?("/usr/share/ca-certificates/#{node['foreman']['server_name']}.crt") }
       end
-      # rubocop:enable Metrics/LineLength
     end
   end
 
