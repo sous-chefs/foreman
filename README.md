@@ -26,7 +26,6 @@ This cookbook depends on theses external cookbooks:
 - database
 - dhcp
 - git
-- hostname
 - hostsfile
 - mysql
 - postgresql

@@ -20,28 +20,20 @@ end
 package 'syslinux-common'
 
 node['foreman-proxy']['tftp_syslinux_filenames'].each do |file|
-  remote_file node['foreman-proxy']['tftp_root'] + '/' + File.basename(file) do
-    source lazy { 'file://' + file.to_s }
+  link node['foreman-proxy']['tftp_root'] + '/' + File.basename(file) do
+    to file
     owner 'foreman-proxy'
     group 'foreman-proxy'
   end
 end
 
-# Argh. This is not working. Archive is not extracted.
-# TODO: Add a issue/bug report upstream!
-# poise_archive 'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar' do
-#  destination '/var/lib/tftpboot/boot'
-#  keep_existing false
-#  action :unpack
-# end
-
-# FIXME: Don't call 'wget' via 'execute'. Use a built-in or provider for that.
-# TODO: Add Guard.
-execute 'Download and extract Discovery Image' do
-  command 'wget -qO- \'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar\' | tar -x -C /var/lib/tftpboot/boot/'
+remote_file "#{Chef::Config[:file_cache_path]}/fdi-image-latest.tar" do
+  source 'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar'
 end
 
-# TODO: Add Guard.
-execute 'Correct ownership of extracted Discovery Image' do
-  command 'chown -R foreman-proxy:foreman-proxy /var/lib/tftpboot/boot/'
+archive_file 'Precompiled.zip' do
+  path "#{Chef::Config[:file_cache_path]}/fdi-image-latest.tar"
+  destination '/var/lib/tftpboot/boot/'
+  owner 'foreman-proxy'
+  group 'foreman-proxy'
 end

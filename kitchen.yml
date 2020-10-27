@@ -41,6 +41,8 @@ suites:
       foreman-proxy:
         # FIXME: Register the Smart-Proxy is failing.
         register: false
+        ssl: false
+        http: true
         dns: true
         dns_interface: eth0
         dhcp: true
