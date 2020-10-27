@@ -12,13 +12,13 @@ describe 'foreman::repo' do
       expect(subject).to add_apt_repository('foreman')
         .with(uri: 'http://deb.theforeman.org/',
               distribution: 'trusty',
-              componenets: nil,
-              key: 'http://deb.theforeman.org/foreman.asc')
+              components: ['2.1'],
+              key: ['http://deb.theforeman.org/foreman.asc'])
       expect(subject).to add_apt_repository('foreman_plugins')
         .with(uri: 'http://deb.theforeman.org/',
               distribution: 'plugins',
-              componenets: nil,
-              key: 'http://deb.theforeman.org/foreman.asc')
+              components: ['2.1'],
+              key: ['http://deb.theforeman.org/foreman.asc'])
     end
   end
 end

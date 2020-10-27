@@ -5,10 +5,6 @@
 db = node['foreman']['db']
 if db['manage']
   if db['adapter'] == 'mysql'
-    mysql2_chef_gem 'default' do
-      action :install
-    end
-
     if db['install']
       mysql_client 'default' do
         action :create
@@ -51,36 +47,50 @@ if db['manage']
     end
   elsif db['adapter'] == 'postgresql'
     if db['install']
-      include_recipe 'database::postgresql'
-      include_recipe 'postgresql::server'
-      connection_info = {
-        host: '127.0.0.1',
-        port: 5432,
-        username: 'postgres',
-        password: node['postgresql']['password']['postgres'],
-      }
-
-      postgresql_database_user 'create-foremanuser' do
-        username db['username']
+      postgresql_server_install 'PostgreSQL Server' do
         password db['password']
-        host db['host']
-        connection connection_info
+        initdb_locale 'en_US.utf8'
+        action [:install, :create]
+      end
+
+      service 'postgresql' do
+        action :nothing
+      end
+
+      postgresql_access 'PostgreSQL host superuser' do
+        access_type       'local'
+        access_db         'all'
+        access_user       'postgres'
+        access_addr       nil
+        access_method     'md5'
+        notifies :restart, 'service[postgresql]'
+      end
+
+      postgresql_user 'create-foremanuser' do
+        create_user db['username']
+        password db['password']
+        superuser true
+        createdb true
         action :create
+      end
+
+      postgresql_access 'PostgreSQL foreman superuser' do
+        access_type       'host'
+        access_db         db['database']
+        access_user       db['username']
+        access_addr       '127.0.0.1/32'
+        access_method     'md5'
+        notifies :restart, 'service[postgresql]'
+      end
+
+      postgresql_server_conf 'EDT PostgreSQL Config' do
+        notifies :reload, 'service[postgresql]', :immediately
       end
 
       postgresql_database db['database'] do
-        connection connection_info
         owner db['username']
+        locale 'C.UTF-8'
         action :create
-      end
-
-      postgresql_database_user 'grant-foremanuser' do
-        username db['username']
-        password db['password']
-        database_name db['database']
-        privileges [:all]
-        connection connection_info
-        action :grant
       end
     end
   end

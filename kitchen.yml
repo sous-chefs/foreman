@@ -7,11 +7,11 @@ provisioner:
   deprecations_as_errors: true
 
 platforms:
-  - name: ubuntu-20.04
+  - name: debian-10
     driver:
       customize:
         memory: 2048
-  - name: centos-7
+  - name: ubuntu-18.04
     driver:
       customize:
         memory: 2048
@@ -20,10 +20,8 @@ suites:
   - name: default
     driver:
       network:
-        - - private_network
-          - ip: 172.16.0.2
+        - ["private_network", {ip: "172.16.0.2"}]
     run_list:
-      - recipe[apt]
       - recipe[foreman]
       - recipe[foreman::proxy]
     attributes:
@@ -39,12 +37,12 @@ suites:
           postgres: toor
       dhcp:
         interfaces:
-          - eth1
+          - eth0
       foreman-proxy:
         # FIXME: Register the Smart-Proxy is failing.
         register: false
         dns: true
-        dns_interface: eth1
+        dns_interface: eth0
         dhcp: true
-        dhcp_interface: eth1
+        dhcp_interface: eth0
         dhcp_range: 172.16.0.10 172.16.0.20
