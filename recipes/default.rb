@@ -2,7 +2,6 @@
 # Cookbook:: foreman
 # Recipe:: default
 #
-include_recipe 'hostname'
 ohai 'reload' do
   action :reload
 end

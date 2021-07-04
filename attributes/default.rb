@@ -1,15 +1,15 @@
-# rubocop:disable Metrics/LineLength
 class ::Chef::Node::Attribute
   include ::Foreman
 end
 
 default['foreman']['path'] = '/usr/share/foreman'
-default['foreman']['version'] = 'stable'
+default['foreman']['version'] = '2.1.4-1'
 default['foreman']['config_path'] = '/etc/foreman'
 
 default['foreman']['use_repo'] = true
 default['foreman']['repo']['uri'] = 'http://deb.theforeman.org/'
-default['foreman']['repo']['components'] = ['stable']
+component_version = node['foreman']['version'].split('.')[0..1].join('.')
+default['foreman']['repo']['components'] = [component_version]
 default['foreman']['repo']['key'] = 'http://deb.theforeman.org/foreman.asc'
 
 default['foreman']['plugins'] = %w(foreman-libvirt ruby-foreman-chef ruby-foreman-discovery)

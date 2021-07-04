@@ -9,7 +9,6 @@ describe 'foreman::default' do
     end
 
     it 'should includes recipes' do
-      expect(subject).to include_recipe('hostname')
       expect(subject).to include_recipe('foreman::install')
       expect(subject).to include_recipe('foreman::config')
       expect(subject).to include_recipe('foreman::database')

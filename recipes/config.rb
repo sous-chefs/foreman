@@ -32,23 +32,23 @@ template node['foreman']['config']['init'] do
 end
 
 if node['foreman']['passenger']['install']
-  directory "#{node['apache']['conf_dir']}/05-foreman.d" do
+  directory "#{apache_conf_dir}/05-foreman.d" do
     owner 'root'
     group 'root'
     mode '0644'
   end
 
-  template "#{node['apache']['dir']}/mods-available/passenger_extra.conf" do
+  template "#{apache_dir}/mods-available/passenger_extra.conf" do
     source 'passenger.conf.erb'
   end
 
   if node['foreman']['ssl']
-    include_recipe 'apache2::mod_ssl'
-    node.normal['apache']['listen'] = ['*:443']
+    apache2_module 'ssl'
+    apache2_mod_ssl ''
 
     directory node['foreman']['ssl_dir'] do
-      owner node['apache']['user']
-      group node['apache']['group']
+      owner lazy { default_apache_user }
+      group lazy { default_apache_group }
       recursive true
       action :create
     end
@@ -69,7 +69,6 @@ if node['foreman']['passenger']['install']
         content items['ssl_cert_file']
       end
     else
-      # rubocop:disable Metrics/LineLength
       execute 'create-ca-key' do
         command "openssl genrsa -out #{node['foreman']['ssl_ca_key_file']} 4096"
         not_if { ::File.exist?(node['foreman']['ssl_ca_key_file']) }
@@ -101,21 +100,28 @@ if node['foreman']['passenger']['install']
         'update-ca-certificates -f'
         not_if { ::File.exist?("/usr/share/ca-certificates/#{node['foreman']['server_name']}.crt") }
       end
-      # rubocop:enable Metrics/LineLength
     end
   end
 
-  web_app 'foreman' do
-    server_name node['foreman']['server_name']
-    server_aliases ['foreman']
-    if node['foreman']['ssl']
-      server_port '443'
-    else
-      server_port '80'
+  apache2_module 'rewrite'
+  apache2_module 'deflate'
+  apache2_module 'headers'
+
+  template "#{apache_dir}/sites-available/foreman.conf" do
+    source 'web_app.conf.erb'
+    variables(
+      application_name: 'foreman',
+      server_name: node['foreman']['server_name'],
+      server_aliases: ['foreman'],
+      server_port: node['foreman']['ssl'] ? '443' : '80',
+      docroot: "#{node['foreman']['path']}/public",
+      directory_options: %w(SymLinksIfOwnerMatch),
+      apache_log_dir: default_log_dir
+    )
+    if ::File.exist?("#{apache_dir}/sites-enabled/foreman.conf")
+      notifies :reload, 'service[apache2]', :immediately
     end
-    docroot "#{node['foreman']['path']}/public"
-    directory_options %w(SymLinksIfOwnerMatch)
-    cookbook 'foreman'
-    notifies :service[apache2], :restart, :immediately
   end
+
+  apache2_site 'foreman'
 end

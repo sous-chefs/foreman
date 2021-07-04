@@ -11,6 +11,7 @@ Trying to reproduce [puppet-foreman_proxy](https://github.com/theforeman/puppet-
 Installs and configures Foreman and Foreman-smartproxy.
 
 It can:
+
 - Install and configure Foreman Web ui
 - Install and configure a Foreman Smartproxy with dhcp, bmc, tftp, ...
 - Register smartproxies
@@ -18,20 +19,20 @@ It can:
 ## Requirements
 
 This cookbook depends on theses external cookbooks:
-- apt
+
 - apache2
 - ark
 - bind
 - database
 - dhcp
 - git
-- hostname
 - hostsfile
 - mysql
 - postgresql
 - tftp
 
 and requires:
+
 - Chef > 12
 - Ruby > 1.9
 
@@ -50,13 +51,15 @@ include_recipe 'foreman'
 ### Install foreman smart proxy
 
 Don't forget to edit attributes to be sure oauth have the same parameters and value as the foreman.
+
 ```
 include_recipe 'foreman::proxy'
 ```
 
 ## Attributes
 
-#### `foreman::default`
+### `foreman::default`
+
 <table>
   <tr>
     <th>Key</th>
@@ -450,7 +453,8 @@ include_recipe 'foreman::proxy'
   </tr>
 </table>
 
-#### `foreman::foreman_proxy`
+### `foreman::foreman_proxy`
+
 <table>
   <tr>
     <th>Key</th>
@@ -1108,7 +1112,6 @@ This LWRP enable or disable proxy settings files.
 
 - [Pierre Rambaud](https://github.com/PierreRambaud)
 - [Guilhem Lettron](https://github.com/guilhem)
-
 
 ## Contributors
 
