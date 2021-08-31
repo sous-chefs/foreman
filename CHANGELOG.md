@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.0.3 - *2021-08-31*
 
 - Standardise files with files in sous-chefs/repo-management
 
