@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Remove delivery folder
+
 ## 0.1.0 - *2022-01-18*
 
 - resolved cookstyle error: providers/smartproxy.rb:52:3 convention: `Style/RedundantCondition`
