@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Standardise files with files in sous-chefs/repo-management
+
 ## 0.1.1 - *2023-02-14*
 
 - Remove delivery folder
