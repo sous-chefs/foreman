@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/LineLength
 class ::Chef::Node::Attribute
   include ::Foreman
 end
@@ -111,7 +110,7 @@ default['foreman-proxy']['dhcp_options'] = ["domain-name \"#{node['foreman']['se
 
 # global DHCP server config
 default['dhcp']['parameters']['omapi-port'] = '7911'
-default['dhcp']['parameters']['next-server'] = (node['foreman-proxy']['ip']).to_s
+default['dhcp']['parameters']['next-server'] = node['foreman-proxy']['ip'].to_s
 
 # virsh options
 default['foreman-proxy']['virsh_network'] = 'default'

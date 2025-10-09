@@ -55,7 +55,7 @@ if node['foreman']['passenger']['install']
 
     items = begin
               data_bag_item('foreman', node.chef_environment)
-            rescue Net::HTTPServerException,
+            rescue Net::HTTPClientException,
                    Chef::Exceptions::ValidationFailed,
                    Chef::Exceptions::InvalidDataBagPath
               {}
@@ -69,7 +69,6 @@ if node['foreman']['passenger']['install']
         content items['ssl_cert_file']
       end
     else
-      # rubocop:disable Metrics/LineLength
       execute 'create-ca-key' do
         command "openssl genrsa -out #{node['foreman']['ssl_ca_key_file']} 4096"
         not_if { ::File.exist?(node['foreman']['ssl_ca_key_file']) }
@@ -101,7 +100,6 @@ if node['foreman']['passenger']['install']
         'update-ca-certificates -f'
         not_if { ::File.exist?("/usr/share/ca-certificates/#{node['foreman']['server_name']}.crt") }
       end
-      # rubocop:enable Metrics/LineLength
     end
   end
 
