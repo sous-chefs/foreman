@@ -29,7 +29,6 @@ end
 
 # Argh. This is not working. Archive is not extracted.
 # TODO: Add a issue/bug report upstream!
-# rubocop:disable Layout/LineLength
 # poise_archive 'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar' do
 #  destination '/var/lib/tftpboot/boot'
 #  keep_existing false
