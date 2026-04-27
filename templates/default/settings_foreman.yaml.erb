@@ -2,24 +2,24 @@
 # You must restart the Rack server after changing either of these values
 # because they are cached at startup.
 #
-:unattended: <%= node['foreman']['unattended'] %>
-:puppetconfdir: /etc/puppet/puppet.conf
-:login: <%= node['foreman']['authentication'] %>
-:require_ssl: <%= node['foreman']['ssl'] %>
-:locations_enabled: <%= node['foreman']['locations_enabled'] %>
-:organizations_enabled: <%= node['foreman']['organizations_enabled'] %>
+:unattended: <%= @settings[:unattended] %>
+:puppetconfdir: <%= @settings[:puppetconfdir] %>
+:login: <%= @settings[:authentication] %>
+:require_ssl: <%= @ssl_enabled %>
+:locations_enabled: <%= @settings[:locations_enabled] %>
+:organizations_enabled: <%= @settings[:organizations_enabled] %>
 
 # The following values are used for providing default settings during db migrate
-:oauth_active: <%= node['foreman']['oauth_active'] %>
-:oauth_map_users: <%= node['foreman']['oauth_map_users'] %>
-:oauth_consumer_key: <%= node['foreman']['oauth_consumer_key'] %>
-:oauth_consumer_secret: <%= node['foreman']['oauth_consumer_secret'] %>
+:oauth_active: <%= @settings[:oauth_active] %>
+:oauth_map_users: <%= @settings[:oauth_map_users] %>
+:oauth_consumer_key: <%= @settings[:oauth_consumer_key] %>
+:oauth_consumer_secret: <%= @settings[:oauth_consumer_secret] %>
 
 # Websockets
-:websockets_encrypt: <%= node['foreman']['websockets_encrypt'] ? 'on' : 'off' %>
-:websockets_ssl_key: <%= node['foreman']['websockets_ssl_key'] %>
-:websockets_ssl_cert: <%= node['foreman']['websockets_ssl_cert'] %>
+:websockets_encrypt: <%= @settings[:websockets_encrypt] ? 'on' : 'off' %>
+:websockets_ssl_key: <%= @settings[:websockets_ssl_key] %>
+:websockets_ssl_cert: <%= @settings[:websockets_ssl_cert] %>
 
-:ssl_ca_file: <%= node['foreman']['ssl_ca_file'] %>
-:ssl_certificate: <%= node['foreman']['ssl_cert_file'] %>
-:ssl_priv_key: <%= node['foreman']['ssl_cert_key_file'] %>
+:ssl_ca_file: <%= @ssl[:ca_file] %>
+:ssl_certificate: <%= @ssl[:cert_file] %>
+:ssl_priv_key: <%= @ssl[:cert_key_file] %>

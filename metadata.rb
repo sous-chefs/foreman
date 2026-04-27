@@ -1,21 +1,22 @@
+# frozen_string_literal: true
+
 name              'foreman'
 maintainer        'Sous Chefs'
 maintainer_email  'help@sous-chefs.org'
 license           'Apache-2.0'
-description       'Installs/Configures foreman'
+description       'Provides custom resources for installing and configuring Foreman and Foreman Smart Proxy'
 source_url        'https://github.com/sous-chefs/foreman'
 issues_url        'https://github.com/sous-chefs/foreman/issues'
-chef_version      '>= 12.1'
-version           '0.1.12'
+chef_version      '>= 15.3'
+version           '1.0.0'
 
-supports 'ubuntu'
+supports 'debian', '>= 12.0'
+supports 'ubuntu', '>= 22.04'
 
-depends 'apt'
 depends 'apache2'
 depends 'bind'
 depends 'database'
 depends 'dhcp'
-depends 'git'
 depends 'hostname'
 depends 'hostsfile'
 depends 'mysql'

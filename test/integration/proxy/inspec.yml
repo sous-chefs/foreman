@@ -1,0 +1,4 @@
+name: proxy
+title: Foreman proxy install
+version: 0.1.0
+depends: []

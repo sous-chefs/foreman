@@ -2,7 +2,7 @@
 START=yes
 
 # the location where foreman is installed
-FOREMAN_HOME=<%= node['foreman']['path'] %>
+FOREMAN_HOME=<%= @foreman_home %>
 
 # the network interface which foreman web server is running at
 #FOREMAN_IFACE=0.0.0.0
@@ -13,10 +13,7 @@ FOREMAN_HOME=<%= node['foreman']['path'] %>
 #FOREMAN_PORT=3000
 
 # the user which runs the web interface
-FOREMAN_USER=<%= node['foreman']['user'] %>
+FOREMAN_USER=<%= @foreman_user %>
 
 # the rails environment in which foreman runs
-FOREMAN_ENV=<%= node['foreman']['environment'] %>
-
-# the rails environment in which foreman runs
-FOREMAN_ENV=<%= node['foreman']['environment'] %>
+FOREMAN_ENV=<%= @foreman_environment %>

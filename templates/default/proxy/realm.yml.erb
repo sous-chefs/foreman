@@ -4,12 +4,12 @@
 
 # Available providers:
 #   freeipa
-:realm_provider: <%= node['foreman-proxy']['realm_provider'] %>
+:realm_provider: <%= @config[:provider] %>
 
 # Authentication for Kerberos-based Realms
-:realm_keytab: <%= node['foreman-proxy']['realm_keytab'] %>
-:realm_principal: <%= node['foreman-proxy']['realm_principal'] %>
+:realm_keytab: <%= @config[:keytab] %>
+:realm_principal: <%= @config[:principal] %>
 
 # FreeIPA specific settings
 # Remove from DNS when deleting the FreeIPA entry
-:freeipa_remove_dns: <%= node['foreman-proxy']['freeipa_remove_dns'] %>
+:freeipa_remove_dns: <%= @config[:freeipa_remove_dns] %>

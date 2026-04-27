@@ -15,29 +15,29 @@ test:
   timeout: 5000
 
 <%
-  type = node['foreman']['db']['adapter']
-  database = (type == 'sqlite') ? 'db/production.sqlite3' : node['foreman']['db']['database']
+  type = @database[:adapter]
+  database = (type == 'sqlite') ? 'db/production.sqlite3' : @database[:database]
 -%>
 
 production:
   adapter: <%= @real_adapter %>
-<% unless (host = node['foreman']['db']['host']).nil? -%>
+<% unless (host = @database[:host]).nil? -%>
   host: <%= host %>
 <% end -%>
-<% unless (port = node['foreman']['db']['port']).nil? -%>
+<% unless (port = @database[:port]).nil? -%>
   port: <%= port %>
 <% end -%>
-<% unless (ssl_mode = node['foreman']['db']['ssl_mode']).nil? -%>
+<% unless (ssl_mode = @database[:ssl_mode]).nil? -%>
   ssl_mode: <%= ssl_mode %>
 <% end -%>
   database: <%= database %>
-<% unless (username = node['foreman']['db']['username']).nil? -%>
+<% unless (username = @database[:username]).nil? -%>
   username: <%= username %>
 <% end -%>
-<% unless (password = node['foreman']['db']['password']).nil? -%>
+<% unless (password = @database[:password]).nil? -%>
   password: "<%= password %>"
 <% end -%>
-<% unless (pool = node['foreman']['db']['pool']).nil? -%>
+<% unless (pool = @database[:pool]).nil? -%>
   pool: <%= pool %>
 <% end -%>
 <% if type == 'sqlite' -%>

@@ -1,27 +1,27 @@
-<VirtualHost *:<%= @params[:server_port] || node['apache']['listen_ports'].first %>>
+<VirtualHost *:<%= @params[:server_port] || @params[:apache][:listen_ports].first %>>
   ServerName <%= @params[:server_name] %>
   <% if @params[:server_aliases] -%>
   ServerAlias <%= @params[:server_aliases].join " " %>
   <% end -%>
 
-  <% if node['foreman']['ssl'] -%>
+  <% if @params[:foreman][:ssl_enabled] -%>
   <IfModule mod_ssl.c>
     SSLEngine on
-    SSLCACertificateFile <%= node['foreman']['ssl_ca_file'] %>
-    SSLCertificateFile <%= node['foreman']['ssl_cert_file'] %>
-    SSLCertificateKeyFile <%= node['foreman']['ssl_cert_key_file'] %>
+    SSLCACertificateFile <%= @params[:foreman][:ssl][:ca_file] %>
+    SSLCertificateFile <%= @params[:foreman][:ssl][:cert_file] %>
+    SSLCertificateKeyFile <%= @params[:foreman][:ssl][:cert_key_file] %>
   </IfModule>
   <% end -%>
 
   DocumentRoot <%= @params[:docroot] %>
 
   RailsBaseURI /
-  RailsEnv <%= node['foreman']['environment'] %>
+  RailsEnv <%= @params[:foreman][:environment] %>
 
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
     AllowOverride None
-  <% if node['apache']['version'] == '2.4' -%>
+  <% if @params[:apache][:version] == '2.4' -%>
     Require all granted
   <% else -%>
     Order allow,deny
@@ -31,16 +31,16 @@
 
   LogLevel info
 
-  <%- if node['apache']['version'] == '2.4' -%>
+  <%- if @params[:apache][:version] == '2.4' -%>
   LogLevel info rewrite:trace1
   <%- else -%>
   LogLevel info
-  RewriteLog <%= node['apache']['log_dir'] %>/<%= @application_name %>-rewrite.log
+  RewriteLog <%= @params[:apache][:log_dir] %>/<%= @application_name %>-rewrite.log
   RewriteLogLevel 0
   <%- end -%>
 
-  ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-error.log
-  CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-access.log combined
+  ErrorLog <%= @params[:apache][:log_dir] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= @params[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
 
   RewriteEngine On
   RewriteCond %{HTTP_HOST}   !^<%= @params[:server_name] %> [NC]
@@ -51,22 +51,22 @@
   RewriteCond %{SCRIPT_FILENAME} !maintenance.html
   RewriteRule ^.*$ /system/maintenance.html [L]
 
-  <% if node['foreman']['passenger']['path'] -%>
-  PassengerAppRoot <%= node['foreman']['passenger']['path'] %>
+  <% if @params[:foreman][:passenger][:path] -%>
+  PassengerAppRoot <%= @params[:foreman][:passenger][:path] %>
   <% end -%>
-  <% if node['foreman']['environment'] -%>
-  PassengerAppEnv <%= node['foreman']['environment'] %>
+  <% if @params[:foreman][:environment] -%>
+  PassengerAppEnv <%= @params[:foreman][:environment] %>
   <% end -%>
-  <% if node['foreman']['passenger']['ruby'] -%>
-  PassengerRuby <%= node['foreman']['passenger']['ruby'] %>
+  <% if @params[:foreman][:passenger][:ruby] -%>
+  PassengerRuby <%= @params[:foreman][:passenger][:ruby] %>
   <% end -%>
-  <% if @node['foreman']['passenger']['min_instances'] -%>
-  PassengerMinInstances <%= @node['foreman']['passenger']['min_instances'] %>
+  <% if @params[:foreman][:passenger][:min_instances] -%>
+  PassengerMinInstances <%= @params[:foreman][:passenger][:min_instances] %>
   <% end -%>
-  <% if node['foreman']['passenger']['start_timeout'] -%>
-  PassengerStartTimeout <%= node['foreman']['passenger']['start_timeout'] %>
+  <% if @params[:foreman][:passenger][:start_timeout] -%>
+  PassengerStartTimeout <%= @params[:foreman][:passenger][:start_timeout] %>
   <% end -%>
-  <% if node['foreman']['passenger']['pre_start'] -%>
-  PassengerPreStart <%= node['foreman']['passenger']['pre_start'] %>
+  <% if @params[:foreman][:passenger][:pre_start] -%>
+  PassengerPreStart <%= @params[:foreman][:passenger][:pre_start] %>
   <% end -%>
 </VirtualHost>

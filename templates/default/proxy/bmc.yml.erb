@@ -4,4 +4,4 @@
 # Available providers:
 # - freeipmi / ipmitool - requires the appropriate package installed, and the rubyipmi gem
 # - shell - for local reboot control (requires sudo access to /sbin/shutdown for the proxy user)
-:bmc_default_provider: <%= node['foreman-proxy']['bmc_default_provider'] %>
+:bmc_default_provider: <%= @config[:default_provider] %>

@@ -1,6 +1,6 @@
 ---
 # TFTP management
 :enabled: <%= @module_enabled %>
-:tftproot: <%= node['foreman-proxy']['tftp_root'] %>
+:tftproot: <%= @config[:root] %>
 # Defines the TFTP Servername to use, overrides the name in the subnet declaration
-<%= '#' if node['foreman-proxy']['tftp_servername'].nil? %>:tftp_servername: <%= node['foreman-proxy']['tftp_servername'] %>
+<%= '#' if @config[:servername].nil? %>:tftp_servername: <%= @config[:servername] %>
