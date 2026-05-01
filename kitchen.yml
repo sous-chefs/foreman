@@ -42,6 +42,7 @@ x-verifiers:
 platforms:
   - name: debian-12
   - name: ubuntu-22.04
+  - name: ubuntu-24.04
 
 suites:
   - name: default
