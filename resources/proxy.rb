@@ -502,6 +502,7 @@ action :install do
 
   template "#{new_resource.config_path}/settings.yml" do
     source 'settings_foreman-proxy.yml.erb'
+    cookbook 'foreman'
     group new_resource.group
     variables(proxy: proxy_settings)
   end

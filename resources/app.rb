@@ -352,6 +352,7 @@ action :install do
 
   template "#{new_resource.config_path}/settings.yaml" do
     source 'settings_foreman.yaml.erb'
+    cookbook 'foreman'
     group new_resource.group
     variables(
       environment: new_resource.environment,
@@ -363,6 +364,7 @@ action :install do
 
   template "#{new_resource.config_path}/database.yml" do
     source 'database_foreman.yml.erb'
+    cookbook 'foreman'
     group new_resource.group
     sensitive true
     variables(database: merged_database, real_adapter: real_adapter)
@@ -370,6 +372,7 @@ action :install do
 
   template init_file_path do
     source init_template
+    cookbook 'foreman'
     variables(
       foreman_home: new_resource.path,
       foreman_user: new_resource.user,
@@ -387,6 +390,7 @@ action :install do
 
     template '/etc/apache2/mods-available/passenger_extra.conf' do
       source 'passenger.conf.erb'
+      cookbook 'foreman'
       variables(passenger: merged_passenger, environment: new_resource.environment)
     end
 
@@ -407,6 +411,7 @@ action :install do
 
     template '/etc/apache2/sites-available/foreman.conf' do
       source 'web_app.conf.erb'
+      cookbook 'foreman'
       variables(
         params: {
           name: 'foreman',
