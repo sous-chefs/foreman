@@ -135,10 +135,13 @@ action_class do
         root: '/var/lib/tftpboot',
         directories: %w(pxelinux.cfg boot),
         syslinux_filenames: [
-          '/usr/lib/syslinux/pxelinux.0',
-          '/usr/lib/syslinux/memdisk',
-          '/usr/lib/syslinux/chain.c32',
-          '/usr/lib/syslinux/menu.c32',
+          '/usr/lib/PXELINUX/pxelinux.0',
+          '/usr/lib/syslinux/modules/bios/ldlinux.c32',
+          '/usr/lib/syslinux/modules/bios/memdisk',
+          '/usr/lib/syslinux/modules/bios/chain.c32',
+          '/usr/lib/syslinux/modules/bios/menu.c32',
+          '/usr/lib/syslinux/modules/bios/libutil.c32',
+          '/usr/lib/syslinux/modules/bios/libcom32.c32',
         ],
         servername: nil,
         discovery_image_url: 'http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar',
@@ -300,7 +303,7 @@ action_class do
         end
       end
 
-      package 'syslinux-common'
+      package %w(pxelinux syslinux-common)
 
       Array(merged_tftp[:syslinux_filenames]).each do |syslinux_file|
         remote_file "#{merged_tftp[:root]}/#{::File.basename(syslinux_file)}" do

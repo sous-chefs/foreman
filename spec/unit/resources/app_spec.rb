@@ -32,9 +32,6 @@ describe 'foreman_app resource' do
     expect(chef_run).to create_template('/etc/apache2/sites-available/foreman.conf')
     expect(chef_run).to enable_apache2_site('foreman.conf')
 
-    expect(chef_run).to enable_service('foreman')
-    expect(chef_run).to start_service('foreman')
-
     expect(chef_run).to enable_apache2_service('default')
     expect(chef_run).to start_apache2_service('default')
   end

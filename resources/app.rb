@@ -360,6 +360,7 @@ action :install do
       ssl_enabled: new_resource.ssl_enabled,
       ssl: merged_ssl
     )
+    notifies :restart, 'apache2_service[default]', :delayed
   end
 
   template "#{new_resource.config_path}/database.yml" do
@@ -368,6 +369,7 @@ action :install do
     group new_resource.group
     sensitive true
     variables(database: merged_database, real_adapter: real_adapter)
+    notifies :restart, 'apache2_service[default]', :delayed
   end
 
   template init_file_path do
@@ -456,10 +458,6 @@ action :install do
     foreman_rake 'apipie:cache' do
       path new_resource.path
     end
-  end
-
-  service 'foreman' do
-    action %i(enable start)
   end
 
   apache2_service 'default' do

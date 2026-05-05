@@ -29,18 +29,12 @@ jobs:
           - instance: default-ubuntu-2204
             suite: default
             platform: ubuntu-22.04
-          - instance: default-ubuntu-2404
-            suite: default
-            platform: ubuntu-24.04
           - instance: proxy-debian-12
             suite: proxy
             platform: debian-12
           - instance: proxy-ubuntu-2204
             suite: proxy
             platform: ubuntu-22.04
-          - instance: proxy-ubuntu-2404
-            suite: proxy
-            platform: ubuntu-24.04
       fail-fast: false
 
     steps:

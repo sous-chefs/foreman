@@ -24,6 +24,7 @@ describe 'foreman_proxy resource' do
   it 'configures the smart proxy' do
     expect(chef_run).to create_foreman_repo('foreman-proxy-repository')
     expect(chef_run).to install_package('foreman-proxy')
+    expect(chef_run).to install_package(['pxelinux', 'syslinux-common'])
 
     expect(chef_run).to create_group('foreman-proxy')
     expect(chef_run).to create_user('foreman-proxy')
