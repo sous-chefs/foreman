@@ -10,5 +10,5 @@ foreman_app 'default' do
 end
 
 foreman_plugins 'default' do
-  packages(node.dig('foreman_test', 'plugins') || %w(foreman-libvirt ruby-foreman-chef))
+  packages(node.dig('foreman_test', 'plugins') || %w(foreman-libvirt ruby-foreman-ansible))
 end

@@ -137,7 +137,7 @@ action_class do
         syslinux_filenames: [
           '/usr/lib/PXELINUX/pxelinux.0',
           '/usr/lib/syslinux/modules/bios/ldlinux.c32',
-          '/usr/lib/syslinux/modules/bios/memdisk',
+          '/usr/lib/syslinux/memdisk',
           '/usr/lib/syslinux/modules/bios/chain.c32',
           '/usr/lib/syslinux/modules/bios/menu.c32',
           '/usr/lib/syslinux/modules/bios/libutil.c32',
