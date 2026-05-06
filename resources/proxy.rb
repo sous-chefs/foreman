@@ -323,23 +323,33 @@ action_class do
     end
 
     if merged_dhcp[:enabled] && merged_dhcp[:managed]
-      node.override['dhcp']['interfaces'] = [merged_dhcp[:interface]]
-      node.override['dhcp']['parameters'] ||= {}
-      node.override['dhcp']['parameters']['omapi-port'] = '7911'
-      node.override['dhcp']['parameters']['next-server'] = merged_dhcp[:ip].to_s
+      dhcp_package 'isc-dhcp-server'
 
-      include_root_recipe('dhcp::server')
+      dhcp_config merged_dhcp[:config] do
+        config_file merged_dhcp[:config]
+        env_file_lines ["INTERFACES=\"#{merged_dhcp[:interface]}\""]
+        parameters(
+          'omapi-port' => '7911',
+          'next-server' => merged_dhcp[:ip].to_s
+        )
+      end
 
       dhcp_subnet 'foreman' do
         subnet merged_dhcp[:subnet]
-        pool do
-          range merged_dhcp[:range]
-        end
+        pools(range: merged_dhcp[:range])
         netmask merged_dhcp[:netmask]
-        broadcast merged_dhcp[:broadcast]
-        next_server merged_dhcp[:ip]
-        routers merged_dhcp[:routers]
         options merged_dhcp[:options]
+        parameters(
+          'broadcast-address' => merged_dhcp[:broadcast],
+          'next-server' => merged_dhcp[:ip],
+          'routers' => merged_dhcp[:routers].join(', ')
+        )
+      end
+
+      dhcp_service 'dhcpd' do
+        config_file merged_dhcp[:config]
+        config_test false
+        action [:create, :enable, :start]
       end
     end
 
