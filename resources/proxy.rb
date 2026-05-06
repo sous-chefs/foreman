@@ -336,7 +336,7 @@ action_class do
 
       dhcp_subnet 'foreman' do
         subnet merged_dhcp[:subnet]
-        pools(range: merged_dhcp[:range])
+        pools('range' => merged_dhcp[:range])
         netmask merged_dhcp[:netmask]
         options merged_dhcp[:options]
         parameters(
@@ -354,26 +354,32 @@ action_class do
     end
 
     if merged_dns[:enabled] && merged_dns[:managed]
-      node.override['bind']['acl-role'] = 'external-acl'
-      node.override['bind']['zonetype'] = 'master'
-      node.override['bind']['masters'] = ['127.0.0.1']
-      node.override['bind']['ipv6_listen'] = true
-      node.override['bind']['options'] = [
-        'check-names slave ignore;',
-        'multi-master yes;',
-        'provide-ixfr yes;',
-        'request-ixfr yes;',
-        'empty-zones-enable no;',
-      ]
-      node.override['bind']['zones'] ||= {}
-      node.override['bind']['zones']['attribute'] = [new_resource.server_name]
-
       hostsfile_entry '127.0.0.1' do
         hostname new_resource.server_name
         action :append
       end
 
-      include_root_recipe('bind')
+      bind_service 'default' do
+        action [:create, :start]
+      end
+
+      bind_config 'default' do
+        ipv6_listen true
+        options [
+          'allow-query { any; }',
+          'check-names slave ignore',
+          'multi-master yes',
+          'provide-ixfr yes',
+          'request-ixfr yes',
+          'empty-zones-enable no',
+        ]
+      end
+
+      bind_primary_zone new_resource.server_name do
+        options [
+          'allow-update { key rndc-key; }',
+        ]
+      end
     end
   end
 

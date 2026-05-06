@@ -12,11 +12,6 @@ control 'foreman-default' do
     it { should be_installed }
   end
 
-  describe service('foreman') do
-    it { should be_enabled }
-    it { should be_running }
-  end
-
   describe file('/etc/foreman/settings.yaml') do
     it { should exist }
     its('content') { should match(/:oauth_active: true/) }
@@ -27,7 +22,11 @@ control 'foreman-default' do
     its('content') { should match(/adapter: postgresql/) }
   end
 
-  describe package('ruby-foreman-chef') do
+  describe package('foreman-libvirt') do
+    it { should be_installed }
+  end
+
+  describe package('ruby-foreman-ansible') do
     it { should be_installed }
   end
 end
