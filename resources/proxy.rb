@@ -349,7 +349,7 @@ action_class do
       dhcp_service 'dhcpd' do
         config_file merged_dhcp[:config]
         config_test false
-        action [:create, :enable, :start]
+        action [:create, :enable]
       end
     end
 
@@ -359,26 +359,34 @@ action_class do
         action :append
       end
 
-      bind_service 'default' do
-        action [:create, :start]
-      end
+      with_run_context :root do
+        bind_service 'default' do
+          action [:create, :start]
+        end
 
-      bind_config 'default' do
-        ipv6_listen true
-        options [
-          'allow-query { any; }',
-          'check-names slave ignore',
-          'multi-master yes',
-          'provide-ixfr yes',
-          'request-ixfr yes',
-          'empty-zones-enable no',
-        ]
-      end
+        bind_config 'default' do
+          ipv6_listen true
+          options [
+            'allow-query { any; }',
+            'check-names slave ignore',
+            'multi-master yes',
+            'provide-ixfr yes',
+            'request-ixfr yes',
+            'empty-zones-enable no',
+          ]
+        end
 
-      bind_primary_zone new_resource.server_name do
-        options [
-          'allow-update { key rndc-key; }',
-        ]
+        bind_primary_zone new_resource.server_name do
+          options [
+            'allow-update { key rndc-key; }',
+          ]
+        end
+
+        group "#{new_resource.group}-dns-membership" do
+          group_name new_resource.group
+          members [merged_dns[:bind_user]]
+          append true
+        end
       end
     end
   end
@@ -448,13 +456,6 @@ action :install do
   end
 
   configure_managed_services
-
-  group "#{new_resource.group}-dns-membership" do
-    group_name new_resource.group
-    members [merged_dns[:bind_user]]
-    append true
-    only_if { merged_dns[:enabled] && merged_dns[:managed] }
-  end
 
   foreman_proxy_settings_file 'bmc' do
     action(merged_bmc[:enabled] ? :enable : :disable)
