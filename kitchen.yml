@@ -30,6 +30,8 @@ x-attributes:
           range: 10.0.0.10 10.0.0.20
         dns:
           interface: eth0
+        chef_module:
+          enabled: false
 
 x-verifiers:
   default: &default_verifier

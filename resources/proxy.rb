@@ -49,9 +49,11 @@ action_class do
   def merged_ssl
     deep_merge(
       {
+        ca_key_file: '/etc/foreman/certs/ca.key',
         ca_file: '/etc/foreman/certs/ca.crt',
         cert_file: '/etc/foreman/certs/server.crt',
         cert_key_file: '/etc/foreman/certs/server.key',
+        cert_csr_file: '/etc/foreman/certs/server.csr',
         foreman_ssl_ca: '/etc/foreman/certs/ca.crt',
         foreman_ssl_cert: '/etc/foreman/certs/server.crt',
         foreman_ssl_key: '/etc/foreman/certs/server.key',
@@ -393,16 +395,70 @@ action_class do
 
   def write_proxy_ssl_files
     proxy_ssl = proxy_ssl_data_bag_item
-    return unless proxy_ssl.key?('ssl_cert_key_file') && proxy_ssl.key?('ssl_cert_file') && proxy_ssl.key?('ssl_ca_file')
 
-    {
-      merged_ssl[:cert_key_file] => proxy_ssl['ssl_cert_key_file'],
-      merged_ssl[:cert_file] => proxy_ssl['ssl_cert_file'],
-      merged_ssl[:ca_file] => proxy_ssl['ssl_ca_file'],
-    }.each do |path, content|
+    directory ::File.dirname(merged_ssl[:ca_file]) do
+      owner 'root'
+      group new_resource.group
+      mode '0750'
+      recursive true
+    end
+
+    if proxy_ssl.key?('ssl_cert_key_file') && proxy_ssl.key?('ssl_cert_file') && proxy_ssl.key?('ssl_ca_file')
+      {
+        merged_ssl[:cert_key_file] => proxy_ssl['ssl_cert_key_file'],
+        merged_ssl[:cert_file] => proxy_ssl['ssl_cert_file'],
+        merged_ssl[:ca_file] => proxy_ssl['ssl_ca_file'],
+      }.each do |path, content|
+        file path do
+          content content
+          owner 'root'
+          group new_resource.group
+          mode path.end_with?('.key') ? '0640' : '0644'
+          sensitive path.end_with?('.key')
+        end
+      end
+    else
+      execute 'create-proxy-ca-key' do
+        command "openssl genrsa -out #{merged_ssl[:ca_key_file]} 4096"
+        not_if { ::File.exist?(merged_ssl[:ca_key_file]) }
+      end
+
+      execute 'create-proxy-ca-crt' do
+        command "openssl req -new -x509 -nodes -days 1826 -key #{merged_ssl[:ca_key_file]} -out #{merged_ssl[:ca_file]} -subj '/C=US/ST=Denial/L=Springfield/O=Dis/CN=#{new_resource.server_name}'"
+        not_if { ::File.exist?(merged_ssl[:ca_file]) }
+      end
+
+      execute 'create-proxy-server-key' do
+        command "openssl genrsa -out #{merged_ssl[:cert_key_file]} 2048"
+        not_if { ::File.exist?(merged_ssl[:cert_key_file]) }
+      end
+
+      execute 'create-proxy-server-csr' do
+        command "openssl req -new -key #{merged_ssl[:cert_key_file]} -out #{merged_ssl[:cert_csr_file]} -subj '/CN=#{new_resource.server_name}'"
+        not_if { ::File.exist?(merged_ssl[:cert_csr_file]) }
+      end
+
+      execute 'create-proxy-server-crt' do
+        command "openssl x509 -req -in #{merged_ssl[:cert_csr_file]} -CA #{merged_ssl[:ca_file]} -CAkey #{merged_ssl[:ca_key_file]} -CAcreateserial -out #{merged_ssl[:cert_file]} -days 1826"
+        not_if { ::File.exist?(merged_ssl[:cert_file]) }
+      end
+    end
+
+    [merged_ssl[:ca_key_file], merged_ssl[:cert_key_file]].each do |path|
       file path do
-        content content
-        sensitive path.end_with?('.key')
+        owner 'root'
+        group new_resource.group
+        mode '0640'
+        only_if { ::File.exist?(path) }
+      end
+    end
+
+    [merged_ssl[:ca_file], merged_ssl[:cert_file]].each do |path|
+      file path do
+        owner 'root'
+        group new_resource.group
+        mode '0644'
+        only_if { ::File.exist?(path) }
       end
     end
   end
