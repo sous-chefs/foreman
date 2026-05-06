@@ -378,9 +378,21 @@ action_class do
           ]
         end
 
-        bind_primary_zone new_resource.server_name do
+        bind_primary_zone_template new_resource.server_name do
           options [
             'allow-update { key rndc-key; }',
+          ]
+          soa(
+            mname: "ns1.#{new_resource.server_name}.",
+            rname: "hostmaster.#{new_resource.server_name}.",
+            refresh: '1w',
+            retry: '15m',
+            expire: '52w',
+            minimum: 30
+          )
+          records [
+            { type: 'NS', rdata: "ns1.#{new_resource.server_name}." },
+            { owner: 'ns1', type: 'A', rdata: merged_dhcp[:ip] || '127.0.0.1' },
           ]
         end
 
