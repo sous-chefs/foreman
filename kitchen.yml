@@ -44,11 +44,6 @@ x-verifiers:
 platforms:
   - name: debian-12
   - name: ubuntu-22.04
-    attributes:
-      foreman_test:
-        proxy:
-          dns:
-            managed: false
 
 suites:
   - name: default
