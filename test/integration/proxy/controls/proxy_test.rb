@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 control 'foreman-proxy' do
   impact 1.0
   title 'Foreman proxy is installed and configured'

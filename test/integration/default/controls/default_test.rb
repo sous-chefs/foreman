@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 control 'foreman-default' do
   impact 1.0
   title 'Foreman application is installed and configured'

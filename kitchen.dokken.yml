@@ -14,8 +14,10 @@ platforms:
   - name: debian-12
     driver:
       image: dokken/debian-12
+      platform: linux/amd64
       pid_one_command: /bin/systemd
   - name: ubuntu-22.04
     driver:
       image: dokken/ubuntu-22.04
+      platform: linux/amd64
       pid_one_command: /bin/systemd

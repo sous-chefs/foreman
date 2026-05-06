@@ -28,3 +28,4 @@
 
 * Smart Proxy helper services such as DNS, DHCP, and TFTP still depend on external cookbooks where those integrations are enabled.
 * Plugin package names remain user-supplied because upstream package names vary by plugin and release.
+* Local Kitchen runs on ARM hosts require an amd64-capable Docker or VM runtime. Foreman's upstream APT packages are not available for arm64, so package installation fails on native ARM guests.

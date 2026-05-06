@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 
 require 'chefspec'
@@ -54,7 +56,6 @@ STUB_COOKBOOKS.each do |cookbook_name|
       File.write(File.join(cookbook_root, 'resources', "#{res}.rb"), <<~RUBY)
         provides :apache2_#{res}
         unified_mode true
-        property :name, String, name_property: true
         action(:#{default_action}) {}
         action(:install) {}
         action(:create) {}
@@ -67,7 +68,6 @@ STUB_COOKBOOKS.each do |cookbook_name|
     File.write(File.join(cookbook_root, 'resources', 'subnet.rb'), <<~RUBY)
       provides :dhcp_subnet
       unified_mode true
-      property :name, String, name_property: true
       action(:add) {}
     RUBY
   end
