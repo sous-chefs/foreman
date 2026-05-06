@@ -1,50 +1,56 @@
 ---
 driver:
   name: vagrant
+  customize:
+    memory: 4096
 
-provisioner:
-  name: chef_zero
-  deprecations_as_errors: true
+transport:
+  max_wait_until_ready: 600
+  connection_retries: 10
+  connection_retry_sleep: 10
+
+x-run_lists:
+  default: &default_run_list
+    - recipe[test::default]
+  proxy: &proxy_run_list
+    - recipe[test::proxy]
+
+x-attributes:
+  default: &default_attributes
+    postgresql:
+      password:
+        postgres: toor
+  proxy: &proxy_attributes
+    foreman_test:
+      proxy:
+        register: false
+        server_name: foreman.example
+        dhcp:
+          interface: eth0
+          range: 10.0.0.10 10.0.0.20
+        dns:
+          interface: eth0
+        chef_module:
+          enabled: false
+
+x-verifiers:
+  default: &default_verifier
+    inspec_tests:
+      - path: test/integration/default
+  proxy: &proxy_verifier
+    inspec_tests:
+      - path: test/integration/proxy
 
 platforms:
-  - name: ubuntu-20.04
-    driver:
-      customize:
-        memory: 2048
-  - name: centos-7
-    driver:
-      customize:
-        memory: 2048
+  - name: debian-12
+  - name: ubuntu-22.04
 
 suites:
   - name: default
-    driver:
-      network:
-        - - private_network
-          - ip: 172.16.0.2
-    run_list:
-      - recipe[apt]
-      - recipe[foreman]
-      - recipe[foreman::proxy]
-    attributes:
-      bind:
-        masters:
-          - 172.16.0.2
-        zones:
-          nsmaster: ns.foreman.example
-          nsmaster_ip: 172.16.0.2
-          email: root.foreman.example
-      postgresql:
-        password:
-          postgres: toor
-      dhcp:
-        interfaces:
-          - eth1
-      foreman-proxy:
-        # FIXME: Register the Smart-Proxy is failing.
-        register: false
-        dns: true
-        dns_interface: eth1
-        dhcp: true
-        dhcp_interface: eth1
-        dhcp_range: 172.16.0.10 172.16.0.20
+    run_list: *default_run_list
+    attributes: *default_attributes
+    verifier: *default_verifier
+  - name: proxy
+    run_list: *proxy_run_list
+    attributes: *proxy_attributes
+    verifier: *proxy_verifier

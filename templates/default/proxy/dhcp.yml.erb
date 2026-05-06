@@ -5,14 +5,13 @@
 #   - isc
 #   - native_ms (Microsoft native implementation)
 #   - virsh (simple implementation for libvirt)
-<% if node['foreman-proxy']['dhcp'] -%>
-:dhcp_vendor: <%= node['foreman-proxy']['dhcp_vendor'] %>
-:dhcp_config: <%= node['foreman-proxy']['dhcp_config'] %>
-:dhcp_leases: <%= node['foreman-proxy']['dhcp_leases'] %>
-<% unless node['foreman-proxy']['dhcp_key_name'].nil? ||
-    node['foreman-proxy']['dhcp_key_secret'].nil? -%>
-:dhcp_key_name: <%= node['foreman-proxy']['dhcp_key_name'] %>
-:dhcp_key_secret: <%= node['foreman-proxy']['dhcp_key_secret'] %>
+<% if @module_enabled -%>
+:dhcp_vendor: <%= @config[:vendor] %>
+:dhcp_config: <%= @config[:config] %>
+:dhcp_leases: <%= @config[:leases] %>
+<% unless @config[:key_name].nil? || @config[:key_secret].nil? -%>
+:dhcp_key_name: <%= @config[:key_name] %>
+:dhcp_key_secret: <%= @config[:key_secret] %>
 <% else -%>
 #:dhcp_key_name: secret_key_name
 #:dhcp_key_secret: secret_key

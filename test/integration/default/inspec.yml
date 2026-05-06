@@ -1,0 +1,4 @@
+name: default
+title: Default Foreman install
+version: 0.1.0
+depends: []

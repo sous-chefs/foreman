@@ -15,34 +15,34 @@ jobs:
       checks: write
       pull-requests: write
       statuses: write
-      issues: write
 
   integration:
     needs: "lint-unit"
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os:
-          - "debian-9"
-          - "debian-10"
-          - "centos-7"
-          - "centos-8"
-          - "ubuntu-1804"
-          - "ubuntu-2004"
-        suite:
-          - "default"
+        include:
+          - instance: default-debian-12
+            suite: default
+            platform: debian-12
+          - instance: default-ubuntu-2204
+            suite: default
+            platform: ubuntu-22.04
+          - instance: proxy-debian-12
+            suite: proxy
+            platform: debian-12
+          - instance: proxy-ubuntu-2204
+            suite: proxy
+            platform: ubuntu-22.04
       fail-fast: false
 
     steps:
       - name: Check out code
         uses: actions/checkout@v6
-      - name: Install Chef
-        uses: actionshub/chef-install@6.0.0
-      - name: Dokken
-        uses: actionshub/test-kitchen@3.0.0
+      - name: Install Cinc Workstation
+        uses: sous-chefs/.github/.github/actions/install-workstation@6.0.0
+      - name: Run Test Kitchen
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.dokken.yml
-        with:
-          suite: ${{ matrix.suite }}
-          os: ${{ matrix.os }}
+        run: chef exec kitchen test ${{ matrix.instance }} --destroy=always

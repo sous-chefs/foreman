@@ -19,4 +19,4 @@
 # https://smart-proxy.example.com # assumes port 443
 # http://smart-proxy.example.com  # assumes port 80
 # smart-proxy.example.com:8080    # assumes http
-:template_url: <%= node['foreman-proxy']['template_url'] %>
+:template_url: <%= @config[:template_url] %>
