@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/sous-chefs/foreman/compare/v1.0.0...v2.0.0) (2026-05-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate Foreman cookbook to custom resources ([#61](https://github.com/sous-chefs/foreman/issues/61))
+
+### Features
+
+* migrate Foreman cookbook to custom resources ([#61](https://github.com/sous-chefs/foreman/issues/61)) ([0c32019](https://github.com/sous-chefs/foreman/commit/0c320197d2c75f68f62c96826937bce8f7d3b1e8))
+
+
+### Bug Fixes
+
+* **ci:** Update workflows to use release pipeline ([#55](https://github.com/sous-chefs/foreman/issues/55)) ([beef973](https://github.com/sous-chefs/foreman/commit/beef9738b66dae2d9df4de9574f00cc22413b2f4))
+
 ## [1.0.0](https://github.com/sous-chefs/foreman/compare/v0.1.12...v1.0.0) (2026-05-06)
 
 

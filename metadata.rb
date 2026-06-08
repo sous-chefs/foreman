@@ -8,7 +8,7 @@ description       'Provides custom resources for installing and configuring Fore
 source_url        'https://github.com/sous-chefs/foreman'
 issues_url        'https://github.com/sous-chefs/foreman/issues'
 chef_version      '>= 15.3'
-version           '1.0.0'
+version           '2.0.0'
 
 supports 'debian', '>= 12.0'
 supports 'ubuntu', '>= 22.04'
